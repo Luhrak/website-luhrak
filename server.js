@@ -1,4 +1,5 @@
-import { handleRequest } from "./src/app.js";
+import app from "./src/app.js";
 
 const port = 8080;
-Deno.serve({ port: port }, handleRequest);
+console.log(`Server is running on http://localhost:${port}`);
+await app.listen({ port });
