@@ -1,5 +1,6 @@
 import * as pages from "./controller/pages.js";
 
+// Match requests with known pages
 const routes = [
   {
     path: "/",
@@ -77,5 +78,5 @@ export const router = async (ctx) => {
       return route.handler(ctx);
     }
   }
-  return ctx;
+  return pages.error404(ctx);
 };

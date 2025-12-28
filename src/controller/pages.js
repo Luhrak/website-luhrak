@@ -78,6 +78,7 @@ export const priceHeadshot = async (ctx) => {
   ctx.body = await render("detailpage/price-headshot.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
+  return ctx;
 };
 
 export const priceSticker = async (ctx) => {
