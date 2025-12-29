@@ -1,6 +1,6 @@
 import Context from "./framework/context.js";
 import { router } from "./router.js";
-import { serveStatic } from "./middleware/serveStatic.js";
+import { serveStatic } from "./framework/middleware/serveStatic.js";
 
 export const handleRequest = async (request) => {
   let ctx = new Context(request);

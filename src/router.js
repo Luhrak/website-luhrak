@@ -13,6 +13,11 @@ const routes = [
     handler: pages.gallery,
   },
   {
+    path: "/gallery-add",
+    method: "GET",
+    handler: pages.galleryAdd,
+  },
+  {
     path: "/prices",
     method: "GET",
     handler: pages.prices,

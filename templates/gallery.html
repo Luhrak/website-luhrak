@@ -16,6 +16,40 @@
 
           <ul class="gallery">
             <li>
+              <a href="/gallery-add">
+                <div>
+                  <img
+                    src="/img/NewPost.png"
+                    alt="Orange plus icon."
+                  />
+                </div>
+              </a>
+            </li>
+
+
+            {% for art in gallery %}
+            <li>
+              <a href="/gallery/{{ art.id }}">
+                <div>
+                  <img
+                    src="{{ art.artfile }}"
+                    alt="{{ art.alt }}"
+                  />
+                </div>
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a>
+                <div>
+                  <p>No art found</p>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+
+
+            <li>
               <a href="/detailpage/art-stargaze">
                 <div>
                   <img

@@ -1,0 +1,74 @@
+{% extends "./layoutBlocks/layout.html" %} 
+
+{% block title %}Luhraks Gallery Add Art{% endblock %} 
+
+{% block content %}
+
+    <main>
+      <div class="widthConstraint">
+        <h1>New Art</h1>
+        
+        <form method="post" action="/gallery/add">
+
+          <label for="artfile">Art file</label>
+          {% if formErrors.artfile %}
+            <p class="Form-error">{{formErrors.artfile}}</p>
+          {% endif %}
+          <input 
+          type="file"
+          id="artfile" 
+          name="artfile" 
+          accept="image/png, image/jpeg"
+          value="{{ formData.artfile or '' }}"
+          />
+
+          <label for="title">Title</label>
+          {% if formErrors.title %}
+            <p class="Form-error">{{formErrors.title}}</p>
+          {% endif %}
+          <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          value="{{ formData.title or '' }}"
+          />
+
+          <label for="alt">Alt text</label>
+          {% if formErrors.type %}
+            <p class="Form-error">{{formErrors.alt}}</p>
+          {% endif %}
+          <input 
+          type="text" 
+          id="alt" 
+          name="alt" 
+          value="{{ formData.alt or '' }}"
+          />
+
+          <label for="type">Type</label>
+          {% if formErrors.type %}
+            <p class="Form-error">{{formErrors.type}}</p>
+          {% endif %}
+          <input 
+          type="text" 
+          id="type" 
+          name="type" 
+          value="{{ formData.type or '' }}"
+          />
+
+          <label for="description">Description</label>
+          {% if formErrors.description %}
+            <p class="Form-error">{{formErrors.description}}</p>
+          {% endif %}
+          <textarea 
+          id="description" 
+          name="description" 
+          rows="5" 
+          value="{{ formData.description or '' }}"
+          ></textarea>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </main>
+
+{% endblock %}

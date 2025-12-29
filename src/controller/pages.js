@@ -1,4 +1,6 @@
+import { listVisualOnly } from "../gallery/model.js";
 import { render } from "../service/render.js";
+// TODO: Split into multiple or shorten
 
 // Main Pages
 export const index = async (ctx) => {
@@ -9,7 +11,15 @@ export const index = async (ctx) => {
 };
 
 export const gallery = async (ctx) => {
-  ctx.body = await render("gallery.html");
+  const gallery = listVisualOnly();
+  ctx.body = await render("gallery.html", { gallery });
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+};
+
+export const galleryAdd = async (ctx) => {
+  ctx.body = await render("gallery-add.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

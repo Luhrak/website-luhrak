@@ -425,13 +425,13 @@ form {
     padding-left: 0;
 
     li>a {
-        background-color: var(--color-bg-opague);
-        backdrop-filter: blur(var(--blur-ammount));
         border-radius: var(--border-radius);
 
         & div {
             align-items: center;
             border-radius: var(--border-radius);
+            background-color: var(--color-bg-opague);
+            backdrop-filter: blur(var(--blur-ammount));
             overflow: hidden;
             aspect-ratio: 1 / 1;
         }
@@ -442,6 +442,17 @@ form {
             display: block;
             object-fit: cover;
             transition: transform .3s ease-out;
+        }
+
+        & p {
+            font-size: 1.8em;
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
         }
 
         &:hover {
@@ -610,7 +621,6 @@ form {
     &>* {
         margin: 0;
     }
-
 }
 
 .priceArea {
