@@ -49,6 +49,7 @@ export function get(id) {
   return stmt.get(id);
 }
 
+// delete one entry via id
 export function del(id) {
   const db = connection();
   const stmt = db.prepare(`
