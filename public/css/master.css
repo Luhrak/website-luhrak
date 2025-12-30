@@ -430,53 +430,59 @@ form {
     list-style: none;
     padding-left: 0;
 
-    li>a {
+    li {
+
         border-radius: var(--border-radius);
 
-        & div {
-            align-items: center;
-            border-radius: var(--border-radius);
-            background-color: var(--color-bg-opague);
-            backdrop-filter: blur(var(--blur-ammount));
-            overflow: hidden;
-            aspect-ratio: 1 / 1;
-        }
+        &>a {
 
-        & img {
-            height: 100%;
-            width: 100%;
-            display: block;
-            object-fit: cover;
-            transition: transform .3s ease-out;
-        }
-
-        & p {
-            font-size: 1.8em;
-            text-align: center;
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        &:hover {
-            & img {
-                transform: scale(1.15);
-                transform-origin: 50% 50%;
+            & div {
+                align-items: center;
+                border-radius: var(--border-radius);
+                background-color: var(--color-bg-opague);
+                backdrop-filter: blur(var(--blur-ammount));
+                overflow: hidden;
+                aspect-ratio: 1 / 1;
             }
-        }
-
-        &:focus {
-            outline: none;
 
             & img {
-                transform: scale(1.15);
-                transform-origin: 50% 50%;
+                height: 100%;
+                width: 100%;
+                display: block;
+                object-fit: cover;
+                transition: transform .3s ease-out;
+            }
+
+            & p {
+                font-size: 1.8em;
+                text-align: center;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+
+            &:hover {
+                & img {
+                    transform: scale(1.15);
+                    transform-origin: 50% 50%;
+                }
+            }
+
+            &:focus {
+                outline: none;
+
+                & img {
+                    transform: scale(1.15);
+                    transform-origin: 50% 50%;
+                }
             }
         }
     }
+
+
 
     @media screen and (min-width: 40em) {
         grid-template-columns: repeat(3, 1fr);

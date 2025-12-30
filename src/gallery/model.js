@@ -1,5 +1,23 @@
 import { connection } from "../service/db.js";
 
+// Create table if it doesnt exist
+export function create() {
+  const db = connection();
+  const stmt = db.prepare(`
+    CREATE TABLE IF NOT EXISTS "gallery" (
+      "id"	INTEGER NOT NULL UNIQUE,
+      "artfile"	TEXT NOT NULL,
+      "title"	TEXT NOT NULL,
+      "type"	TEXT NOT NULL,
+      "date"	TEXT NOT NULL,
+      "alt"	TEXT DEFAULT 'An artpiece',
+      "description"	TEXT,
+      PRIMARY KEY("id" AUTOINCREMENT)
+    )
+    `);
+  return stmt.all();
+}
+
 // Get a list with all entries
 export function list() {
   const db = connection();

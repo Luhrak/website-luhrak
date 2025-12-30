@@ -1,4 +1,5 @@
 import { DatabaseSync } from "node:sqlite";
+import { create } from "../gallery/model.js";
 
 let _db = null;
 
@@ -6,6 +7,7 @@ let _db = null;
 export function initConnection(path) {
   if (!_db) {
     _db = new DatabaseSync(path);
+    create();
   }
   return _db;
 }
