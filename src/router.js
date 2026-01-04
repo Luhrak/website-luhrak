@@ -103,7 +103,7 @@ export const router = async (ctx) => {
     const match = urlPattern.exec(ctx.url);
 
     if (ctx.method === route.method && match) {
-      ctx.entryId = match.pathname.groups.id; // for detailpages
+      ctx.entryId = match.pathname.groups.id; // id for detailpages
       return route.handler(ctx);
     }
   }

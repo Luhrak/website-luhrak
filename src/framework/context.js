@@ -5,6 +5,7 @@ export default class Context {
     this.request = request;
     this.url = new URL(request.url);
     this.method = request.method;
+    // for detailpages so we can easily access the id as its not saved seperately in the request itself
     this.entryId = undefined;
     /* Response fields */
     this.body = undefined;
