@@ -48,6 +48,19 @@ export async function uploadImage(image) {
 function generateFilename(file) {
   return path.join(
     "upload",
+    "gallery",
     crypto.randomUUID() + "." + mediaTypes.extension(file.type)
   );
+}
+
+export async function deleteImage(imageName) {
+  console.log(imageName);
+  const filePath = path.join(Deno.cwd(), "public", imageName);
+  try {
+    await Deno.remove(filePath);
+    return `Image ${imageName} deleted successfully.`;
+  } catch (error) {
+    console.error(`Error deleting image: ${error.message}`);
+    return null; // Return null on error
+  }
 }

@@ -1,6 +1,6 @@
 import * as model from "../gallery/model.js";
+import * as image from "../service/image.js";
 import { render } from "../service/render.js";
-import { validateImage, uploadImage } from "../service/image.js";
 
 export const gallery = async (ctx) => {
   const gallery = model.listVisualOnly();
@@ -21,6 +21,8 @@ export const artPiece = async (ctx) => {
 
 export const deleteArtPiece = async (ctx) => {
   const id = ctx.entryId;
+  const art = await model.get(id);
+  image.deleteImage(art.artfile);
   model.del(id);
   ctx.status = 303;
   ctx.headers.set("Location", `/gallery`);
@@ -49,16 +51,16 @@ export async function editArtPiece(ctx) {
   const art = await model.get(id);
   ctx.body = render("gallery-add.html", {
     editing: "Edit Art",
-    // Path to image is in formData.artfile but prefilling 
-    // input type file is not allowed in html for security 
-    formData: art, 
+    // Path to image is in formData.artfile but prefilling
+    // input type file is not allowed in html for security
+    formData: art,
   });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 400;
   return ctx;
 }
 
-export async function updateArtPiece(ctx) { 
+export async function updateArtPiece(ctx) {
   // Read form data
   const id = ctx.entryId;
   const art = await model.get(id);
@@ -70,29 +72,29 @@ export async function updateArtPiece(ctx) {
   if (!formData.title) errors.title = "Titel is required";
   if (!formData.date) errors.date = "Date is required";
   if (!formData.type) errors.type = "Type is required";
-  
+
   if (Object.keys(errors).length > 0) {
     addArtFormData(ctx, formData, errors);
   } else {
-
-    // Handling if a new file was uploaded 
-    if (formData.artfile) { 
-      const fileError = validateImage(formData.artfile);
+    // Handling if a new file was uploaded
+    if (formData.artfile) {
+      const fileError = image.validateImage(formData.artfile);
       errors.artfile = fileError;
       if (Object.keys(errors).length > 0) {
         addArtFormData(ctx, formData, errors);
       }
 
-      const uploadResult = await uploadImage(formData.artfile);
+      const uploadResult = await image.uploadImage(formData.artfile);
 
       // Validate Upload
       if (!uploadResult) {
         errors.artfile = "Upload failed";
         addArtFormData(ctx, formData, errors);
       } else {
-        formData.artfile = uploadResult; 
+        formData.artfile = uploadResult;
       }
-    } else { // or take the old one 
+    } else {
+      // or take the old one
       formData.artfile = art.artfile;
     }
 
@@ -116,13 +118,13 @@ export async function submitArtForm(ctx) {
   if (!formData.title) errors.title = "Titel is required";
   if (!formData.date) errors.date = "Date is required";
   if (!formData.type) errors.type = "Type is required";
-  const fileError = validateImage(formData.artfile);
+  const fileError = image.validateImage(formData.artfile);
   if (fileError) errors.artfile = fileError;
 
   if (Object.keys(errors).length > 0) {
     addArtFormData(ctx, formData, errors);
   } else {
-    const uploadResult = await uploadImage(formData.artfile);
+    const uploadResult = await image.uploadImage(formData.artfile);
 
     // Validate Upload
     if (!uploadResult) {
@@ -147,7 +149,7 @@ export async function submitArtForm(ctx) {
 }
 
 function addArtFormData(ctx, formData, errors) {
-  // no redirect or export cuz only used in submit / update 
+  // no redirect or export cuz only used in submit / update
   const today = new Date().toISOString().split("T")[0];
   ctx.body = render("gallery-add.html", {
     prefillDate: formData.date,
