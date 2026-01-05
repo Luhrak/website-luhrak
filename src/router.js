@@ -1,5 +1,6 @@
 import * as pages from "./pages/controller.js";
 import * as gallery from "./gallery/controller.js";
+import * as price from "./prices/controller.js";
 
 const routes = [
   // Main pages
@@ -60,6 +61,48 @@ const routes = [
     method: "POST", // Not actually using PUT/PATCH ok?
     handler: gallery.updateArtPiece,
   },
+
+  // Prices
+  {
+    path: "/prices",
+    method: "GET",
+    handler: price.priceList,
+  },
+{
+    path: "/prices/add",
+    method: "GET",
+    handler: price.addPriceForm,
+  },
+  {
+    path: "/prices/add",
+    method: "POST",
+    handler: price.submitPriceForm,
+  },
+
+  {
+    path: "/prices/:id",
+    method: "GET",
+    handler: price.priceDetail,
+  },
+  {
+    path: "/prices-delete/:id",
+    method: "POST", // Not actually using DELETE ok?
+    handler: price.deletePrice,
+  },
+  {
+    path: "/prices-edit/:id", // - instead of / suboptimal
+    method: "GET", // Not actually using PUT/PATCH ok?
+    handler: price.editPrice,
+  },
+  {
+    path: "/prices-update/:id", // - instead of / suboptimal
+    method: "POST", // Not actually using PUT/PATCH ok?
+    handler: price.updatePrice,
+  },
+
+
+
+
 
   // Legal pages
   {

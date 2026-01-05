@@ -1,0 +1,105 @@
+{% extends "./layoutBlocks/layout.html" %}
+
+{% block title %}Luhraks Price {{ editing or 'New Price' }}{% endblock %}
+
+{% block content %}
+
+<main>
+  <div class="widthConstraint">
+    <h1>{{ editing or 'New Price' }}</h1>
+
+    {% if editing %}
+      <form method="POST" action="/price-update/{{ formData.id }}" enctype="multipart/form-data">
+    {% else %}
+      <form method="POST" action="/price/add" enctype="multipart/form-data">
+    {% endif %}
+
+      <!-- TITLE -->
+      <label for="title">Title</label>
+      {% if formErrors.title %}
+        <p class="form-error">{{ formErrors.title }}</p>
+      {% endif %}
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="{{ formData.title or '' }}"
+      />
+
+
+      {% if formData.artfile %}
+        <img
+          src="{{ formData.artfile }}"
+          alt="{{ formData.title }}"
+        />
+      {% endif %}
+
+      <!-- FILE -->
+      {% if formData.artfile %}
+        <label for="artfile">Replace image (optional)</label>
+      {% else %}
+        <label for="artfile">Image</label>
+      {% endif %}
+
+      {% if formErrors.artfile %}
+        <p class="form-error">{{ formErrors.artfile }}</p>
+      {% endif %}
+      <input
+        type="file"
+        id="artfile"
+        name="artfile"
+        accept="image/png, image/jpeg"
+      />
+
+   
+      <label for="date">Date</label>
+      {% if formErrors.date %}
+        <p class="form-error">{{ formErrors.date }}</p>
+      {% endif %}
+      <input
+        type="date"
+        id="date"
+        name="date"
+        value="{{ formData.date or prefillDate }}"
+      />
+
+     
+      <label for="type">Type</label>
+      {% if formErrors.type %}
+        <p class="form-error">{{ formErrors.type }}</p>
+      {% endif %}
+      <input
+        type="text"
+        id="type"
+        name="type"
+        value="{{ formData.type or '' }}"
+      />
+
+     
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="5"
+      >{{ formData.description or '' }}</textarea>
+
+    
+      <label for="additions">Additions</label>
+      <textarea
+        id="additions"
+        name="additions"
+        rows="4"
+      >{{ formData.additions or '' }}</textarea>
+
+   
+      {% if editing %}
+        <button type="submit">Update</button>
+      {% else %}
+        <button type="submit">Submit</button>
+      {% endif %}
+
+    </form>
+  </div>
+</main>
+
+{% endblock %}
