@@ -11,7 +11,7 @@
     {% if editing %}
       <form method="POST" action="/price-update/{{ formData.id }}" enctype="multipart/form-data">
     {% else %}
-      <form method="POST" action="/price/add" enctype="multipart/form-data">
+      <form method="POST" action="/prices/add" enctype="multipart/form-data">
     {% endif %}
 
       <!-- TITLE -->
@@ -27,32 +27,35 @@
       />
 
 
-      {% if formData.artfile %}
+      {% if formData.previewfile %}
         <img
-          src="{{ formData.artfile }}"
+          src="{{ formData.previewfile }}"
           alt="{{ formData.title }}"
         />
       {% endif %}
 
       <!-- FILE -->
-      {% if formData.artfile %}
-        <label for="artfile">Replace image (optional)</label>
+      {% if formData.previewfile %}
+        <label for="previewfile">Replace image (optional)</label>
       {% else %}
-        <label for="artfile">Image</label>
+        <label for="previewfile">Image</label>
       {% endif %}
 
-      {% if formErrors.artfile %}
-        <p class="form-error">{{ formErrors.artfile }}</p>
+      {% if formErrors.previewfile %}
+        <p class="form-error">{{ formErrors.previewfile }}</p>
       {% endif %}
       <input
         type="file"
-        id="artfile"
-        name="artfile"
+        id="previewfile"
+        name="previewfile"
         accept="image/png, image/jpeg"
       />
 
      
       <label for="description">Description</label>
+        {% if formErrors.description %}
+        <p class="form-error">{{ formErrors.description }}</p>
+      {% endif %}
       <textarea
         id="description"
         name="description"

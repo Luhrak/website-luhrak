@@ -9,11 +9,7 @@ const routes = [
     method: "GET",
     handler: pages.index,
   },
-  {
-    path: "/prices",
-    method: "GET",
-    handler: pages.prices,
-  },
+
   {
     path: "/projects",
     method: "GET",

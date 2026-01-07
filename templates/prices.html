@@ -1,184 +1,41 @@
-{% extends "./layoutBlocks/layout.html" %} 
+{% extends "./layoutBlocks/layout.html" %}
 
-{% block title %}Luhraks Prices{% endblock %} 
+{% block title %}Luhraks Prices{% endblock %}
 
 {% block content %}
+<main>
+  <div class="widthConstraint">
+    <h1>Commission Pricing</h1>
+    <ul class="wideGallery">
+      <li>
+        <a href="/prices/add">
+          <div>
+            <img src="/img/NewPost.png" alt="Add new price">
+          </div>
+          <div>
+            <h3>New Price</h3>
+            <p>Add new entry</p>
+          </div>
+        </a>
+      </li>
 
-    <main>
-      <div class="widthConstraint">
-        <section>
-          <h1>Commission pricing</h1>
-          <div class="twoColumns">
-            <div>
-              <p>
-                See common options listed below for an idea what costs what.
-                However we dont always have to stick to these options. If you
-                have a special idea in mind just throw me a message and we
-                figure something out together.
-              </p>
-              <p>
-                Together we can make all your ideas into awesome looking
-                reality!
-              </p>
-            </div>
-            <div class="priceArea">
-              <h3>Hints:</h3>
-              <p>Payment is done via PayPal invoice.</p>
-              <p>Give honest feedback so that you are truly happy.</p>
-              <p>Big changes after clean lineart may cost more.</p>
-              <p>Tell me if you dont it to be posted online.</p>
+      {% for price in prices %}
+      <li>
+        <a href="/prices/{{ price.id }}">
+          <div>
+            <img src="{{ price.previewfile }}" alt="{{ price.title }}">
+          </div>
+          <div>
+            <div class="prices">
+              <h3>{{ price.title }}</h3>
             </div>
           </div>
-
-          <ul class="wideGallery">
-
-              <li>
-                  <a href="/prices/add">
-                    <div>
-                      <img
-                        src="/img/NewPost.png"
-                        alt="Add new price"
-                      />
-                    </div>
-                    <div>
-                      <div class="price">
-                        <h3>New Price</h3>
-                        <p>Add new entry</p>
-                      </div>
-                      <p>Create a new commission option</p>
-                    </div>
-                  </a>
-                </li>
-               <li>
-              <a href="/detailPages/price-sticker">
-                <div>
-                  <img
-                    src="/img/Prices/PrevSticker.png"
-                    alt="Blueprint preview of two stickers"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Sticker</h3>
-                    <p>From 18€</p>
-                  </div>
-                  <p>
-                    Simple art of your character in any pose for your own pack.
-                  </p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevHeadshot.png"
-                    alt="Blueprint preview a headshot frame"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Headshot</h3>
-                    <p>From 16€</p>
-                  </div>
-                  <p>From ears to shoulders, perfect for a profile picture.</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevBust.png"
-                    alt="Blueprint preview of a bust frame"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Bust</h3>
-                    <p>From 22€</p>
-                  </div>
-                  <p>From ears to belly to get those hand paws showing.</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevFullBody.png"
-                    alt="Blueprint preview of a full body frame"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Full Body</h3>
-                    <p>From 26€</p>
-                  </div>
-                  <p>From ears to toes for the the expressive pose.</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevReferenceSheet.png"
-                    alt="Blueprint preview of a reference sheet"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Ref Sheet</h3>
-                    <p>From 45€</p>
-                  </div>
-                  <p>
-                    Depict all the ins and outs of your character for easy
-                    drawing.
-                  </p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevEmote.png"
-                    alt="Blueprint preview of three emotes: an orage, a heart and a paw"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Emote</h3>
-                    <p>From 12€</p>
-                  </div>
-                  <p>
-                    For when you stream or when emojis are just not fluffy
-                    enough.
-                  </p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailPages/price-headshot">
-                <div>
-                  <img
-                    src="/img/Prices/PrevPainted.png"
-                    alt="Blueprint preview of a painterly artstyle depciting a wolf looking to the right"
-                  />
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>Painting</h3>
-                    <p>From 30€</p>
-                  </div>
-                  <p>My more expirimental painterly style up for grabs.</p>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </section>
-      </div>
-    </main>
-
+        </a>
+      </li>
+      {% else %}
+      <li>No prices yet</li>
+      {% endfor %}
+    </ul>
+  </div>
+</main>
 {% endblock %}

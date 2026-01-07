@@ -10,12 +10,7 @@ export const index = async (ctx) => {
   return ctx;
 };
 
-export const prices = async (ctx) => {
-  ctx.body = await render("prices.html");
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
+
 
 export const projects = async (ctx) => {
   ctx.body = await render("projects.html");

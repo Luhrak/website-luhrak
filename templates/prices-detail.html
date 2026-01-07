@@ -1,0 +1,35 @@
+{% extends "./layoutBlocks/layout.html" %} 
+
+{% block title %}Luhraks Prices - {{ price.title }}{% endblock %} 
+
+{% block content %}
+
+    <main>
+      <div class="widthConstraint">
+        <section class="detailsPage">
+          <img
+            src="{{ price.previewfile }}"
+            alt="{{ price.alt }}"
+          />
+          <div class="headingWithButtons">
+            
+          <h1>{{ price.title }}</h1>
+
+          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a>
+          <form type="hidden" class="hiddenForm" method="POST" action="/prices-delete/{{ price.id }}">
+            <button class="redBg" type="submit">Delete</button>
+          </form>
+
+          </div>
+        {% if price.description %}
+          <p>
+            {{ price.description }}
+          </p>
+        {% endif %}
+          <p>Want an price piece similar to this too?</p>
+          <a class="button" href="/prices">Commission price</a>
+        </section>
+      </div>
+    </main>
+
+{% endblock %}

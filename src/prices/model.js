@@ -8,7 +8,7 @@ export function create() {
       "id" INTEGER NOT NULL UNIQUE,
       "previewfile" TEXT NOT NULL,
       "title" TEXT NOT NULL,
-      "description" TEXT,
+      "description" TEXT NOT NULL,
       "additions" TEXT,
       PRIMARY KEY("id" AUTOINCREMENT)
     )
@@ -62,7 +62,7 @@ export function add({ previewfile, title, description, additions }) {
     .prepare(
       `
     INSERT INTO prices (previewfile, title, description, additions)
-    VALUES (?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?)
   `
     )
     .run(previewfile, title, description, additions);
@@ -72,14 +72,15 @@ export function add({ previewfile, title, description, additions }) {
 
 // Update entry
 export function update(id, { previewfile, title, description, additions }) {
-  const db = connection();
-  db.prepare(
+   db = connection();
+  const stmt = db.prepare(
     `
     UPDATE prices
     SET previewfile = ?, title = ?, description = ?, additions = ?
     WHERE id = ?
   `
-  ).run(previewfile, title, description, additions, id);
+  );
+  stmt.run(previewfile, title, description, additions, id);
 
   return id;
 }
