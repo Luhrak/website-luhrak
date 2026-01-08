@@ -4,16 +4,11 @@ import { render } from "../service/render.js";
 
 export const priceList = async (ctx) => {
   const prices = await model.listVisualOnly();
- console.log(prices.i);
   ctx.body = render("prices.html", { prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 };
-
-
-
-
 
 export const priceDetail = async (ctx) => {
     const id = ctx.entryId;
@@ -84,6 +79,7 @@ export const deletePrice = async (ctx) => {
   ctx.headers.set("Location", "/prices");
   return ctx;
 };
+
 export async function editPrice(ctx) {
   const id = ctx.entryId;
   const price = await model.get(id);
@@ -95,6 +91,7 @@ export async function editPrice(ctx) {
   ctx.status = 400;
   return ctx;
 }
+
 export async function updatePrice(ctx) {
   // Read form data
   const id = ctx.entryId;
