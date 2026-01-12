@@ -1,6 +1,6 @@
 import { connection } from "../service/db.js";
 
-// Create table
+// Create prices table if not exist
 export function create() {
   const db = connection();
   const stmt = db.prepare(`

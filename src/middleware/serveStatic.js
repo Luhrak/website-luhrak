@@ -16,6 +16,7 @@ export async function serveStatic(ctx) {
       ctx.body = res.body;
       ctx.headers = res.headers;
       ctx.status = res.status;
+      ctx.serveStatic = true;
     }
   }
   return ctx;

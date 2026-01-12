@@ -5,12 +5,14 @@ export default class Context {
     this.request = request;
     this.url = new URL(request.url);
     this.method = request.method;
-    // for detailpages so we can easily access the id as its not saved seperately in the request itself
-    this.entryId = undefined;
+    this.entryId = undefined; // easy access to id for detailpages as its not saved seperately in the request itself
     /* Response fields */
     this.body = undefined;
     this.headers = new Headers();
     this.status = undefined;
+    /* Other */
+    this.serveStatic = false;
+    this.logTime = new Date();
   }
 
   // Create a Respone from Context.

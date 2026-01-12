@@ -1,6 +1,6 @@
 import { connection } from "../service/db.js";
 
-// Create table if it doesnt exist
+// Create gallery table if not exist
 export function create() {
   const db = connection();
   const stmt = db.prepare(`
