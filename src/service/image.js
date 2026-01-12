@@ -12,18 +12,18 @@ export function validateImage(file) {
   return undefined;
 }
 
-const isMimetypeOk = (type) => {
+function isMimetypeOk(type) {
   const validMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
   return validMimeTypes.includes(type);
-};
+}
 
-const isExtensionOk = (filename) => {
+function isExtensionOk(filename) {
   const validExtensions = [".png", ".jpeg", ".jpg", ".gif"];
   const fileExtension = filename
     .slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2)
     .toLowerCase();
   return validExtensions.includes(`.${fileExtension}`);
-};
+}
 
 export async function uploadImage(image) {
   const filename = generateFilename(image);

@@ -50,7 +50,7 @@ export function get(id) {
 }
 
 // delete one entry via id
-export function del(id) {
+export function remove(id) {
   const db = connection();
   const stmt = db.prepare(`
     DELETE 
@@ -82,5 +82,3 @@ export function update(id, { artfile, title, type, date, alt, description }) {
   stmt.run(artfile, title, type, date, alt, description, id);
   return id;
 }
-
-// TODO: delete entry

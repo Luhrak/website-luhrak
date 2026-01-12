@@ -2,43 +2,43 @@ import * as model from "./model.js";
 import * as image from "../service/image.js";
 import { render } from "../service/render.js";
 
-export const gallery = async (ctx) => {
+export async function gallery(ctx) {
   const gallery = model.listVisualOnly();
-  ctx.body = render("gallery.html", { gallery });
+  ctx.body = await render("gallery.html", { gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
-};
+}
 
-export const artPiece = async (ctx) => {
+export async function artPiece(ctx) {
   const id = ctx.entryId;
-  const art = await model.get(id);
-  ctx.body = render("gallery-detailpage.html", { art });
+  const art = model.get(id);
+  ctx.body = await render("gallery-detailpage.html", { art });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
-};
+}
 
-export const deleteArtPiece = async (ctx) => {
+export function deleteArtPiece(ctx) {
   const id = ctx.entryId;
-  const art = await model.get(id);
+  const art = model.get(id);
   image.deleteImage(art.artfile);
-  model.del(id);
+  model.remove(id);
   ctx.status = 303;
   ctx.headers.set("Location", `/gallery`);
   return ctx;
-};
+}
 
-export const galleryAdd = async (ctx) => {
-  ctx.body = render("gallery-add.html");
+export async function galleryAdd(ctx) {
+  ctx.body = await render("gallery-add.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
-};
+}
 
-export function addArtForm(ctx) {
+export async function addArtForm(ctx) {
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = render("gallery-add.html", {
+  ctx.body = await render("gallery-add.html", {
     prefillDate: today,
   });
   ctx.headers.set("content-type", "text/html");
@@ -48,8 +48,8 @@ export function addArtForm(ctx) {
 
 export async function editArtPiece(ctx) {
   const id = ctx.entryId;
-  const art = await model.get(id);
-  ctx.body = render("gallery-add.html", {
+  const art = model.get(id);
+  ctx.body = await render("gallery-add.html", {
     editing: "Edit Art",
     // Path to image is in formData.artfile but prefilling
     // input type file is not allowed in html for security
@@ -63,7 +63,7 @@ export async function editArtPiece(ctx) {
 export async function updateArtPiece(ctx) {
   // Read form data
   const id = ctx.entryId;
-  const art = await model.get(id);
+  const art = model.get(id);
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
 
@@ -148,10 +148,10 @@ export async function submitArtForm(ctx) {
   return ctx;
 }
 
-function addArtFormData(ctx, formData, errors) {
+async function addArtFormData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = render("gallery-add.html", {
+  ctx.body = await render("gallery-add.html", {
     prefillDate: formData.date,
     formData: formData,
     formErrors: errors,

@@ -1,6 +1,6 @@
 import * as path from "jsr:@std/path";
 
-export const error500 = async () => {
+export async function error500() {
   // Without using any other code like service/render show a basic site with the error
   // In case serveStatic still functions it also has its css, images and js
   const filepath = path.join(
@@ -16,4 +16,4 @@ export const error500 = async () => {
     status: 500,
     headers: header,
   });
-};
+}

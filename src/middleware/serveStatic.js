@@ -1,7 +1,7 @@
 import { serveDir } from "jsr:@std/http";
 import * as path from "jsr:@std/path";
 
-export const serveStatic = async (ctx) => {
+export async function serveStatic(ctx) {
   if (ctx.status !== 404) {
     return ctx;
   } else if (path.extname(ctx.url.pathname)) {
@@ -19,4 +19,4 @@ export const serveStatic = async (ctx) => {
     }
   }
   return ctx;
-};
+}
