@@ -2,7 +2,6 @@ import * as pages from "./pages/controller.js";
 import * as gallery from "./gallery/controller.js";
 import * as price from "./prices/controller.js";
 import * as contact from "./contact/controller.js";
-console.log(contact);
 import * as account from "./accounts/controller.js";
 
 const routes = [
