@@ -19,34 +19,30 @@
           </div>
         </a>
       </li>
+          {% for price in prices %}
+            <li>
+              <a href="/prices/{{ price.id }}">
+                <div>
+                  <img src="{{ price.previewfile }}" alt="{{ price.title }}">
+                </div>
 
-      {% for price in prices %}
-        <li>
-          <a href="/prices/{{ price.id }}">
-            <div>
-              <img src="{{ price.previewfile }}" alt="{{ price.title }}">
-            </div>
+                <div>
+                  <!-- Title + Additions (Preis) -->
+                  <div class="price">
+                    <h3>{{ price.title }}</h3>
+                    <p>{{ price.additions or '' }}</p>
+                  </div>
 
-            <div>
-             <div class="prices">
-              <h3>{{ price.title }}</h3>
-
-              <p class="price-label" style="font-weight: 700; color: var(--color-primary);"> Description</p>
-                <p class="price-description">
-                  {{ price.description or '—' }}
-                </p>
-
-                <p class="price-label" style="font-weight: 700; color: var(--color-primary);"> Additions</p>
-                <p class="price-additions">
-                  {{ price.additions or '—' }}
-                </p>
-              </div>
-            </div>
-          </a>
-        </li>
-      {% else %}
-        <li>No prices yet</li>
-      {% endfor %}
+                  <!-- Description -->
+                  <p>
+                    {{ price.description or '—' }}
+                  </p>
+                </div>
+              </a>
+            </li>
+          {% else %}
+            <li>No prices yet</li>
+          {% endfor %}
     </ul>
   </div>
 </main>

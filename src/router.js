@@ -1,6 +1,8 @@
 import * as pages from "./pages/controller.js";
 import * as gallery from "./gallery/controller.js";
 import * as price from "./prices/controller.js";
+import * as contact from "./contact/controller.js";
+console.log(contact);
 import * as account from "./accounts/controller.js";
 
 const routes = [
@@ -150,7 +152,24 @@ const routes = [
     method: "GET",
     handler: pages.projectStickers,
   },
+
+  // Contact
+  // Contact
+  { 
+    path: "/contact/add",
+     method: "POST",
+      handler: contact.submitContactForm
+     },
+  { 
+    path: "/messages",
+     method: "GET",
+      handler: contact.messageList
+     },         
 ];
+
+
+
+
 
 export async function router(ctx) {
   // Match requests with known pages

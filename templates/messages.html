@@ -1,0 +1,36 @@
+{% extends "./layoutBlocks/layout.html" %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<main>
+  <div class="widthConstraint">
+    <h1>Contact Messages</h1>
+
+    {% if messages.length > 0 %}
+      <ul class="wideGallery">
+        {% for msg in messages %}
+          <li>
+            <div class="prices">
+              <h3>{{ msg.name }}</h3>
+              <p><strong>Email:</strong> {{ msg.email }}</p>
+
+              {% if msg.subject %}
+                <p><strong>Subject:</strong> {{ msg.subject }}</p>
+              {% endif %}
+
+              <p>{{ msg.message }}</p>
+
+              <p style="opacity: 0.6; font-size: 0.9rem;">
+                {{ msg.created_at }}
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No messages yet.</p>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
