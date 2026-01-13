@@ -5,6 +5,9 @@ import * as contact from "./contact/controller.js";
 import * as account from "./accounts/controller.js";
 
 const routes = [
+  // specific ones before general ones like :id
+  // or it will falsely match request of /gallery with /gallery/id
+
   // Main routes
   {
     path: "/",
@@ -34,7 +37,7 @@ const routes = [
     handler: pages.privacyPolicy,
   },
 
-  // Gallery routes (specific ones before general id!)
+  // Gallery routes
   {
     path: "/gallery",
     method: "GET",
@@ -152,23 +155,18 @@ const routes = [
     handler: pages.projectStickers,
   },
 
-  // Contact
-  // Contact
-  { 
+  // Contact routes
+  {
     path: "/contact/add",
-     method: "POST",
-      handler: contact.submitContactForm
-     },
-  { 
+    method: "POST",
+    handler: contact.submitContactForm,
+  },
+  {
     path: "/messages",
-     method: "GET",
-      handler: contact.messageList
-     },         
+    method: "GET",
+    handler: contact.messageList,
+  },
 ];
-
-
-
-
 
 export async function router(ctx) {
   // Match requests with known pages

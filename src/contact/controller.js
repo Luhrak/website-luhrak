@@ -6,7 +6,6 @@ export async function submitContactForm(ctx) {
   const formData = Object.fromEntries(form.entries());
 
   const errors = {};
-
   if (!formData.name) errors.name = "Name is required";
   if (!formData.email) errors.email = "Email is required";
   if (!formData.message) errors.message = "Message is required";
@@ -27,20 +26,6 @@ export async function submitContactForm(ctx) {
     subject: formData.subject,
     message: formData.message,
   });
-
-
-  console.log("📨 New contact saved:", {
-    id,
-    name: formData.name,
-    email: formData.email,
-    subject: formData.subject,
-    message: formData.message,
-  });
-
-
-
-
-  
 
   ctx.status = 303;
   ctx.headers.set("Location", "/#contact-about");

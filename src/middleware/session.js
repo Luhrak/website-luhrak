@@ -10,8 +10,9 @@ export function handleSession(ctx) {
   if (hasData(ctx.session)) {
     ctx.sessionId = ctx.sessionId ?? createId();
     sessionStore().set(ctx.sessionId, ctx.session);
-    setCookie(ctx.headers, { name: "sessionId", value: ctx.sessionId });
+    setCookie(ctx.headers, { name: "sessionId", value: ctx.sessionId }); // cookie would be set
   } else {
+    // but instead always false so far
     sessionStore().delete(ctx.sessionId);
     deleteCookie(ctx.headers, "sessionId");
   }

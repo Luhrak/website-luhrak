@@ -39,11 +39,8 @@ export async function confirmSignup(ctx) {
     errors.passwordConfirm = "Passwords dont match";
 
   if (Object.keys(errors).length > 0) {
-    console.log(errors);
     signupData(ctx, formData, errors);
   } else {
-    console.log("No Errors!");
-
     // Save to db
     const newEntry = model.add({
       username: formData.username,

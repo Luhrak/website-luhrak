@@ -1,10 +1,10 @@
 import { connection } from "../service/db.js";
 
-// Create contacts table if not exist
+// Create messages table if not exist
 export function create() {
   const db = connection();
   const stmt = db.prepare(`
-    CREATE TABLE IF NOT EXISTS "contacts" (
+    CREATE TABLE IF NOT EXISTS "messages" (
       "id" INTEGER NOT NULL UNIQUE,
       "name" TEXT NOT NULL,
       "email" TEXT NOT NULL,
@@ -20,11 +20,13 @@ export function create() {
 export function list() {
   const db = connection();
   return db
-    .prepare(`
+    .prepare(
+      `
       SELECT id, name, email, subject, message
-      FROM contacts
+      FROM messages
       ORDER BY id DESC
-    `)
+    `
+    )
     .all();
 }
 
@@ -32,11 +34,13 @@ export function list() {
 export function get(id) {
   const db = connection();
   return db
-    .prepare(`
+    .prepare(
+      `
       SELECT id, name, email, subject, message
-      FROM contacts
+      FROM messages
       WHERE id = ?
-    `)
+    `
+    )
     .get(id);
 }
 
@@ -44,10 +48,12 @@ export function get(id) {
 export function add({ name, email, subject, message }) {
   const db = connection();
   const result = db
-    .prepare(`
-      INSERT INTO contacts (name, email, subject, message)
+    .prepare(
+      `
+      INSERT INTO messages (name, email, subject, message)
       VALUES (?, ?, ?, ?)
-    `)
+    `
+    )
     .run(name, email, subject, message);
 
   return result.lastInsertRowid;
@@ -57,8 +63,10 @@ export function add({ name, email, subject, message }) {
 export function del(id) {
   const db = connection();
   return db
-    .prepare(`
-      DELETE FROM contacts WHERE id = ?
-    `)
+    .prepare(
+      `
+      DELETE FROM messages WHERE id = ?
+    `
+    )
     .run(id);
 }
