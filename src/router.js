@@ -171,23 +171,22 @@ const routes = [
     method: "GET",
     handler: contact.messageList,
   },
-{
-  path: "/messages",
-  method: "GET",
-  handler: contact.messageList,
-},
-{
-  path: "/messages-read/:id",
-  method: "POST",
-  handler: contact.markMessageRead,
-},
+  {
+    path: "/messages",
+    method: "GET",
+    handler: contact.messageList,
+  },
+  {
+    path: "/messages-read/:id",
+    method: "POST",
+    handler: contact.markMessageRead,
+  },
 
-{
-  path: "/messages-delete/:id",
-  method: "POST",
-  handler: contact.deleteMessage,
-},
-
+  {
+    path: "/messages-delete/:id",
+    method: "POST",
+    handler: contact.deleteMessage,
+  },
 ];
 
 export async function router(ctx) {
@@ -196,6 +195,7 @@ export async function router(ctx) {
     const urlPattern = new URLPattern({ pathname: route.path });
     const match = urlPattern.exec(ctx.url);
 
+    // permission = module.getPermission(ctx.session.account);
     if (ctx.method === route.method && match) {
       ctx.entryId = match.pathname.groups.id; // id for detailpages
       return route.handler(ctx);
@@ -203,4 +203,3 @@ export async function router(ctx) {
   }
   return pages.error404(ctx);
 }
-

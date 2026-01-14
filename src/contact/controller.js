@@ -25,7 +25,7 @@ export async function submitContactForm(ctx) {
     email: formData.email,
     subject: formData.subject,
     message: formData.message,
-     is_new: 1,
+    is_new: 1,
   });
 
   ctx.status = 303;
@@ -34,14 +34,14 @@ export async function submitContactForm(ctx) {
 }
 
 export async function messageList(ctx) {
-  const newMessages = model.listNew();    // is_new = 1
-  const readMessages = model.listRead();  // is_new = 0
+  const newMessages = model.listNew(); // is_new = 1
+  const readMessages = model.listRead(); // is_new = 0
 
   ctx.body = await render("messages.html", {
     messages: {
       new: newMessages,
-      read: readMessages
-    }
+      read: readMessages,
+    },
   });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;

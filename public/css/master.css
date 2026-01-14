@@ -735,20 +735,3 @@ form {
         margin-bottom: 0em;
     }
 }
-
-/* ---------- ADDITONS FOR PRICES ---------- */
-
-.prices .price-label {
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-    color: var(--color-primary) !important;
-    margin-top: 0.9rem;
-    margin-bottom: 0.15rem;
-}
-
-.prices .price-description,
-.prices .price-additions {
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
