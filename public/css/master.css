@@ -190,7 +190,8 @@ button {
     border-radius: var(--border-radius);
     padding: 0.5em 1.4em;
     margin: 0.8em auto 0 auto;
-    font-size: 1.2em;
+    font-size: 1.2rem;
+    width: fit-content;
 
     & p {
         margin: 0

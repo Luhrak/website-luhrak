@@ -76,6 +76,13 @@
 
         <section class="contact">
           <h2 id="contact-about">Email Luhrak</h2>
+
+          {% if flash %}
+            <div class="flashbox" > 
+              <p>{{flash}}</p>
+            </div>
+          {% endif %}
+
           <form action="/contact/add" method="POST">
             <div>
               <div>

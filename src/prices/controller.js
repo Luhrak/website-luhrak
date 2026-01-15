@@ -81,6 +81,8 @@ export async function deletePrice(ctx) {
   image.deleteImage(price.previewfile);
   model.del(ctx.entryId);
 
+  ctx.session.flash =
+    "Price with the title " + price.title + " has been deleted";
   ctx.status = 303;
   ctx.headers.set("Location", "/prices");
   return ctx;
@@ -149,6 +151,8 @@ export async function updatePrice(ctx) {
     description: formData.description,
   });
 
+  ctx.session.flash =
+    "Price with the title " + price.title + " has been updated";
   ctx.status = 303;
   ctx.headers.set("Location", `/prices/${updatedEntry}`);
   return ctx;
