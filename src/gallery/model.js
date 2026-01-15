@@ -34,10 +34,10 @@ export function listVisualOnly() {
   const stmt = db.prepare(`
     SELECT id, artfile, alt  
     FROM gallery
-    `);
+    ORDER BY id DESC
+  `);
   return stmt.all();
 }
-
 // Get one entry with all attributes via id
 export function get(id) {
   const db = connection();
