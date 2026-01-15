@@ -5,7 +5,7 @@ export async function logRequest(ctx) {
   if (!ctx.serveStatic) {
     const logEntry = {
       time: ctx.logTime.toString(),
-      processTime: new Date().getMilliseconds() - ctx.logTime.getMilliseconds(),
+      processTime: new Date() - ctx.logTime,
       method: ctx.method,
       status: ctx.status,
       url: ctx.url.href,
