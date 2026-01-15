@@ -1,6 +1,6 @@
 import * as path from "jsr:@std/path";
 import nunjucks from "npm:nunjucks@3.2.4";
-import { get as getAccountPermission } from "../accounts/model.js";
+import { getPermissionById } from "../accounts/model.js";
 
 const templPath = "./templates";
 
@@ -15,6 +15,7 @@ export async function render(viewName, ctx, variables = {}) {
   // so it doesnt have to be repeated over and over on every render
   variables = getFlash(ctx, variables);
   variables = getPermission(ctx, variables);
+  // variables.permission = "true"; // DEBUG ONLY, REMOVE!
 
   // Then just nomal render via nunjucks
   return await nunjucks.render(viewName, variables);
@@ -30,9 +31,12 @@ function getFlash(ctx, variables) {
 
 function getPermission(ctx, variables) {
   if (ctx.session.account) {
-    const permission = getAccountPermission(ctx.session.account).permission;
+    const permission = getPermissionById(ctx.session.account);
     if (permission === "admin" || permission === "moderator") {
       variables.permission = "true";
+      variables.loggedIn = "true";
+    } else if (permission === "guest") {
+      variables.loggedIn = "true";
     }
   }
   return variables;

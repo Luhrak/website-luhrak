@@ -3,6 +3,7 @@ import * as gallery from "./gallery/controller.js";
 import * as price from "./prices/controller.js";
 import * as contact from "./contact/controller.js";
 import * as account from "./accounts/controller.js";
+import { getPermissionById } from "./accounts/model.js";
 
 const routes = [
   // specific ones before general ones like :id
@@ -46,11 +47,13 @@ const routes = [
   {
     path: "/gallery/add",
     method: "GET",
+    requiredPermissions: ["admin", "moderator"],
     handler: gallery.addArtForm,
   },
   {
     path: "/gallery/add",
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: gallery.submitArtForm,
   },
   {
@@ -61,16 +64,19 @@ const routes = [
   {
     path: "/gallery-delete/:id", // - instead of / suboptimal
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: gallery.deleteArtPiece,
   },
   {
     path: "/gallery-edit/:id", // - instead of / suboptimal
     method: "GET",
+    requiredPermissions: ["admin", "moderator"],
     handler: gallery.editArtPiece,
   },
   {
     path: "/gallery-update/:id", // - instead of / suboptimal
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: gallery.updateArtPiece,
   },
 
@@ -83,11 +89,13 @@ const routes = [
   {
     path: "/prices/add",
     method: "GET",
+    requiredPermissions: ["admin", "moderator"],
     handler: price.addPriceForm,
   },
   {
     path: "/prices/add",
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: price.submitPriceForm,
   },
   {
@@ -98,16 +106,19 @@ const routes = [
   {
     path: "/prices-delete/:id", // - instead of / suboptimal
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: price.deletePrice,
   },
   {
     path: "/prices-edit/:id", // - instead of / suboptimal
     method: "GET",
+    requiredPermissions: ["admin", "moderator"],
     handler: price.editPrice,
   },
   {
     path: "/prices-update/:id", // - instead of / suboptimal
     method: "POST",
+    requiredPermissions: ["admin", "moderator"],
     handler: price.updatePrice,
   },
 
@@ -115,26 +126,31 @@ const routes = [
   {
     path: "/login",
     method: "GET",
+    requiredPermissions: ["none"],
     handler: account.login,
   },
   {
     path: "/signup",
     method: "GET",
+    requiredPermissions: ["none"],
     handler: account.signup,
   },
   {
     path: "/login",
     method: "POST",
+    requiredPermissions: ["none"],
     handler: account.confirmLogin,
   },
   {
     path: "/signup",
     method: "POST",
+    requiredPermissions: ["none"],
     handler: account.confirmSignup,
   },
   {
     path: "/logout",
     method: "GET",
+    requiredPermissions: ["guest", "admin", "moderator"],
     handler: account.logout,
   },
 
@@ -192,14 +208,35 @@ const routes = [
 export async function router(ctx) {
   // Match requests with known routes and uses their handler
   for (const route of routes) {
+    // URL Pattern & Method
     const urlPattern = new URLPattern({ pathname: route.path });
     const match = urlPattern.exec(ctx.url);
-
-    // permission = module.getPermission(ctx.session.account);
     if (ctx.method === route.method && match) {
-      ctx.entryId = match.pathname.groups.id; // id for detailpages
-      return route.handler(ctx);
+      // Check rather permissions are requried
+      if (!("requiredPermissions" in route)) {
+        return proceedRouteHandler(ctx, match, route);
+      }
+      return checkUserPermission(ctx, match, route);
     }
   }
   return pages.error404(ctx);
+}
+
+function checkUserPermission(ctx, match, route) {
+  const userPermission = ctx.session.account
+    ? getPermissionById(ctx.session.account)
+    : "none";
+  console.log(userPermission);
+  if (
+    userPermission &&
+    Object.values(route.requiredPermissions).includes(userPermission)
+  ) {
+    return proceedRouteHandler(ctx, match, route);
+  }
+  return pages.error403(ctx);
+}
+
+function proceedRouteHandler(ctx, match, route) {
+  ctx.entryId = match.pathname.groups.id; // id for detailpages
+  return route.handler(ctx);
 }

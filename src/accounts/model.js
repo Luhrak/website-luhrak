@@ -26,6 +26,11 @@ export function get(id) {
   return stmt.get(id);
 }
 
+export function getPermissionById(id) {
+  const account = get(id);
+  return account.permission;
+}
+
 // Checks the table for a username and password combination
 export function match({ username, password }) {
   const db = connection();
