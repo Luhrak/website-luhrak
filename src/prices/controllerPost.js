@@ -8,7 +8,7 @@ export async function pricesSubmit(ctx) {
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
   formData.price = parseInt(formData.price, 10) || 0;
-
+  const deleteImage = form.get("deleteImage");
   // Validation
   const errors = {};
   if (!formData.title) errors.title = "Title is required";
@@ -73,6 +73,7 @@ export async function pricesUpdate(ctx) {
   const existingPrice = model.get(id);
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
+  const deleteImage = form.get("deleteImage");
   formData.price = parseInt(formData.price, 10) || 0;
 
   // Validation
@@ -96,24 +97,42 @@ export async function pricesUpdate(ctx) {
     await pricesEditWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded
-    if (formData.previewFile) {
-      const uploadResult = await image.uploadImage(
-        formData.previewfile,
-        "prices"
-      );
+  
+      // 🗑️ Image explizit löschen
+  if (deleteImage && existingPrice.previewfile) {
+    image.deleteImage(existingPrice.previewfile);
+    formData.previewfile = "";
+  }
 
-      // Validate Upload
-      if (!uploadResult) {
-        errors.previewfile = "Upload failed";
-        await pricesEditWithData(ctx, formData, errors);
-      } else {
-        formData.previewfile = uploadResult;
-        // TODO: DELETE
-      }
-    } else {
-      // or take the old one
-      formData.previewfile = existingPrice.previewfile;
+  // 🔁 Image ersetzen
+  else if (
+    formData.previewfile instanceof File &&
+    formData.previewfile.size > 0
+  ) {
+    const uploadResult = await image.uploadImage(
+      formData.previewfile,
+      "prices"
+    );
+
+    if (!uploadResult) {
+      errors.previewfile = "Upload failed";
+      await pricesEditWithData(ctx, formData, errors);
+      return ctx;
     }
+
+    // altes Bild löschen
+    if (existingPrice.previewfile) {
+      image.deleteImage(existingPrice.previewfile);
+    }
+
+    formData.previewfile = uploadResult;
+  }
+
+// ▶️ Image behalten
+else {
+  formData.previewfile = existingPrice.previewfile;
+}
+
 
     // Update in db
     const updatedEntry = model.update(id, formData);

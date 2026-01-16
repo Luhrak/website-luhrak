@@ -69,13 +69,21 @@
         rows="5"
       >{{ formData.description or '' }}</textarea>
 
-      <!-- FILE -->
-      {% if formData.previewfile %}
-        <img
-          src="{{ formData.previewfile }}"
-          alt="{{ formData.title }}"
-        />
+    
+
+      {% if editing and formData.previewfile %}
+        <div class="image-edit-box">
+          <img src="{{ formData.previewfile }}" alt="{{ formData.title }}">
+
+          <label class="delete-image-checkbox">
+            <input type="checkbox" name="deleteImage" value="1">
+            Delete current image
+          </label>
+        </div>
       {% endif %}
+
+
+
 
       {% if formData.previewfile %}
         <label for="previewfile">Replace image (optional)</label>
