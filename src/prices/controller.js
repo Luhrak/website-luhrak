@@ -1,6 +1,7 @@
 import * as model from "./model.js";
 import * as image from "../service/image.js";
 import { render } from "../service/render.js";
+import { text } from "node:stream/consumers";
 
 export async function priceList(ctx) {
   const prices = model.listMinimal();
@@ -43,6 +44,9 @@ export async function submitPriceForm(ctx) {
   if (price <= 0) errors.price = "Price over 0 is requried";
   if (!formData.short_description)
     errors.short_description = "Short description is required";
+  if (formData.short_description.length > 90)
+    errors.short_description =
+      "Short description cant be longer than 90 characters";
   if (!formData.description) errors.description = "Description is required";
 
   const fileError = file ? image.validateImage(file) : null;
