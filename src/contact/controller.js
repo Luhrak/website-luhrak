@@ -2,7 +2,6 @@ import * as model from "./model.js";
 import { render } from "../service/render.js";
 
 export async function submitContactForm(ctx) {
-  console.log("RIP");
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
 
@@ -62,7 +61,7 @@ export async function markMessageRead(ctx) {
 
 export async function deleteMessage(ctx) {
   const id = ctx.entryId;
-  model.del(id);
+  model.remove(id);
 
   ctx.session.flash = "Message deleted";
   ctx.status = 303;

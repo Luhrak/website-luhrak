@@ -6,78 +6,122 @@
 
 <main>
   <div class="widthConstraint">
-    <section class="detailsPage">
-
-      <img
-        src="{{ price.previewfile }}"
-        alt="{{ price.alt }}"
-      />
 
       <div class="headingWithButtons">
-        <h1>{{ price.title }}</h1>
 
+        <h1>{{ price.title }} Commission</h1>
+              
         {% if permission %}
-        <a class="button" href="/prices-edit/{{ price.id }}">Edit</a>
+          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a>
 
-        <div class="deleteBox">
-          <button
-            class="redBg"
-            type="button"
-            onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';"
-          >
-            Delete
-          </button>
-
-          <div id="confirmDelete" style="display: none; margin-top: 0.5rem;">
-            <p style="margin-bottom: 0.5rem;">
-              Are you sure you want to delete this price?
-            </p>
-
-            <form method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
-              <button class="redBg" type="submit">Confirm Delete</button>
-            </form>
-
+          <div class="deleteBox">
+            
             <button
+              class="redBg"
               type="button"
-              class="button"
-              onclick="
-                document.getElementById('confirmDelete').style.display='none';
-                this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
-              "
+              onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';"
             >
-              Cancel
+              Delete
             </button>
+
+         
+            <div id="confirmDelete" style="display: none; margin-top: 0.5rem;">
+              <p style="margin-bottom: 0.5rem;">
+                Are you sure you want to delete this price?
+              </p>
+
+              <form method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
+                <button class="redBg" type="submit">Confirm Delete</button>
+              </form>
+
+              <button
+                type="button"
+                class="button"
+                onclick="
+                  document.getElementById('confirmDelete').style.display='none';
+                  this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
+                "
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
+
         {% endif %}
-        
       </div>
 
-      <!-- 🆕 PRICE -->
-      {% if price.price %}
-        <p class="priceHighlight">
-          from {{ price.price }} €
-        </p>
-      {% endif %}
+    <section class="imageLeft">
+    
 
-      <!-- 🆕 SHORT DESCRIPTION -->
-      {% if price.short_description %}
-        <p class="shortDescription">
-          {{ price.short_description }}
-        </p>
-      {% endif %}
 
-      <!-- FULL DESCRIPTION -->
-      {% if price.description %}
+        <img
+          src="{{ price.previewfile }}"
+          alt="{{ price.alt or 'Preview of a price listing'}}"
+        />
+
+
+      <div>
+        {% if price.description %}
         <p>
           {{ price.description }}
         </p>
-      {% endif %}
-
-      <p>Want a price piece similar to this too?</p>
-      <a class="button" href="/prices">Commission price</a>
+        {% endif %}
+        <div class="priceArea">
+          <p>{{ price.price }}€ per Sticker</p>
+          {% if price.additions %}
+            <p>{{ price.additions }}</p>
+          {% endif %}
+        </div>
+      </div>
 
     </section>
+
+    <section class="imageRight">
+      <h2>Want a {{ price.title }} commission?</h2>
+      <div>
+        <p>
+          Just have your references and ideas for me ready and get in touch
+          with me. The quickest way to reach me is on Telegram or Discord by
+          writing me a direct message.
+        </p>
+        <p>However you can also mail me here:</p>
+        <a class="button" href="/about#contact-about">Write an email</a>
+      </div>
+      <img
+        src="/img/Boop.png"
+        alt="Side view of Luhrak booping a contempt looking wolf on the nose."
+      />
+    </section>
+
+    <div class="imageRow">
+      <h2>Examples of {{ price.title }}</h2>
+      <img
+        src="/img/Prices/StickerHectic.png"
+        alt="Sticker of red fox flapping his arms and being in panic"
+      />
+      <img
+        src="/img/Prices/StickerBS.png"
+        alt="Sticker of blue wolf sniffing and ti says: yup, smells like BS"
+      />
+      <img
+        src="/img/Projects/Stickers/LuhShrug.png"
+        alt="Sticker of luhrak shrugging"
+      />
+    </div>
+    <div class="imageRow">
+      <img
+        src="/img/Prices/StickerHug.png"
+        alt="Sticker of grey wolf hugging"
+      />
+      <img
+        src="/img/Prices/Stickerinnocent.png"
+        alt="Sticker of goat looking innocent with a halo"
+      />
+      <img
+        src="/img/Prices/StickerShy.png"
+        alt="Sticker of a grey wolf with pink hair being shy"
+      />
+    </div>
   </div>
 </main>
 

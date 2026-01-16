@@ -1,10 +1,12 @@
-import { listVisualOnly } from "../gallery/model.js";
+import { listMinimal as listGallery } from "../gallery/model.js";
+import { listMinimal as listPrices } from "../prices/model.js";
 import { render } from "../service/render.js";
 
 // Main Pages
 export async function index(ctx) {
-  const gallery = listVisualOnly();
-  ctx.body = await render("index.html", ctx, { gallery });
+  const gallery = listGallery();
+  const prices = listPrices();
+  ctx.body = await render("index.html", ctx, { gallery, prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -24,7 +26,7 @@ export async function about(ctx) {
   return ctx;
 }
 
-// Misc
+// Misc pages
 export async function impressum(ctx) {
   ctx.body = await render("legalPages/impressum.html", ctx);
   ctx.headers.set("content-type", "text/html");
@@ -53,32 +55,16 @@ export async function error403(ctx) {
   return ctx;
 }
 
-// Detail Pages
-export async function priceHeadshot(ctx) {
-  // Remove eventually
-  ctx.body = await render("detailPages/price-headshot.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
-export async function priceSticker(ctx) {
-  // Remove eventually
-  ctx.body = await render("detailPages/price-sticker.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
+// Project Pages
 export async function projectFursuit(ctx) {
-  ctx.body = await render("detailPages/project-fursuit.html", ctx);
+  ctx.body = await render("projectPages/fursuit.html", ctx);
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
 
 export async function projectStickers(ctx) {
-  ctx.body = await render("detailPages/project-stickers.html", ctx);
+  ctx.body = await render("projectPages/stickers.html", ctx);
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

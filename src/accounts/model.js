@@ -1,7 +1,7 @@
 import { connection } from "../service/db.js";
 
-// Create accounts table if not exist
 export function create() {
+  // Creats accounts table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "accounts" (
@@ -15,8 +15,8 @@ export function create() {
   return stmt.all();
 }
 
-// Get one entry with all attributes via id
 export function get(id) {
+  // Gets one entry with all columns via id
   const db = connection();
   const stmt = db.prepare(`
     SELECT id, username, password, permission
@@ -31,19 +31,8 @@ export function getPermissionById(id) {
   return account.permission;
 }
 
-// Checks the table for a username and password combination
-export function match({ username, password }) {
-  const db = connection();
-  const stmt = db.prepare(`
-    SELECT id 
-    FROM accounts
-    WHERE username = ?  AND password = ?
-  `);
-  return stmt.get(username, password);
-}
-
-// Adding a new entry
 export function add({ username, password, permission }) {
+  // Adds a new entry
   const db = connection();
   const stmt = db.prepare(`
     INSERT INTO accounts (username, password, permission)
@@ -51,4 +40,15 @@ export function add({ username, password, permission }) {
   `);
   const result = stmt.run(username, password, permission);
   return result.lastInsertRowid;
+}
+
+export function match({ username, password }) {
+  // Checks the table for a username and password combination
+  const db = connection();
+  const stmt = db.prepare(`
+    SELECT id 
+    FROM accounts
+    WHERE username = ?  AND password = ?
+  `);
+  return stmt.get(username, password);
 }

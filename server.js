@@ -9,7 +9,7 @@ const DB_PATH = "./data/data.db";
 
 createSessionStore();
 const db = initConnection(DB_PATH);
-initDbTables(); // creates the tables in data.db if they are not there to prevent errors
+initDbTables(); 
 
 Deno.serve({ port, hostname }, handleRequest);
 // deno run --allow-net --allow-read --allow-write --watch server.js

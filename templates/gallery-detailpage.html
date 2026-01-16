@@ -7,10 +7,6 @@
     <main>
       <div class="widthConstraint">
         <section class="detailsPage">
-          <img
-            src="{{ art.artfile }}"
-            alt="{{ art.alt }}"
-          />
           <div class="headingWithButtons">
             
             <h1>{{ art.title }}</h1>
@@ -51,6 +47,10 @@
             {% endif %}
             
           </div>
+          <img
+            src="{{ art.artfile }}"
+            alt="{{ art.alt or 'An artpiece'}}"
+          />
         {% if art.description %}
           <p>
             {{ art.description }}

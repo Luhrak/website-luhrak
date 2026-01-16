@@ -1,7 +1,7 @@
 import { connection } from "../service/db.js";
 
-// Create gallery table if not exist
 export function create() {
+  // Creates gallery table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "gallery" (
@@ -18,8 +18,8 @@ export function create() {
   return stmt.all();
 }
 
-// Get a list with all entries
 export function list() {
+  // Gets a list with all entries
   const db = connection();
   const stmt = db.prepare(`
     SELECT id, artfile, title, type, date, alt, description 
@@ -28,8 +28,8 @@ export function list() {
   return stmt.all();
 }
 
-// Get a list with all entries but only getting the images for the gallery
-export function listVisualOnly() {
+export function listMinimal() {
+  // Gets a list with all entries but only columns needed for the gallery tab
   const db = connection();
   const stmt = db.prepare(`
     SELECT id, artfile, alt  
@@ -38,8 +38,9 @@ export function listVisualOnly() {
   `);
   return stmt.all();
 }
-// Get one entry with all attributes via id
+
 export function get(id) {
+  // Gets one entry with all columns via id
   const db = connection();
   const stmt = db.prepare(`
     SELECT id, artfile, title, type, date, alt, description 
@@ -49,19 +50,8 @@ export function get(id) {
   return stmt.get(id);
 }
 
-// delete one entry via id
-export function remove(id) {
-  const db = connection();
-  const stmt = db.prepare(`
-    DELETE 
-    FROM gallery
-    WHERE id = ?
-  `);
-  return stmt.get(id);
-}
-
-// Adding a new entry
 export function add({ artfile, title, type, date, alt, description }) {
+  // Adds a new entry
   const db = connection();
   const stmt = db.prepare(`
     INSERT INTO gallery (artfile, title, type, date, alt, description)
@@ -71,8 +61,19 @@ export function add({ artfile, title, type, date, alt, description }) {
   return result.lastInsertRowid;
 }
 
-// Edit an existing entry
+export function remove(id) {
+  // delets one entry via id
+  const db = connection();
+  const stmt = db.prepare(`
+    DELETE 
+    FROM gallery
+    WHERE id = ?
+  `);
+  return stmt.get(id);
+}
+
 export function update(id, { artfile, title, type, date, alt, description }) {
+  // Updates an existing entry
   const db = connection();
   const stmt = db.prepare(`
     UPDATE gallery

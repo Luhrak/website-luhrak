@@ -7,6 +7,28 @@
   <div class="widthConstraint">
     <h1>Commission Pricing</h1>
 
+    <div class="twoColumns">
+      <div>
+        <p>
+          See common options listed below for an idea what costs what.
+          However we dont always have to stick to these options. If you
+          have a special idea in mind just throw me a message and we
+          figure something out together.
+        </p>
+        <p>
+          Together we can make all your ideas into awesome looking
+          reality!
+        </p>
+      </div>
+      <div class="priceArea">
+        <h3>Hints:</h3>
+        <p>Payment is done via PayPal invoice.</p>
+        <p>Give honest feedback so that you are truly happy.</p>
+        <p>Big changes after clean lineart may cost more.</p>
+        <p>Tell me if you dont it to be posted online.</p>
+      </div>
+    </div>
+
     <ul class="wideGallery">
       
       {% if permission %}
@@ -29,22 +51,31 @@
             <div>
               <img src="{{ price.previewfile }}" alt="{{ price.title }}">
             </div>
-
             <div>
-              <!-- Title + Additions (Preis) -->
               <div class="price">
-              <h3>{{ price.title }}</h3>
-              <p>from {{ price.price }} €</p>
+                <h3>{{ price.title }}</h3>
+                <p>from {{ price.price }} €</p>
               </div>
-
               <p>
-              {{ price.short_description or '—' }}
-            </p>
+                {{ price.short_description or '—' }}
+              </p>
             </div>
           </a>
         </li>
       {% else %}
-        <li>No prices yet</li>
+        <li>
+          <a>
+            <div>
+            </div>
+            <div>
+              <div class="price">
+                <h3>No prices found</h3>
+              </div>
+              <p>
+              </p>
+            </div>
+          </a>
+        </li>
       {% endfor %}
       
     </ul>

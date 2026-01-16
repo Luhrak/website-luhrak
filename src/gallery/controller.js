@@ -3,7 +3,7 @@ import * as image from "../service/image.js";
 import { render } from "../service/render.js";
 
 export async function gallery(ctx) {
-  const gallery = model.listVisualOnly();
+  const gallery = model.listMinimal();
   ctx.body = await render("gallery.html", ctx, { gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;

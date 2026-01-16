@@ -9,6 +9,8 @@ const routes = [
   // specific ones before general ones like :id
   // or it will falsely match request of /gallery with /gallery/id
 
+  // TODO: Some routes using sepertator - instead of / which is not ideal
+
   // Main routes
   {
     path: "/",
@@ -26,16 +28,28 @@ const routes = [
     handler: pages.about,
   },
 
-  // Legal routes
+  // Misc routes
   {
-    path: "/legalPages/impressum",
+    path: "/impressum",
     method: "GET",
     handler: pages.impressum,
   },
   {
-    path: "/legalPages/privacy-policy",
+    path: "/privacy-policy",
     method: "GET",
     handler: pages.privacyPolicy,
+  },
+
+  // Project routes
+  {
+    path: "/projects-fursuit",
+    method: "GET",
+    handler: pages.projectFursuit,
+  },
+  {
+    path: "/projects-stickers",
+    method: "GET",
+    handler: pages.projectStickers,
   },
 
   // Gallery routes
@@ -62,19 +76,19 @@ const routes = [
     handler: gallery.artPiece,
   },
   {
-    path: "/gallery-delete/:id", // - instead of / suboptimal
+    path: "/gallery-delete/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
     handler: gallery.deleteArtPiece,
   },
   {
-    path: "/gallery-edit/:id", // - instead of / suboptimal
+    path: "/gallery-edit/:id",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
     handler: gallery.editArtPiece,
   },
   {
-    path: "/gallery-update/:id", // - instead of / suboptimal
+    path: "/gallery-update/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
     handler: gallery.updateArtPiece,
@@ -104,19 +118,19 @@ const routes = [
     handler: price.priceDetail,
   },
   {
-    path: "/prices-delete/:id", // - instead of / suboptimal
+    path: "/prices-delete/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
     handler: price.deletePrice,
   },
   {
-    path: "/prices-edit/:id", // - instead of / suboptimal
+    path: "/prices-edit/:id",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
     handler: price.editPrice,
   },
   {
-    path: "/prices-update/:id", // - instead of / suboptimal
+    path: "/prices-update/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
     handler: price.updatePrice,
@@ -152,28 +166,6 @@ const routes = [
     method: "GET",
     requiredPermissions: ["guest", "admin", "moderator"],
     handler: account.logout,
-  },
-
-  // Project routes
-  {
-    path: "/detailPages/price-headshot", // Remove eventually
-    method: "GET",
-    handler: pages.priceHeadshot,
-  },
-  {
-    path: "/detailPages/price-sticker", // Remove eventually
-    method: "GET",
-    handler: pages.priceSticker,
-  },
-  {
-    path: "/detailPages/project-fursuit",
-    method: "GET",
-    handler: pages.projectFursuit,
-  },
-  {
-    path: "/detailPages/project-stickers",
-    method: "GET",
-    handler: pages.projectStickers,
   },
 
   // Contact routes
@@ -226,7 +218,6 @@ function checkUserPermission(ctx, match, route) {
   const userPermission = ctx.session.account
     ? getPermissionById(ctx.session.account)
     : "none";
-  console.log(userPermission);
   if (
     userPermission &&
     Object.values(route.requiredPermissions).includes(userPermission)

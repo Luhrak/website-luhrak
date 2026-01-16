@@ -1,55 +1,57 @@
 import { connection } from "../service/db.js";
 
-// Create prices table if not exist
 export function create() {
+  // Creates prices table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS prices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      previewfile TEXT NOT NULL,
+      previewfile TEXT,
       title TEXT NOT NULL,
       price INTEGER NOT NULL,
-      short_description TEXT,
+      additions TEXT,
+      short_description TEXT NOT NULL,
       description TEXT NOT NULL
     )
   `);
   return stmt.all();
 }
 
-// Only for overview (images)
-export function listVisualOnly() {
+export function list() {
+  // Gets a list with all entries
   const db = connection();
   return db
     .prepare(
       `
-    SELECT id, previewfile, title FROM prices
+    SELECT id, previewfile, title, price, additions, short_description, description
+    FROM prices
+    ORDER BY id DESC
+  `
+    )
+    .all();
+}
+
+export function listMinimal() {
+  // Gets a list with all entries but only columns needed for the prices tab
+  const db = connection();
+  return db
+    .prepare(
+      `
+    SELECT id, previewfile, title, price, additions, short_description
+    FROM prices
+    ORDER BY id DESC
     `
     )
     .all();
 }
 
-// Full list
-export function list() {
-  const db = connection();
-  return db.prepare(`
-    SELECT
-      id,
-      previewfile,
-      title,
-      price,
-      short_description,
-      description
-    FROM prices
-    ORDER BY id DESC
-  `).all();
-}
-// Single entry
 export function get(id) {
+  // Gets one entry with all columns via id
   const db = connection();
   return db
     .prepare(
       `
-    SELECT id, previewfile, title, price, short_description, description
+    SELECT id, previewfile, title, price, additions, short_description, description
     FROM prices
     WHERE id = ?
   `
@@ -57,38 +59,30 @@ export function get(id) {
     .get(id);
 }
 
-// Add new entry
-export function add({ previewfile, title, description, price, short_description }) {
+export function add({
+  previewfile,
+  title,
+  description,
+  price,
+  additions,
+  short_description,
+}) {
+  // Adds a new entry
   const db = connection();
   const result = db
     .prepare(
       `
-    INSERT INTO prices (previewfile, title, price, short_description, description)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO prices (previewfile, title, price, additions, short_description, description)
+    VALUES (?, ?, ?, ?, ?, ?)
   `
     )
-    .run(previewfile, title, price, short_description, description);
+    .run(previewfile, title, price, additions, short_description, description);
 
   return result.lastInsertRowid;
 }
 
-// Update entry
-export function update(id, { previewfile, title, price, short_description, description }) {
-   const db = connection();
-  const stmt = db.prepare(
-    `
-    UPDATE prices
-    SET previewfile = ?, title = ?, price = ?, short_description = ?, description = ?
-    WHERE id = ?
-  `
-  );
-  stmt.run(previewfile, title, price, short_description, description, id);
-
-  return id;
-}
-
-// Delete entry
-export function del(id) {
+export function remove(id) {
+  // delets one entry via id
   const db = connection();
   return db
     .prepare(
@@ -97,4 +91,30 @@ export function del(id) {
   `
     )
     .run(id);
+}
+
+export function update(
+  id,
+  { previewfile, title, price, additions, short_description, description }
+) {
+  // Updates an existing entry
+  const db = connection();
+  const stmt = db.prepare(
+    `
+    UPDATE prices
+    SET previewfile = ?, title = ?, price = ?, additions = ?, short_description = ?, description = ?
+    WHERE id = ?
+  `
+  );
+  stmt.run(
+    previewfile,
+    title,
+    price,
+    additions,
+    short_description,
+    description,
+    id
+  );
+
+  return id;
 }

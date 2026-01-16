@@ -1,7 +1,7 @@
 import { connection } from "../service/db.js";
 
-// Create messages table if not exist
 export function create() {
+  // Creates messages table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "messages" (
@@ -18,8 +18,8 @@ export function create() {
   return stmt.all();
 }
 
-// Full list (optional admin view)
 export function list() {
+  // Gets a list with all entries
   const db = connection();
   return db
     .prepare(
@@ -33,6 +33,7 @@ export function list() {
 }
 
 export function listNew() {
+  // List all not read messages
   const db = connection();
   return db
     .prepare(
@@ -46,8 +47,8 @@ export function listNew() {
     .all();
 }
 
-// Gelesene
 export function listRead() {
+  // List all read messages
   const db = connection();
   return db
     .prepare(
@@ -61,30 +62,8 @@ export function listRead() {
     .all();
 }
 
-export function markAsRead(id) {
-  const db = connection();
-  return db
-    .prepare(
-      `
-      UPDATE messages
-      SET is_new = 0
-      WHERE id = ?
-    `
-    )
-    .run(id);
-}
-export function del(id) {
-  const db = connection();
-  return db
-    .prepare(
-      `
-      DELETE FROM messages WHERE id = ?
-    `
-    )
-    .run(id);
-}
-// Single entry
 export function get(id) {
+  // Single entry
   const db = connection();
   return db
     .prepare(
@@ -97,8 +76,8 @@ export function get(id) {
     .get(id);
 }
 
-// Add new contact entry
 export function add({ name, email, subject, message }) {
+  // Add new contact entry
   const db = connection();
   const createdAt = new Date().toISOString().replace("T", " ").slice(0, 19);
   const result = db
@@ -111,4 +90,30 @@ export function add({ name, email, subject, message }) {
     .run(name, email, subject, message, 1, createdAt);
 
   return result.lastInsertRowid;
+}
+
+export function remove(id) {
+  // delete one entry via id
+  const db = connection();
+  return db
+    .prepare(
+      `
+      DELETE FROM messages WHERE id = ?
+    `
+    )
+    .run(id);
+}
+
+export function markAsRead(id) {
+  // Marks one entry as read
+  const db = connection();
+  return db
+    .prepare(
+      `
+      UPDATE messages
+      SET is_new = 0
+      WHERE id = ?
+    `
+    )
+    .run(id);
 }

@@ -63,42 +63,40 @@
             <h2>My pricings <span>➜</span></h2>
           </a>
           <ul class="wideGallery">
+            {% for price in prices %}
+            {% if loop.index0 < 2 %}    
             <li>
-              <a href="/detailPages/price-sticker">
+              <a href="/prices/{{ price.id }}">
                 <div>
-                  <img
-                    src="/img/Prices/PrevSticker.png"
-                    alt="Blueprint preview of two stickers"
-                  />
+                  <img src="{{ price.previewfile }}" alt="{{ price.title }}">
                 </div>
                 <div>
                   <div class="price">
-                    <h3>Sticker</h3>
-                    <p>From 18€</p>
+                    <h3>{{ price.title }}</h3>
+                    <p>from {{ price.price }} €</p>
                   </div>
                   <p>
-                    Simple art of your character in any pose for your own pack.
+                    {{ price.short_description or '—' }}
                   </p>
                 </div>
               </a>
             </li>
+            {% endif %}
+            {% else %}
             <li>
-              <a href="/detailPages/price-headshot">
+              <a>
                 <div>
-                  <img
-                    src="/img/Prices/PrevHeadshot.png"
-                    alt="Blueprint preview a headshot frame"
-                  />
                 </div>
                 <div>
                   <div class="price">
-                    <h3>Headshot</h3>
-                    <p>From 16€</p>
+                    <h3>No prices found</h3>
                   </div>
-                  <p>From ears to shoulders, perfect for a profile picture.</p>
+                  <p>
+                  </p>
                 </div>
               </a>
             </li>
+            {% endfor %}
           </ul>
         </section>
 
@@ -108,9 +106,7 @@
           </a>
           <ul class="wideGallery">
             <li>
-              <a href="/detailPages/project-fursuit">
-
-              
+              <a href="/projects-fursuit">
                 <div>
                   <img
                     src="/img/Projects/Fursuit.png"
@@ -127,7 +123,7 @@
               </a>
             </li>
             <li>
-              <a href="/detailPages/project-stickers">
+              <a href="/projects-stickers">
                 <div>
                   <img
                     src="/img/Projects/LuhSticker.png"

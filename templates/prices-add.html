@@ -26,7 +26,7 @@
         value="{{ formData.title or '' }}"
       />
 
-
+      <!-- FILE -->
       {% if formData.previewfile %}
         <img
           src="{{ formData.previewfile }}"
@@ -34,7 +34,6 @@
         />
       {% endif %}
 
-      <!-- FILE -->
       {% if formData.previewfile %}
         <label for="previewfile">Replace image (optional)</label>
       {% else %}
@@ -51,18 +50,7 @@
         accept="image/png, image/jpeg"
       />
 
-     
-      <label for="description">Description</label>
-        {% if formErrors.description %}
-        <p class="form-error">{{ formErrors.description }}</p>
-      {% endif %}
-      <textarea
-        id="description"
-        name="description"
-        rows="5"
-      >{{ formData.description or '' }}</textarea>
-
-    
+      <!-- Price -->
       <label for="price">Price (EUR)</label>
       <input
         type="number"
@@ -72,14 +60,40 @@
         step="1"
         value="{{ formData.price or '' }}"
       />
-   
 
-      <label for="short_description">Short description</label>
+      <!-- Additions -->
+      <label for="additions">Price additions</label>
+        {% if formErrors.additions %}
+        <p class="form-error">{{ formErrors.additions }}</p>
+        {% endif %}
       <textarea
-        id="short_description"
-        name="short_description"
-        rows="3"
-      >{{ formData.short_description or '' }}</textarea>
+        id="additions"
+        name="additions"
+        rows="5"
+      >{{ formData.additions or '' }}</textarea>
+
+      <!-- Short description -->
+      <label for="short_description">Short description</label>
+        {% if formErrors.short_description %}
+        <p class="form-error">{{ formErrors.short_description }}</p>
+        {% endif %}
+        <input
+          type="text"
+          id="short_description"
+          name="short_description"
+          value="{{ formData.short_description or '' }}"
+        />
+     
+      <!-- Description -->
+      <label for="description">Description</label>
+        {% if formErrors.description %}
+        <p class="form-error">{{ formErrors.description }}</p>
+        {% endif %}
+      <textarea
+        id="description"
+        name="description"
+        rows="5"
+      >{{ formData.description or '' }}</textarea>
 
 
       {% if editing %}
