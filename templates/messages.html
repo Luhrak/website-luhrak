@@ -8,30 +8,41 @@
     <h1>Messages</h1>
 
     {% if messages.new.length > 0 %}
-      <ul class="wideGallery">
+      <ul class="messagList">
         {% for msg in messages.new %}
           <li>
-            <div class="prices">
-              <h3>{{ msg.name }}</h3>
-              <p><strong>Email:</strong> {{ msg.email }}</p>
+            <div>
+              <ul>
+                <li>
+                  <p>From:</p>
+                  <p>{{ msg.name }}</p>
+                </li>
+                <li>
+                  <p>Email:</p>
+                  <p>{{ msg.email }}</p>
+                </li>
+                <li>
+                  <p>Date:</p>
+                  <p>{{ msg.created_at }}</p>
+                </li>
+              </ul>
 
-              {% if msg.subject %}
-                <p><strong>Subject:</strong> {{ msg.subject }}</p>
-              {% endif %}
+              <div>
+                <h3>{{ msg.subject }}</h3>
+                <p>{{ msg.message }}</p>
+              </div>
+            </div>
 
-              <p>{{ msg.message }}</p>
-              <p style="opacity: 0.6; font-size: 0.9rem;">
-                {{ msg.created_at }}
-              </p>
-
-              <form action="/messages-read/{{ msg.id }}" method="POST" style="display:inline-block;">
-                <button type="submit">Mark as Read</button>
+            <div>
+              <form class="hiddenForm" action="/messages-read/{{ msg.id }}" method="POST">
+                <button type="submit">Mark read</button>
               </form>
 
-              <form action="/messages-delete/{{ msg.id }}" method="POST" style="display:inline-block;">
-                <button type="submit">Delete</button>
+              <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
+                <button class="redBg" type="submit">Delete</button>
               </form>
             </div>
+
           </li>
         {% endfor %}
       </ul>
@@ -40,26 +51,37 @@
     {% if messages.read.length > 0 %}
       <p>
       <h2>Read Messages</h2>
-      <ul class="wideGallery">
+      <ul class="messagList">
         {% for msg in messages.read %}
           <li>
-            <div class="prices">
-              <h3>{{ msg.name }}</h3>
-              <p><strong>Email:</strong> {{ msg.email }}</p>
+            <div>
+              <ul>
+                <li>
+                  <p>From:</p>
+                  <p>{{ msg.name }}</p>
+                </li>
+                <li>
+                  <p>Email:</p>
+                  <p>{{ msg.email }}</p>
+                </li>
+                <li>
+                  <p>Date:</p>
+                  <p>{{ msg.created_at }}</p>
+                </li>
+              </ul>
 
-              {% if msg.subject %}
-                <p><strong>Subject:</strong> {{ msg.subject }}</p>
-              {% endif %}
+              <div>
+                <h3>{{ msg.subject }}</h3>
+                <p>{{ msg.message }}</p>
+              </div>
+            </div>
 
-              <p>{{ msg.message }}</p>
-              <p style="opacity: 0.6; font-size: 0.9rem;">
-                {{ msg.created_at }}
-              </p>
-
-              <form action="/messages-delete/{{ msg.id }}" method="POST" style="display:inline-block;">
-                <button type="submit">Delete</button>
+            <div>
+              <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
+                <button class="redBg" type="submit">Delete</button>
               </form>
             </div>
+
           </li>
         {% endfor %}
       </ul>

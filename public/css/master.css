@@ -122,10 +122,6 @@ ul {
     padding-left: 1em;
 }
 
-li {
-    max-width: 30rem;
-}
-
 img {
     border-radius: var(--border-radius);
     width: 100%;
@@ -649,6 +645,74 @@ form {
     @media screen and (min-width: 55rem) {
         grid-template-columns: repeat(2, 1fr);
         gap: 1em;
+    }
+}
+
+.messagList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-left: 0;
+
+    & p {
+        margin: 0;
+    }
+
+    h3 {
+        @media screen and (min-width: 38rem) {
+            margin-top: 0;
+        }
+    }
+
+    &>li {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        background-color: var(--color-bg-opague);
+        backdrop-filter: blur(var(--blur-ammount));
+        border-radius: var(--border-radius);
+        overflow: hidden;
+
+        &>div:first-of-type {
+            gap: 1em;
+            width: 100%;
+
+
+            &>ul {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+                font-size: 0.9;
+                padding-left: 0;
+                list-style-type: none;
+            }
+
+            @media screen and (min-width: 38rem) {
+                display: grid;
+                grid-template-columns: 1fr 2.5fr;
+            }
+        }
+
+        &>div:last-of-type {
+            display: flex;
+            flex-direction: row;
+            margin: auto 0;
+
+            gap: 1em;
+
+            & button {
+                width: max-content;
+            }
+
+            @media screen and (min-width: 45rem) {
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (min-width: 45rem) {
+            flex-direction: row;
+        }
     }
 }
 
