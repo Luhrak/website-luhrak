@@ -21,7 +21,6 @@ export async function priceDetail(ctx) {
 
 export async function addPriceForm(ctx) {
   ctx.body = await render("prices-add.html", ctx, {
-    // editing: false,
     formData: {},
     formErrors: {},
   });
@@ -66,6 +65,7 @@ export async function submitPriceForm(ctx) {
   // Daten in die DB schreiben
   const id = model.add({
     previewfile: uploadResult,
+    alt: formData.alt,
     title: formData.title,
     price: price,
     additions: formData.additions,
@@ -149,6 +149,7 @@ export async function updatePrice(ctx) {
   // Update in DB
   const updatedEntry = model.update(id, {
     previewfile: formData.previewfile,
+    alt: formData.alt,
     title: formData.title,
     price: price,
     additions: formData.additions,

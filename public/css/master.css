@@ -460,7 +460,6 @@ form {
     }
 }
 
-
 .gallery {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -469,39 +468,38 @@ form {
     padding-left: 0;
 
     li {
-
         border-radius: var(--border-radius);
 
+        & div {
+            align-items: center;
+            border-radius: var(--border-radius);
+            background-color: var(--color-bg-opague);
+            backdrop-filter: blur(var(--blur-ammount));
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+        }
+
+        & img {
+            height: 100%;
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform .3s ease-out;
+        }
+
+        & p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
         &>a {
-
-            & div {
-                align-items: center;
-                border-radius: var(--border-radius);
-                background-color: var(--color-bg-opague);
-                backdrop-filter: blur(var(--blur-ammount));
-                overflow: hidden;
-                aspect-ratio: 1 / 1;
-            }
-
-            & img {
-                height: 100%;
-                width: 100%;
-                display: block;
-                object-fit: cover;
-                transition: transform .3s ease-out;
-            }
-
-            & p {
-                font-size: 1.8em;
-                text-align: center;
-                margin: 0;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                -ms-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-            }
-
             &:hover {
                 & img {
                     transform: scale(1.15);
@@ -519,8 +517,6 @@ form {
             }
         }
     }
-
-
 
     @media screen and (min-width: 40em) {
         grid-template-columns: repeat(3, 1fr);
@@ -540,6 +536,7 @@ form {
     list-style: none;
     padding-left: 0;
 
+    &>li>div,
     &>li>a {
         display: grid;
         grid-template-columns: 1fr 2fr;
@@ -577,44 +574,18 @@ form {
 
             & h3 {
                 margin: 0;
-                color: var(--color-primary)
+
+                color: var(--color-primary);
+            }
+
+            & .whiteFont {
+                color: var(--color-light);
             }
 
             & p {
                 margin: 0em;
                 font-size: 0.95em;
             }
-        }
-
-        &:hover {
-            background-color: #f8d6bd16;
-
-            div:first-of-type & img {
-                transform: scale(1.10);
-            }
-
-            div:last-of-type & h3 {
-                color: var(--color-primary-light)
-            }
-        }
-
-        &:focus {
-            background-color: #f8d6bd16;
-
-            div:first-of-type {
-
-                & img {
-                    transform: scale(1.10);
-                }
-            }
-
-            div:last-of-type {
-                & h3 {
-                    color: var(--color-primary-light)
-                }
-
-            }
-
         }
 
         @media screen and (min-width: 38rem) {
@@ -636,6 +607,38 @@ form {
                 padding-top: 0.6em 1em;
             }
         }
+
+        &>li>a {
+
+            &:hover {
+                background-color: #f8d6bd16;
+
+                div:first-of-type & img {
+                    transform: scale(1.10);
+                }
+
+                div:last-of-type & h3 {
+                    color: var(--color-primary-light)
+                }
+            }
+
+            &:focus {
+                background-color: #f8d6bd16;
+
+                div:first-of-type {
+
+                    & img {
+                        transform: scale(1.10);
+                    }
+                }
+
+                div:last-of-type {
+                    & h3 {
+                        color: var(--color-primary-light)
+                    }
+                }
+            }
+        }
     }
 
     @media screen and (min-width: 38rem) {
@@ -648,8 +651,6 @@ form {
         gap: 1em;
     }
 }
-
-
 
 .price {
     display: flex;

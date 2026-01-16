@@ -7,6 +7,7 @@ export function create() {
     CREATE TABLE IF NOT EXISTS prices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       previewfile TEXT,
+      alt TEXT, 
       title TEXT NOT NULL,
       price INTEGER NOT NULL,
       additions TEXT,
@@ -23,7 +24,7 @@ export function list() {
   return db
     .prepare(
       `
-    SELECT id, previewfile, title, price, additions, short_description, description
+    SELECT id, previewfile, alt, title, price, additions, short_description, description
     FROM prices
     ORDER BY id DESC
   `
@@ -37,7 +38,7 @@ export function listMinimal() {
   return db
     .prepare(
       `
-    SELECT id, previewfile, title, price, additions, short_description
+    SELECT id, previewfile, alt, title, price, additions, short_description
     FROM prices
     ORDER BY id DESC
     `
@@ -51,7 +52,7 @@ export function get(id) {
   return db
     .prepare(
       `
-    SELECT id, previewfile, title, price, additions, short_description, description
+    SELECT id, previewfile, alt, title, price, additions, short_description, description
     FROM prices
     WHERE id = ?
   `
@@ -61,6 +62,7 @@ export function get(id) {
 
 export function add({
   previewfile,
+  alt, 
   title,
   description,
   price,
@@ -72,11 +74,11 @@ export function add({
   const result = db
     .prepare(
       `
-    INSERT INTO prices (previewfile, title, price, additions, short_description, description)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO prices (previewfile, alt, title, price, additions, short_description, description)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `
     )
-    .run(previewfile, title, price, additions, short_description, description);
+    .run(previewfile, alt, title, price, additions, short_description, description);
 
   return result.lastInsertRowid;
 }
@@ -95,19 +97,20 @@ export function remove(id) {
 
 export function update(
   id,
-  { previewfile, title, price, additions, short_description, description }
+  { previewfile, alt, title, price, additions, short_description, description }
 ) {
   // Updates an existing entry
   const db = connection();
   const stmt = db.prepare(
     `
     UPDATE prices
-    SET previewfile = ?, title = ?, price = ?, additions = ?, short_description = ?, description = ?
+    SET previewfile = ?, alt = ?, title = ?, price = ?, additions = ?, short_description = ?, description = ?
     WHERE id = ?
   `
   );
   stmt.run(
     previewfile,
+    alt, 
     title,
     price,
     additions,
