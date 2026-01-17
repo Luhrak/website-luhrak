@@ -96,3 +96,13 @@ export function listByPrice(priceId) {
   `);
   return stmt.all(priceId);
 }
+export function listByPriceId(priceId) {
+  const db = connection();
+  const stmt = db.prepare(`
+    SELECT id, artfile, alt
+    FROM gallery
+    WHERE price_id = ?
+    ORDER BY id DESC
+  `);
+  return stmt.all(priceId);
+}
