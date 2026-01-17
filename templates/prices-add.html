@@ -32,31 +32,31 @@
         <!-- Price -->
         <div>
         <label for="price">Price (EUR)</label>
-        {% if formErrors.price %}
-        <p class="form-error">{{ formErrors.price }}</p>
-        {% endif %}
+          {% if formErrors.price %}
+          <p class="form-error">{{ formErrors.price }}</p>
+          {% endif %}
         <input
           type="number"
           id="price"
           name="price"
           min="0"
           step="1"
-          value="{{ formData.price or '' }}"
+          value="{{ formData.price or '1' }}"
         />
         </div>
       </div> 
 
-            <!-- Short description -->
+      <!-- Short description -->
       <label for="short_description">Short description</label>
         {% if formErrors.short_description %}
         <p class="form-error">{{ formErrors.short_description }}</p>
         {% endif %}
-        <input
-          type="text"
-          id="short_description"
-          name="short_description"
-          value="{{ formData.short_description or '' }}"
-        />
+      <input
+        type="text"
+        id="short_description"
+        name="short_description"
+        value="{{ formData.short_description or '' }}"
+      />
      
       <!-- Description -->
       <label for="description">Description</label>
@@ -70,7 +70,7 @@
       >{{ formData.description or '' }}</textarea>
 
     
-
+      <!-- Image -->
       {% if editing and formData.previewfile %}
         <div class="image-edit-box">
           <img src="{{ formData.previewfile }}" alt="{{ formData.title }}">
@@ -81,9 +81,6 @@
           </label>
         </div>
       {% endif %}
-
-
-
 
       {% if formData.previewfile %}
         <label for="previewfile">Replace image (optional)</label>

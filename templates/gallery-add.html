@@ -14,6 +14,7 @@
           <form method="POST" action="/gallery/add" enctype="multipart/form-data">
         {% endif %}
 
+          <!-- Title -->
           <label for="title">Title</label>
           {% if formErrors.title %}
             <p class="form-error">{{formErrors.title}}</p>
@@ -25,6 +26,7 @@
           value="{{ formData.title or '' }}"
           />
           
+          <!-- Image -->
           {% if formData.artfile %}
           <img
             src="{{ formData.artfile }}"
@@ -48,6 +50,7 @@
           accept="image/png, image/jpeg"
           />
 
+          <!-- Alt text -->
           <label for="alt">Alt text (optional)</label>
           <input 
           type="text" 
@@ -56,7 +59,7 @@
           value="{{ formData.alt or '' }}"
           />
 
-
+          <!-- Date -->
           <div>
             <div>
               <label for="note-date">Date</label>
@@ -71,6 +74,7 @@
               />
             </div>
 
+            <!-- Price type -->
             <div>
               <label for="price_id">Assign to Price (optional)</label>
               <select name="price_id" id="price_id">
@@ -85,6 +89,7 @@
             </div>
           </div>
 
+          <!-- Description -->
           <label for="description">About the art (optional)</label>
           <textarea 
           id="description" 
