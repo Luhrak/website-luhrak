@@ -4,13 +4,14 @@ import * as priceModel from "../prices/model.js";
 import { render } from "../service/render.js";
 
 export async function gallery(ctx) {
-    const priceId = ctx.url.searchParams.get("price");
-
+  const priceId = ctx.url.searchParams.get("price");
   const gallery = priceId
     ? model.listByPriceId(Number(priceId))
     : model.listMinimal()
   const prices = priceModel.listMinimal();
-  ctx.body = await render("gallery.html", ctx, { gallery, prices });
+  const activePrice = priceId ? Number(priceId) : null;
+
+  ctx.body = await render("gallery.html", ctx, { gallery, prices, activePrice });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

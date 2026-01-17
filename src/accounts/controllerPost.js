@@ -71,7 +71,7 @@ export async function signupConfirm(ctx) {
     });
 
     // Login
-    ctx.session.account = newEntry.id;
+    ctx.session.account = newEntry;
     ctx.session.flash = "Account created and logged in as " + formData.username;
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)

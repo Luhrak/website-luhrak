@@ -56,27 +56,34 @@
           value="{{ formData.alt or '' }}"
           />
 
-          <label for="note-date">Date</label>
-          {% if formErrors.date %}
-          <p class="form-error">{{formErrors.date}}</p>
-          {% endif %}
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value="{{ formData.date or prefillDate }}"
-          />
 
-          <label for="price_id">Assign to Price (optional)</label>
-          <select name="price_id" id="price_id">
-            <option value="">-- None --</option>
-            {% for price in prices %}
-              <option value="{{ price.id }}"
-                {% if formData.price_id == price.id %} selected="selected" {% endif %}>
-                {{ price.title }}
-              </option>
-            {% endfor %}
-          </select>
+          <div>
+            <div>
+              <label for="note-date">Date</label>
+              {% if formErrors.date %}
+              <p class="form-error">{{formErrors.date}}</p>
+              {% endif %}
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value="{{ formData.date or prefillDate }}"
+              />
+            </div>
+
+            <div>
+              <label for="price_id">Assign to Price (optional)</label>
+              <select name="price_id" id="price_id">
+                <option value="">None</option>
+                {% for price in prices %}
+                  <option value="{{ price.id }}"
+                    {% if formData.price_id == price.id %} selected="selected" {% endif %}>
+                    {{ price.title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
 
           <label for="description">About the art (optional)</label>
           <textarea 

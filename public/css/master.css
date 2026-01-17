@@ -213,6 +213,44 @@ span {
 
 
 /* ---------- Form input related ---------- */
+select {
+    font-family: "Winky Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    background-color: var(--color-bg-dark);
+    color:var(--color-light);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.8em 1em;
+    width: 100%;
+}
+
+input {
+    font-family: "Winky Sans", sans-serif;
+}
+
+textarea {
+    font-family: "Winky Sans", sans-serif;
+}
+
+.filterBox {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+    gap: 1em; 
+    padding: 0.4em 1em;
+
+    & label {
+        width: fit-content;
+        margin: auto 0;
+    }
+
+    & select {
+        width: fit-content;
+        padding: 0.25em 0.7em;
+    }
+}
+
 .contact {
     margin-top: 3em;
 }
@@ -236,7 +274,6 @@ form {
     &>div {
         display: flex;
         column-gap: 1em;
-        align-items: center;
 
         >div {
             flex: 1;
@@ -269,8 +306,15 @@ form {
         &:focus {
             background-color: var(--color-bg-light);
             outline: none;
-
         }
+    }
+
+    & button {
+        margin: auto 0 auto auto;
+    }
+
+    & p {
+        width: 60%;
     }
 
     & textarea {
@@ -677,7 +721,6 @@ form {
         &>div:first-of-type {
             gap: 1em;
             width: 100%;
-
 
             &>ul {
                 display: flex;

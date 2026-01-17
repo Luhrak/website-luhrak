@@ -15,8 +15,8 @@
           </p>
 
 
-          <form method="GET" action="/gallery" class="galleryFilter">
-            <label for="price">Filter by Type:</label>
+          <form class="filterBox" method="GET" action="/gallery" class="galleryFilter">
+            <label for="price">Type:</label>
 
             <select
               id="price"
@@ -26,10 +26,8 @@
               <option value="">All</option>
 
               {% for price in prices %}
-                <option
-                  value="{{ price.id }}"
-                  {% if activePrice == price.id %}selected{% endif %}
-                >
+                <option value="{{ price.id }}"
+                  {% if activePrice == price.id %} selected="selected" {% endif %}>
                   {{ price.title }}
                 </option>
               {% endfor %}
