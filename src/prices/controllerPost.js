@@ -32,7 +32,7 @@ export async function pricesSubmit(ctx) {
     await pricesAddWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded
-    if ("previewfile" in formData) {
+    if (formData.previewfile) {
       const uploadResult = await image.uploadImage(
         formData.previewfile,
         "prices",
@@ -45,9 +45,6 @@ export async function pricesSubmit(ctx) {
       } else {
         formData.previewfile = uploadResult;
       }
-    } else {
-      // or take the old one
-      formData.previewfile = existingArt.previewfile;
     }
 
     // Save to db
