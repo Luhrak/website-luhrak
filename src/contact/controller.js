@@ -49,17 +49,14 @@ export async function messagesSubmit(ctx) {
   // Validation
   const errors = {};
   if (!formData.name) errors.name = "Name is required";
-  if (!formData.email) errors.subject = "Subject is required";
+  if (!formData.subject) errors.subject = "Subject is required";
   if (!formData.email) errors.email = "Email is required";
   if (!formData.message) errors.message = "Message is required";
 
   if (Object.keys(errors).length > 0) {
-    ctx.body = await render("about.html", ctx, {
-      formData,
-      formErrors: errors,
-    });
-    ctx.headers.set("content-type", "text/html");
-    ctx.status = 200;
+    ctx.status = 303;
+    ctx.headers.set("Location", `/about#contact-about`);
+    return ctx;
   } else {
     // Save to db
     const id = model.add({

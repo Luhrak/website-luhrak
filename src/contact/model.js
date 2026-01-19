@@ -9,10 +9,10 @@ export function create() {
       "id" INTEGER NOT NULL UNIQUE,
       "name" TEXT NOT NULL,
       "email" TEXT NOT NULL,
-      "subject" TEXT,
+      "subject" TEXT NOT NULL,
       "message" TEXT NOT NULL,
       "is_new" INTEGER NOT NULL DEFAULT 1,
-      "created_at" TEXT,
+      "created_at" TEXT NOT NULL,
       PRIMARY KEY("id" AUTOINCREMENT)
     )
   `);

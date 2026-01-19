@@ -6,8 +6,67 @@
 
     <main>
       <div class="widthConstraint">
-            <h1>Tagebuch</h1>
-            
+        <h1>Tagebuch</h1>
+        
+          <p>Nach der Veröffentlichung der Hausarbeit war sehr schnell klar, dass wir zusammen arbeiten möchten. Auch die Entscheidung, 
+            die bestehende Front-End-Hausarbeit von Lukas anstelle von meiner zu nehmen, haben wir schnell beschlossen, da sie sich 
+            wesentlich besser für die Aufgabenstellung eignet als meine. Auch das Brainstorming lief sehr gut und resultierte in dem Konzept, 
+            welches wir am 7.11. abgegeben haben.</p>
+
+          <p>In den folgenden Wochen haben wir weitere Ideen gesammelt und uns über mögliche Umsetzungen Gedanken gemacht.</p>
+
+          <p> Die richtige Arbeit startete am 11.12.25. Hier haben wir ein Git-Projekt erstellt, indem wir erstmal die bestehende Hausarbeit hochgeladen haben.</p>
+
+          <p>Am 27.12. gab es die erste große Änderung, das Einfügen der Nunchucks-Einteilung für Header, Footer und die Layout-Pages. Am Folgetag wurde das 
+            Projekt etwas umstrukturiert, serveStatic und ein 404.handling eingefügt.</p>
+
+          <p>Am 29.12. wurde die Datenbank , zunächst für die Gallery erstellt. Dies funktionierte auch schon einigermaßen, nur der Upload von Bildern, 
+            die Kernfunktion leider noch nicht. Die Übersichtsseite der Gallery wurde aber schon einmal zu einer dynamischen Seite.</p>
+
+          <p>Der Upload wurde dann aber am nächsten Tag (30.12.) zum Laufen gekriegt, inklusive der Validation des Dateityps. 
+            Auch das Löschen von Einträgen in der Gallery über die entsprechende Detail-Page war nun möglich. Die Gallery-Items sind auch auf der 
+            Homepage zu sehen, dies wurde an der Stelle noch auf 4 Einträge limitiert.</p>
+
+          <p>Auch an Silvester ist noch einiges passiert. Neben kleineren Änderungen und Fixes wurde hier die Edit-Funktion der Gallery-Items eingefüg</p>
+
+          <p>Nach einer kurzen Neujahrs-Pause ging es dann am 4.1. weiter. Hier wurden nicht nur die Seiten für die Fehlercodes 403 und 500 inklusive Design erstellt, 
+            sondern auch deren Logik eingebaut. Auch die Ordnerstruktur wurde angepasst, statische Bilder entfernt und einige Fehler behoben.</p>
+
+          <p>Am 5.1. ging es nun an die Preise. Die Übersichtsseite der Preise wurde dynamisch, verlor seine statischen Inhalte und wurde an eine Datenbank gekoppelt. 
+            Die Inhalte konnten wie bei der Gallery nun auch hier hinzugefügt und gelöscht werden.</p>
+
+          <p>Am 6.1. haben wir dann die Datenbank der Gallery und die der Preise in unserer “data.db” mit eigenen Tabellen zusammengeführt, 
+            sowie wieder einige kleinere Fehler behoben.</p>
+
+          <p>Am 7.1. ging es an die edit-Funktion der Preise und am 8.1. um die “Gitignore” der Datenbank-Inhalte.</p>
+
+          <p>Am 12.1. lief endlich auch die Edit-Funktion der Preise ohne Probleme, auch die Übersicht der Preise wurde noch einmal dem Design der Seite entsprechend angepasst. 
+            Auch in der Middleware entstand nun unsere logging.js.</p> 
+
+          <p>Am 14.1. entstand unsere Übersichtsseite der Messages, allerdings noch ohne direkte Verlinkung auf der Seite, da wir dies erst nach Einführung der 
+            Admin-Rechte erledigen wollten. Die einzelnen Einträge konnten aber schon über das Kontaktformular an die Datenbank gesendet und in der Übersicht als 
+            gelesen markiert und gelöscht werden.Der Login mit Sessions, welche in Cookies gespeichert werden, wurde hier aber schon erarbeitet, genauso wie die ersten Flash-Messages 
+            und einige kleiner Fehlerbehebungen.</p>
+
+          <p>Am 15.1. kamen dann die korrekten Flash-Messages bei der Gallery, den Preisen und den Nachrichten. Ab jetzt wird auch im Routing die Permission bei entsprechenden Seiten 
+            abgefragt und bei keiner Permission die Fehlerseite 403 ausgegeben. Auch alle Modifikationen an den Datenbank-Inhalten wie editieren,hinzufügen oder löschen werden jetzt versteckt, 
+            wenn man kein Admin ist. Auch die Initialisierung der Datenbank-Tabellen hat sich jetzt von Service zu der neuen Middleware-Klasse “initDbTables” verschoben.Bei den Preisen gibt es nun den 
+            Preis-Integer, welcher eingefügt wird und eine Kurzbeschreibung für die Übersichtsseite der Preise.</p>
+
+          <p>Einen Tag darauf, also am 16.1. wurden zum Verständnisses des Codes sehr viele Kommentare nachgetragen. Auch die Detailseite der Preise hat noch einmal eine Design-Überarbeitung erhalten. 
+            Ebenso wurden einige Namen von Dateien und Verlinkungen angepasst, um es zu vereinfachen, auch Placeholder in den Preis-Listings wurden entfernt. Ebenso alt-Texte, ein Zeichenlimit für die Kurzbeschreibung 
+            der Prices inklusive entsprechender Fehlermeldung. Der Delete-Button hat auch genauso wie die Nachrichten-Übersicht eine optische Überarbeitung erhalten. Dann wurden noch die Controller aufgeräumt 
+            und ein paar Fehler behoben.An dem Tag entstand auch die Funktion, Bilder der Prices-Objekte zu löschen und eine Verbindung zwischen der Gallery-Table und der Preis-Tabelle herzustellen. 
+            So kann jeder Gallery-Eintrag einem Price zugeordnet werden. Diese dort zugeordneten Bilder sind dann im unteren Bereich der jeweiligen Prices zu sehen. Auch der Footer hat nun die Verlinkungen für das Journal und das Kolophon.</p>
+
+          <p>Der 17.1 stand vor allem im Zeichen der optischen Überarbeitung. Die neuen Funktionen der Dropdown-Menues haben genauso CSS bekommen wie die Bildanzeige unterhalb der Prices. Das Styling  der Dropdown-Menues hat auch noch einen weiteren 
+            Einsatzbereich bekommen: Die Gallery. Dort gibt es jetzt eine Filterfunktion über den Bildern, um nur Bilder anzuzeigen, die den jeweiligen Prices zugeordnet sind.</p>
+
+          <p>Am 18.1. passierte wieder viel im Hintergrund. Zum einen werden die Passwörter jetzt als hash gespeichert, aber auch unsere Cookie Security bekam Beachtung. Sie laufen z.B. nach einer bestimmten Zeit automatisch ab. 
+            Unser CSS erhielt aber auch noch ein paar wenige Fixes.</p>
+
+          <p>Der letzte Feinschliff fand am 19.1. statt.Hier haben wir die letzten Kommentare zum Code hinzugefügt, die Einverständniserklärungen ausgefüllt, letzte Bugfixes betrieben, Beispieldaten eingefügt, den Admin-Account erstellt und 
+            dessen Zugangsdaten in einer Textfile hinterlegt und natürlich die Dokumentation fertiggestellt. Am Abend wurde das Projekt dann hochgeladen.</p>
       </div>
     </main>
 

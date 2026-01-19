@@ -44,7 +44,7 @@ export function saveSession(ctx) {
 
 const hasData = (session) => Object.values(session).some((it) => Boolean(it));
 
-export const createId = () => {
+const createId = () => {
   // Creates a session id which is a 64 character long random string
   const array = new Uint8Array(64);
   crypto.getRandomValues(array);

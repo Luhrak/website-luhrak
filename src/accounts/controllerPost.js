@@ -3,9 +3,6 @@ import { render } from "../service/render.js";
 import { encodeBase64 } from "jsr:@std/encoding/base64";
 import { hash, verify } from "@stdext/crypto/hash";
 
-const h = hash("argon2", "password");
-verify("argon2", "password", h);
-
 export async function loginConfirm(ctx) {
   // Handling when submiting the login formular
   // Read form data

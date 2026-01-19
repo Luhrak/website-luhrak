@@ -6,11 +6,222 @@
 
     <main>
       <div class="widthConstraint">
-            <h1>Dokumentation</h1>
+        <h1>Dokumentation</h1>
 
-            <p>Lukas Brüchmann, lubr1661</p>
-            <p>Marcel Kähler, maka6205</p>
+          <p>Lukas Brüchmann, lubr1661, 750456 </p>
+          <p>Marcel Kähler, maka6205, 710700</p>
             
+          <h2>Einleitung</h2>
+
+            <p>Wir haben als Grundlage die Front-End-Hausarbeit von Lukas genommen.Unter dem Künstlernamen “Luhrak” zeichne 
+            ich (Lukas) digitale Werke und biete an, diese Zeichnungen auch gegen Bezahlung für andere anzufertigen. Der 
+            Stil der Werke stellt meist anthropomorphe Tiere dar und ist vorwiegend als “cartoony” zu bezeichnen, was sich 
+            im Design der Seite widerspiegelt.</p>
+
+            <p>Ziel der Seite ist es, als Portfolio zu dienen sowie Kunden für Aufträge anzuwerben. Deshalb stehen Gallerie und 
+            Preise im Mittelpunkt. Für dieses Ziel sind allerdings auch alle sozialen Netzwerke bequem wie eine Art “Linktree” 
+            erreichbar im Footer. </p>
+
+            <p>Die Frontend-Design-Hausarbeit dient bereits dafür, eine existierende Wordpress-Seite (Bisherige Seite: http://luhrak.com) 
+            zu ersetzen und im Folgenden wird diese Web-Anwendung von Frontend-Design noch mit Deno um ein Backend mit Datenbanken und
+            manipulierbaren Inhalten vollendet.</p>
+
+          <h2>Von statisch zu dynamisch, unsere Ziele:</h2>
+
+            <p>Vor Beginn unserer Arbeit handelte es sich um eine statische Seite, welche fast nur html und css code enthielt. 
+            Es fehlte also ein Server, welcher Anfragen von Clients bekommt, verarbeitet und entsprechende gewünschte Antworten 
+            zurückgibt. Dies soll zunächst umgesetzt werden, damit jede Seite erreichbar ist und dann mit einer Templating Engine 
+            erweitert werden und somit nicht in jeder html-Datei der Header und Footer kopiert sein muss. </p>
+
+            <p>Detailseiten der Projekte sind sehr individuell und können gut von Hand erstellt werden, allerdings lag unsere nächste
+            Priorität darin, die Galerie und Preise als manipulierbare Einträge in einer Datenbank zu implementieren. Bisher wurden 
+            auf diesen Seiten die Bilder und Preise in einer per Hand gefertigten Galerie dargestellt und ebenso deren Detailseiten. 
+            Mithilfe einer Datenbank und einem Erstell- und Bearbeitungsformular wird das Erstellen von neuen Inhalten stark vereinfacht. 
+            Somit können viel einfacher regelmäßig neue Bilder hinzugefügt werden.</p> 
+
+            <p>Zusätzlich soll es für den Admin eine Möglichkeit geben, sich einzuloggen und er nur dann berechtigt ist, diese Funktionen 
+            zu nutzen, damit nicht jeder auf dieser Seite Inhalte bearbeiten kann. Hinzufügen, Bearbeiten und Löschen von Werken in der 
+            Galerie sowie Preisangeboten gehören dazu und sollten nur mit admin rechten möglich sein. </p>
+
+            <p>Im Laufe unserer Arbeit wollten wir uns ebenfalls mit dem Kontaktformular aus der bestehenden Hausarbeit beschäftigen. 
+            Die dort erstellten Nachrichten sollen ebenfalls in einer Datenbank gespeichert und für den Admin in einer Übersicht aufbereitet 
+            werden. Auch diese Übersicht ist nur als admin abrufbar.</p>
+
+          <h2>Was wurde nun umgesetzt?</h2>
+
+            <h3>Funktionierende Basis mit Deno</h3>
+
+              <p>Zunächst haben wir, wie in den Zielen beschrieben, das Routing umgesetzt. Dies haben wir zuerst mit Hilfe des Oak Framework eingebaut. 
+              Zwar funktionierte dies, doch ist uns aufgefallen, dass die Nutzung einer solchen abweichenden Umsetzung nur unter Absprache zu tätigen 
+              ist. Außerdem wollten wir die Exzellenz-Anforderung erfüllen, ein eigenes Framework zu implementieren. Trotzdem interessant zu sehen, 
+              wie das Framework funktioniert. </p>
+
+              <p>In unserer Implementierung hält nun ein Array alle URL Routen, mit der verbundenen html-Methode, Rechte, die nötig sind, sowie dem Handler, 
+              also das was passieren soll bei dieser Route. Nachdem nun wieder alle Inhalte erreichbar waren, fehlte natürlich noch das Styling und alle Bilder. 
+              Diese wurde durch eine neue Middleware mit dem namen serveStatic behoben. Diese nimmt das resultat vom router an und wenn dort keine route 
+              gefunden wurde, schaut serveStatic ob es im Ordner public statische Elemente gibt und gibt diese zurück.</p>
+
+              <p>Um Wiederholungen zu vermeiden, haben wir dann mithilfe von Nunjucks html-Layout-Blöcke erstellt, damit der Header und Footer in eigene 
+              Dateien kommen und immer von jeder Seite aufgerufen werden. Durch das Umsetzen all dieser Dinge ist die Seite 
+              nun bereit für das Erweitern neuer Funktionalitäten.</p>
+
+          <h2>Datenbank</h2>
+
+            <h3>Gallery</h3>
+              <p>Zunächst haben wir die Galerie angeschaut und dafür eine Datenbank eingerichtet. Für die Gallery-Items haben wir eine id, das 
+              eigentliche Bild als artfile, titel, date, alt, description und price_id, wobei id, artfile, title und date immer nötig sind. 
+              Die eigene id und das Datum werden automatisch gesetzt und die price_id als foreign key bei optionaler Auswahl aus dem Prices-Table 
+              geholt. Bei dem Bild wird beim Upload der Datei auch geprüft, ob es sich um ein passendes Dateiformat handelt.</p>
+
+            <h3>Prices</h3>
+              <p>Für die Preise brauchten wir natürlich auch noch eine Datenbank. Für diese haben wir uns an der ersten orientiert, soweit, 
+              dass wir auch eine separate Datenbank für die Preise erstellen wollten. Relativ schnell haben wir gemerkt, dass dies keinen 
+              Sinn macht und wir ja ganz einfach mehrere Tables in einer Datei erstellen können. Dies ist besonders wichtig bei den bisherigen 
+              Beiden Tables, da wir sie, wie schon bei der Gallery erwähnt, verbinden wollen. Die Reihen in der Datenbank sind ähnlich aufgebaut 
+              mit einer id, einem Bild als previewfile, alt, title, price, additions, short_description und description. Hier sind id, title, price 
+              und beide descriptions immer nötig. Das Bild ist hier im Gegenzug zur Gallery nicht zwangsläufig nötig. </p>
+
+            <h3>Messages</h3>
+              <p>Neben diesen beiden Hauptpunkten haben wir noch die Nachrichten des Kontaktformulars in einen Table der Datenbank aufgenommen. 
+              Hier haben wir id, name, email, subject, message, is_new und created_at als Spalten. Also den Namen des/der Verfasser/in , 
+              der jeweiligen E-Mail-Adresse, dem Thema, der eigentlichen Nachricht, der Nachricht selbst, einem “is_new”-Integer und dem 
+              Verfassungsdatum. Der Integer wird hier als Boolean genutzt, um neue Nachrichten in der Nachrichtenübersicht des Admins oben anzuzeigen. 
+              Die Übersicht der Nachrichten ist natürlich nur nach login mit einem Admin-Account erreichbar. Die Nachrichten können dort entweder als 
+              Gelesen markiert werden, was den Integer von 1 auf 0 setzt und wodurch sie in den unteren Teil rutschen oder können natürlich auch gelöscht werden.</p>
+
+            <h3>Accounts</h3>
+              <p>Auch die Accounts sind in der Datenbank zu finden, mit den Unterpunkten id, username, password, salt und permission, wobei alle nötig sind. 
+              Es ist auch möglich, auf der Seite neue Accounts zu registrieren, welche in der Datenbank gespeichert werden und zum Einloggen genutzt werden können, 
+              jedoch haben diese keine weiteren Rechte, da dies im Rahmen der Seite keinen Sinn macht. Jeder neu erstellte Account hat die Rolle eines “guest”. 
+              Im Code haben wir auch die gleichen Funktionen eines Admins für die Rolle “moderator” gegeben, aber dies hat hier keinen weiteren Nutzen. Allerdings 
+              zeigt es, das System ist erweiterbar und man hätte als admin hier noch Gäste und Moderatoren verwalten können.</p>
+
+            <h3>Requestlog</h3>
+              <p>Als letzten Table haben wir noch den requestLog eingefügt. Dies beinhaltet id, time, processTime, method, status und url. Auch hier ist jede Spalte nötig. 
+              Die Tabelle hat die Aufgabe, das Logging der einzelnen Server-Anfragen als Middleware zu tracken.</p>
+
+            <h3>Datenbank implementierung</h3>
+              <p>Um die Inhalte auf der Seite darstellen zu können, mussten wir diese mit Nunjucks umbauen. Es waren vorher alles statische Inhalte welche nun 
+              sich dynamisch nach den Datenbanken richten sollten.</p>
+
+              <p>Ebenso haben wir auf den Detail-Seiten der einzelnen Preise und Bilder 2 Buttons hinzugefügt, die ebenfalls nur nach dem Login als admin erscheinen. 
+              Einer zum Bearbeiten und einer zum Löschen des jeweiligen Eintrags. Beim Löschen gibt es zusätzlich noch eine Bestätigung, damit man nicht versehentlich 
+              Daten löscht und sich dessen auch sicher ist.</p>
+
+              <p>Jedes Gallery-Item kann bei Erstellung einem Type zugeordnet werden, was eine Verbindung zu der Prices-Table herstellt. Es handelt sich um ein Dropdown-Menü, 
+              welches die ID’s der Preisobjekte ausliest und den jeweiligen Namen anzeigt. Diese Verbindung ermöglicht zum einen unsere Filterfunktion in der Übersicht der 
+              Galerie und zum anderen das Anzeigen von passenden Bildern zu den jeweiligen Preisen in einer Galerie.</p>
+
+              <p>Zusammengefasst können also in 5 verschiedenen Tabellen Einträge erstellt, angesehen, verändert und gelöscht werden, 
+              außerdem sind gallery und prices über ein Foreign-Key verknüpft.</p>
+
+          <h2>Der Code im Hintergrund</h2>
+
+            <h3>Code Architektur</h3>
+              <p>Die server ist quasi die main Methode, welche den Server startet und die requests an die app weitergibt. In der app wird dann aus der request ein context Objekt, 
+              welches an den Router und jede Middleware Stück für Stück übergeben und mit den neuen Informationen zurückgegeben wird. 
+              Wie haben die großen Bereiche, die unsere Datenbank betreffen, im Code aufgeteilt - also “accounts”, “contact”, “gallery” und “prices”. Jeder Bereich hat eigene 
+              Controller (teilweise noch einmal in “GET” und “POST” aufgeteilt) und eigene models. Dies gibt eine nachvollziehbare Struktur nach dem MVC Muster.</p>
+
+            <h3>Middleware</h3>
+              <p>Ein wichtiger Teil ist auch unsere Middleware. In ihr enthalten sind unter anderem serveStatic, welche wie oben erwähnt zum Beispiel Bilder und css Dateien 
+              findet und dem context zur verfügung stellt.</p>
+
+              <p>In Session gibt es zwei Hauptfunktionen, welche Sessions und Cookies im Context-Objekt verwalten. In getSession wird geschaut, ob gerade in den Cookies eine 
+              Session vorliegt und diese dann in context gespeichert. Am ende wird in saveSession geschaut ob context etwas in der session hat und dann entweder der Cookie 
+              und Session Speicher ausgemistet oder die Session dort gespeichert.</p>
+
+              <p>In initDbTables rufen wir alle create Table Sqlite statements auf. Somit hat der server immer die nötigen Datenbanken, um zu funktionieren. Eine 
+              weitere Middleware ist logging. Hier wird wie schon beschrieben im requestLog jede Request gespeichert. Der Error500 ist hier auch zu finden. Dies wird genutzt, 
+              falls irgendetwas auf dem Server schief geht, um trotzdem eine Seite im Design der Webseite darstellen zu können. Wenn dieser Fall auftritt wissen wir nicht was 
+              dann kaputt ist, also nutzen wir möglichst wenig code außer serveStatic für bilder und css in dieser Klasse.</p>
+
+            <h3>Service</h3>
+              <p>Unter den Services gibt es sessionStore und db zu finden. Diese funktionieren sehr ähnlich und erstellen ihre statische Ressource, damit der Server immer 
+              auf die gleiche Datenbank bzw. Session-Speicher zugreifen kann.</p>
+
+              <p>Den Renderer haben wir mit nunjucks implementiert und noch um eigenen code erweitert. Normalerweise müsste man bei jedem einzelnen Render-Aufruf mitgeben, 
+              welche Rechte der Nutzer hat, um zum Beispiel den Nav-Punkt “Messages” zu zeigen oder nicht, sowie bei jeder Seite, wo womöglich eine Flasch-Nachricht 
+              auftauchen könnte, diese auch übergeben. Stattdessen haben wir sie so gestaltet, dass context übergeben wird und diese Informationen aus dem context 
+              automatisch nunjucks zur Verfügung gestellt werden, falls vorhanden.</p>
+
+              <p>Der Service image stellt mehrere Methoden für Bilddateiverwaltung zur Verfügung. Es wird gecheckt, ob ein Bild valide ist,
+              man kann eine Bilddatei hochladen oder auch löschen.</p>
+
+            <h3>Javascript im Frontend</h3>
+              <p>Im Frontend haben wir so gut wie kein Javascript benutzt. Von der Hausarbeit haben wir das Hamburger Menü, 
+                welches bei schmalen Displays aktiv wird übernommen.</p>
+
+              <p>Außerdem wird beim Löschen von Einträgen bei Gallery und Prices eingebaut, dass zwei weitere Buttons erscheinen, um sicherzugehen, dass man es auch wirklich löschen möchte. 
+                Diese sind auch mit Javascript implementiert und vermutlich kann man dies ohne nicht nutzen, aber diese Funktionen sind nur für den Admin wichtig, nicht für normale Nutzer und  
+                vor dem Löschen keine Bestätigung zu benötigen, ist im Extremfall auch nicht so schlimm.</p>
+
+            <h3>Login und Sessions</h3>
+              <p>Durch den Service sessionStore und die Middleware Session ist bereits die wichtigste Logik für das Einloggen vollbracht. Nun können wir context 
+              lediglich unter ctx.session Daten hinzufügen, wie zum Beispiel die Account id. Das heißt wenn jemand sich erfolgreich registriert oder eingeloggt 
+              wird hier die accountId hinterlegt und gespeichert. Solange diese Session aufrecht bleibt, ist man weiterhin eingeloggt.</p>
+
+              <p>Über diese Sessions haben wir auch Flash Nachrichten implementiert. Wenn man sich zum Beispiel einloggt oder einen Gallerie-Eintrag löscht, 
+              taucht oben mittig eine kleine Nachricht auf, welche bestätigt, was passiert ist. Somit hat der Nutzer immer Feedback auf seine Aktionen. 
+              Allerdings ist uns aufgefallen, dass, wenn man nicht eingeloggt ist, keine solchen Nachrichten auftauchen. Wir haben lange versucht, dies zu debuggen, 
+              aber keine Lösung finden können, ohne für jeden Webseiten-besucher sofort eine Session einzurichten.</p>
+
+            <h3>Server-Sicherheit</h3>
+              <p>Wir haben einige Sicherheitsaspekte berücksichtigt. Auto Escaping ist natürlich implementiert, was wir durch nunjucks.configure einrichten konnten. 
+              Sollten Nutzer also HTML-, JavaScript- oder auch SQLITE-Befehle einschleusen, werden diese nur als Plaintext angezeigt und nicht ausgeführt.</p>
+
+              <p>Durch Permissions haben wir ebenfalls eine Absicherung von der Seite des router aus, so kommt keine Person ohne entsprechende Berechtigungen in Bereiche, 
+              die nur für Nutzer mit Admin-Rechten vorgesehen sind.</p>
+
+              <p>Unser ServeStatic nimmt nur aus dem “public” Ordner, somit kann kein anderer Code oder eine Datenbank abgefragt werden. Außerdem wird durch weitere cofiguration 
+              mit zum Beispiel showDotfiles: false oder showDirListing: false auch vermieden dass andere unerwünschte Informationen nach außen gelangen.</p>
+
+              <p>Bei Passwörtern ist es besonders wichtig, Sicherheitsvorkehrungen zu treffen. Deshalb speichern wir Passwörter nicht als Klartext, sondern es wird nur 
+              ein Hash vom Passwort gespeichert. Hashes können nicht decrypted werden und nur mit brute force kann man zum eigentlichen Passwort gelangen. Außerdem wenden 
+              wir einen Salt an, welcher es noch unattraktiver macht, Brute force Methoden anzuwenden. Außerdem wird immer die Verify-Funktion aufgerufen, auch wenn der 
+              Username schon falsch ist. Somit dauert jedes Absenden des Formulars gleich lang und es kann nicht durch Timing Attacks herausgefunden werden, welche Accounts 
+              existieren. Außerdem dauert das Verifying auch bewusst lange, damit es auch lange brauchen würde, es zu bruteforcen.</p>
+
+              <p>Sessions speichern wir im Cookie nur über eine lange zufällige SessionID. Dadurch sind keine eigentlichen Informationen im Cookie gespeichert, sondern 
+              nur im SessionStore unter der ID zu finden. Somit kann man nicht einfach selbst einen Cookie mit der Account Id die man haben möchte, erstellen, um sich einzuloggen. </p>
+
+            <h3>Routing</h3>
+              <p>Die Nachrichtenübersicht des Admins ist unter /messages zu finden. Die Galerie ist unter /gallery zu finden, die Detailseiten sind unter gallery/x zu finden, 
+              wobei x die id des jeweiligen Objektes ist. Dazu sind natürlich noch die Bearbeitung und das Hinzufügen unter gallery/add bzw. gallery-delete/x zu finden. In diesem 
+              Prinzip sind alle Routen, die die Galerie betreffen, auch unter gallery/ zu finden. Alles, was nur eine Seite aufruft, hat eine GET Methode und wenn ein Formular 
+              abgesendet wird, um eine Datenbank zu verändern, ist es eine POST Methode. Nach demselben Prinzip sind auch Prices und die anderen Elemente, welche Datenbanken betreffen, 
+              aufgebaut. </p>
+
+          <h2 id="externalHelp">Externe Hilfen</h2>
+            <p>Zur Erstellung der Seite haben wir die Deno API genutzt und uns mit der entsprechenden Dokumentation (https://docs.deno.com/api/deno/) auseinandergesetzt. </p>
+
+            <p>Die meisten imports beziehen sich auf die open-source package registry ( <a href="https://jsr.io/" title="https://jsr.io/">https://jsr.io/ </a>). 
+            Hierbei nutzen wir zum Beispiel path und mediaTypes für Dateihandling, 
+            crypto für password hashing und auch serveDir für die serveStatic Middleware. </p>
+
+            <p>Als Templating Engine nutzen wir nunjucks (<a href="https://mozilla.github.io/nunjucks/api.html" title="https://mozilla.github.io/nunjucks/api.html">https://mozilla.github.io/nunjucks/api.html</a>). </p>
+
+            <p>Für unseren Datenbank nutzen wir Sqlite (<a href="https://sqlite.org/docs.html" title="https://sqlite.org/docs.html">https://sqlite.org/docs.html</a>). </p>
+
+            <p>Bei servePublic, context, sessionStore (lib), sessionStore (service)  und db haben wir uns auf die Vorlesungsfolien beziehen können und diese übernommen,
+            um damit weiterzuarbeiten.</p>
+
+
+          <h2>Arbeitsteilung</h2>
+            <p>Lukas hat das Design der Front-End-Hausarbeit übernommen, wodurch bereits eine optische Struktur der Seite vorgegeben war und auch von Lukas erweitert wurde, wenn es nötig war, wie zum Beispiel 
+              bei den Forms, dem neuen Filter bei der Galerie oder auch neuer Buttons. Marcel hat sich dementsprechend etwas zurückgehalten und mehr geholfen, neue Features zu implementieren.</p>
+
+            <p>Gallery als dynamischer manipulierbarer Inhalt mit einer Datenbank hat Lukas zunächst übernommen, während Marcel das Gleiche für die Preise umgesetzt hat. Auf diese Weise haben wir beide gut verstehen können, 
+              wie man vom router über die controller und models bis hin zum html so etwas umsetzt.</p>
+
+            <p>Ähnlich haben wir es gemacht mit den verbleibenden Datenbanken. Marcel übernahm die Funktionalität hinter den Messages und dem Kontaktformular sowie dem requestLog. Währenddessen hat Lukas sich mit 
+              der Account-Tabelle, Sessions und Cookies sowie dem Login auseinandergesetzt. Die Verknüpfung von der Galerie und den Preisen übernahm Marcel genauso wie die Filterfunktionen, welche diese Verknüpfung ausnutzt.</p>
+
+            <p>An anderen Teilen des Projekts wie den Error Pages (für 403,404,500), der Basis des Routings, allgemeiner Datenbank Funktionalität sowie vielerlei Bugs haben wir gemeinsam online gearbeitet. Bei allen Entscheidungen 
+            haben wir uns abgesprochen, aber da es sich aber um Lukas’ Website dreht, hat er natürlich vor allem Design-Entscheidungen getroffen, an die sich dann beide in der Implementation halten. Die Dokumentation haben wir gemeinsam erarbeitet.</p>
+
+            <p>Insgesamt sind wir der Meinung, dass wir die Aufgaben gut aufgeteilt haben und somit beide das Projekt mit all seinen verschiedenen Teilen nachvollziehen können.</p>
+
       </div>
     </main>
 
