@@ -22,6 +22,7 @@ export async function render(viewName, ctx, variables = {}) {
 }
 
 function getFlash(ctx, variables) {
+  // Puts the current flash message into the varibles for nunjucks if there are any
   if (ctx.session.flash) {
     variables.flash = ctx.session.flash;
     ctx.session.flashUsed = true;
@@ -30,6 +31,7 @@ function getFlash(ctx, variables) {
 }
 
 function getPermission(ctx, variables) {
+  // Puts the users current permission into the varibles for nunjucks if there are any
   if (ctx.session.account) {
     const permission = getPermissionById(ctx.session.account);
     if (permission === "admin" || permission === "moderator") {

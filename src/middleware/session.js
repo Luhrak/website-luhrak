@@ -10,12 +10,13 @@ export function getSession(ctx) {
   if (ctx.sessionId) sessionStore().applyTimeout(ctx.sessionId, 86400);
   ctx.session = sessionStore().get(ctx.sessionId) ?? {};
 
-  // Somehow loading flash messages when not logged into wont work eventhough they are saved correctly
+  // Somehow loading flash messages when not logged in wont
+  // work eventhough they seem to be saved correctly
   return ctx;
 }
 
 export function saveSession(ctx) {
-  // Session saved to cookie & sessionStore via has id and some cleanup
+  // Session saved to cookie & sessionStore via id, and some cleanup
 
   if (ctx.session.flashUsed && !ctx.session.serveStatic) {
     // delete flash messages that were displayed this request
@@ -44,6 +45,7 @@ export function saveSession(ctx) {
 const hasData = (session) => Object.values(session).some((it) => Boolean(it));
 
 export const createId = () => {
+  // Creates a session id which is a 64 character long random string
   const array = new Uint8Array(64);
   crypto.getRandomValues(array);
   return encodeBase64(array);

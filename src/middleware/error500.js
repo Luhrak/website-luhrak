@@ -7,7 +7,7 @@ export async function error500() {
     Deno.cwd(),
     "templates",
     "errorPages",
-    "error500.html"
+    "error500.html",
   );
   const header = new Headers();
   header.set("content-type", "text/html");

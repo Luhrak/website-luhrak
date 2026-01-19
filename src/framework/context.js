@@ -1,5 +1,5 @@
 export default class Context {
-  // Create Context from Request.
+  // Create Context from Request
   constructor(request) {
     /* Request fields */
     this.request = request;
@@ -15,12 +15,12 @@ export default class Context {
     this.headers = new Headers();
     this.status = undefined;
     /* Other */
-    this.serveStatic = false;
+    this.serveStatic = false; // So middleware can check rather the currect request is a public file or not
     this.flash = undefined;
-    this.logTime = new Date();
+    this.logTime = new Date(); // The time the server recieves the request
   }
 
-  // Create a Respone from Context.
+  // Create a Respone from Context
   extractResponse() {
     this.status = this.status ?? 404;
     this.body =

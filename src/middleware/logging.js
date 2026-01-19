@@ -1,21 +1,22 @@
 import { connection } from "../service/db.js";
 
 export async function logRequest(ctx) {
+  // Creates an db entry of the request with the context
   // Filtering out static or they would clutter the log a lot
   if (!ctx.serveStatic) {
     const logEntry = {
       time: ctx.logTime.toString(),
       processTime: new Date() - ctx.logTime,
       method: ctx.method,
-      status: ctx.status,
+      status: ctx.status ?? 500,
       url: ctx.url.href,
     };
     add(logEntry);
   }
 }
 
-// Create gallery table if not exist
 export function create() {
+  // Create requestLog table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "requestLog" (
@@ -31,8 +32,8 @@ export function create() {
   return stmt.all();
 }
 
-// Adding a new entry
 export function add({ time, processTime, method, status, url }) {
+  // Adds a new log entry into the table
   const db = connection();
   const stmt = db.prepare(`
     INSERT INTO requestLog (time, processTime, method, status, url)

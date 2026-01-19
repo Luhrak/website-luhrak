@@ -2,6 +2,8 @@ import { serveDir } from "jsr:@std/http";
 import * as path from "jsr:@std/path";
 
 export async function serveStatic(ctx) {
+  // If the router didnt already find a route this checks if there
+  // is a static file in the folder "public" for the route
   if (ctx.status !== 404) {
     return ctx;
   } else if (path.extname(ctx.url.pathname)) {

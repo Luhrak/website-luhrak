@@ -1,9 +1,10 @@
 import * as model from "./model.js";
 import { render } from "../service/render.js";
 
-// Get Requests
+// Get Requests:
 
 export async function messages(ctx) {
+  // Handling of page with messages overview
   const newMessages = model.listNew(); // is_new = 1
   const readMessages = model.listRead(); // is_new = 0
   ctx.body = await render("messages.html", ctx, {
@@ -17,9 +18,10 @@ export async function messages(ctx) {
   return ctx;
 }
 
-// Post Requests
+// Post Requests:
 
 export async function messagesMarkRead(ctx) {
+  // Marks the message as read
   const id = ctx.entryId;
   model.markAsRead(id);
   ctx.session.flash = "Message marked as read";
@@ -29,6 +31,7 @@ export async function messagesMarkRead(ctx) {
 }
 
 export async function messagesDelete(ctx) {
+  // Delets the message and redirect to messages page
   const id = ctx.entryId;
   model.remove(id);
   ctx.session.flash = "Message deleted";
@@ -38,6 +41,7 @@ export async function messagesDelete(ctx) {
 }
 
 export async function messagesSubmit(ctx) {
+  // Handling when submiting the contact formular
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());

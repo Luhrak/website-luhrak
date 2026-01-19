@@ -12,8 +12,6 @@ const routes = [
   // specific ones before general ones like :id
   // or it will falsely match request of /gallery with /gallery/id
 
-  // TODO: Some routes using sepertator - instead of / which is not ideal
-
   // Main routes
   {
     path: "/",
@@ -220,7 +218,7 @@ const routes = [
 ];
 
 export async function router(ctx) {
-  // Match requests with known routes and uses their handler
+  // Matchs requests with known routes and uses their handler
   for (const route of routes) {
     // URL Pattern & Method
     const urlPattern = new URLPattern({ pathname: route.path });
@@ -237,6 +235,7 @@ export async function router(ctx) {
 }
 
 function checkUserPermission(ctx, match, route) {
+  // Checks rather the user has permission for this route
   const userPermission = ctx.session.account
     ? getPermissionById(ctx.session.account)
     : "none";
@@ -250,6 +249,7 @@ function checkUserPermission(ctx, match, route) {
 }
 
 function proceedRouteHandler(ctx, match, route) {
+  // Use the handler of the route
   ctx.entryId = match.pathname.groups.id; // id for detailpages
   return route.handler(ctx);
 }

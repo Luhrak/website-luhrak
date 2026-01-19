@@ -62,7 +62,7 @@ export function add({ artfile, title, date, alt, description, price_id }) {
 }
 
 export function remove(id) {
-  // delets one entry via id
+  // Delets one entry via id
   const db = connection();
   const stmt = db.prepare(`
     DELETE 
@@ -74,7 +74,7 @@ export function remove(id) {
 
 export function update(
   id,
-  { artfile, title, date, alt, description, price_id }
+  { artfile, title, date, alt, description, price_id },
 ) {
   // Updates an existing entry
   const db = connection();

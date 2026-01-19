@@ -7,6 +7,7 @@ const h = hash("argon2", "password");
 verify("argon2", "password", h);
 
 export async function loginConfirm(ctx) {
+  // Handling when submiting the login formular
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -51,6 +52,7 @@ export async function loginConfirm(ctx) {
 }
 
 async function loginWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the login page with the errors
   // no redirect or export cuz only used in submit / update
   ctx.body = await render("login.html", ctx, {
     formData: formData,
@@ -61,6 +63,7 @@ async function loginWithData(ctx, formData, errors) {
 }
 
 export async function signupConfirm(ctx) {
+  // Handling when submiting the signin formular
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -102,6 +105,7 @@ export async function signupConfirm(ctx) {
 }
 
 async function signupWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the signup page with the errors
   // no redirect or export cuz only used in submit / update
   ctx.body = await render("login.html", ctx, {
     signup: "Sign up",
@@ -120,6 +124,7 @@ function isValidatePassword(password) {
 }
 
 export const createSalt = () => {
+  // Creates a string with 22 random characters to use as password salt
   const array = new Uint8Array(22);
   crypto.getRandomValues(array);
   return encodeBase64(array);

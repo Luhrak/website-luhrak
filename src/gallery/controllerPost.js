@@ -4,6 +4,7 @@ import * as priceModel from "../prices/model.js";
 import { render } from "../service/render.js";
 
 export async function gallerySubmit(ctx) {
+  // Handling when submiting a new art piece
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -44,6 +45,7 @@ export async function gallerySubmit(ctx) {
 }
 
 async function galleryAddWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the new art form page with the errors
   // no redirect or export cuz function calling this returns the context already
   const prices = priceModel.listMinimal();
   const today = new Date().toISOString().split("T")[0];
@@ -58,6 +60,7 @@ async function galleryAddWithData(ctx, formData, errors) {
 }
 
 export async function galleryUpdate(ctx) {
+  // Handling when submiting the form to edit an art piece
   // Read form data
   const id = ctx.entryId;
   const existingArt = model.get(id);
@@ -88,8 +91,9 @@ export async function galleryUpdate(ctx) {
         errors.artfile = "Upload failed";
         await galleryEditWithData(ctx, formData, errors);
       } else {
+        // Delete old one and use new one
+        if (existingArt.artfile) image.deleteImage(existingArt.artfile);
         formData.artfile = uploadResult;
-        // TODO: DELETE
       }
     } else {
       // or take the old one
@@ -108,6 +112,7 @@ export async function galleryUpdate(ctx) {
 }
 
 async function galleryEditWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the edit art form page with the errors
   // no redirect or export cuz function calling this returns the context already
   const today = new Date().toISOString().split("T")[0];
 
@@ -129,6 +134,7 @@ async function galleryEditWithData(ctx, formData, errors) {
 }
 
 export function galleryDelete(ctx) {
+  // Deleting a single artpiece from db and the file
   const id = ctx.entryId;
   const art = model.get(id);
   image.deleteImage(art.artfile);

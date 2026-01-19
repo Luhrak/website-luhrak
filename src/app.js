@@ -6,20 +6,24 @@ import { logRequest } from "./middleware/logging.js";
 import { getSession, saveSession } from "./middleware/session.js";
 
 export async function handleRequest(request) {
-  // Custom 500 page with try catch commented out while working on project so we can get error messages in terminal
-  // try {
-  let ctx = new Context(request);
-  ctx = getSession(ctx);
-  ctx = await router(ctx);
-  ctx = await serveStatic(ctx);
+  // Handles all requests the server gets using the renderer and middleware
+  try {
+    let ctx = new Context(request);
+    ctx = getSession(ctx);
+    ctx = await router(ctx);
+    ctx = await serveStatic(ctx);
 
-  saveSession(ctx);
-  logRequest(ctx);
-  
-  return ctx.extractResponse();
-  // } catch {
-  //   // If anything above went wrong, show custom error 500 page
-  //   // TODO: still try logRequest
-  //   return error500();
-  // }
+    saveSession(ctx);
+    logRequest(ctx);
+
+    return ctx.extractResponse();
+  } catch {
+    // If anything above went wrong, show custom error 500 page
+    try {
+      // Still try to get log the request for debuging
+      logRequest(new Context(request));
+    } catch {}
+
+    return error500();
+  }
 }

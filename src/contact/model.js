@@ -28,7 +28,7 @@ export function list() {
       SELECT id, name, email, subject, message
       FROM messages
       ORDER BY id DESC
-    `
+    `,
     )
     .all();
 }
@@ -43,7 +43,7 @@ export function listNew() {
       FROM messages
       WHERE is_new = 1
       ORDER BY created_at DESC
-    `
+    `,
     )
     .all();
 }
@@ -58,13 +58,13 @@ export function listRead() {
       FROM messages
       WHERE is_new = 0
       ORDER BY created_at DESC
-    `
+    `,
     )
     .all();
 }
 
 export function get(id) {
-  // Single entry
+  // Get one entry with all columns via id
   const db = connection();
   return db
     .prepare(
@@ -72,7 +72,7 @@ export function get(id) {
       SELECT id, name, email, subject, message
       FROM messages
       WHERE id = ?
-    `
+    `,
     )
     .get(id);
 }
@@ -86,7 +86,7 @@ export function add({ name, email, subject, message }) {
       `
       INSERT INTO messages (name, email, subject, message, is_new, created_at)
       VALUES (?, ?, ?, ?, ?, ?)
-    `
+    `,
     )
     .run(name, email, subject, message, 1, createdAt);
 
@@ -94,19 +94,19 @@ export function add({ name, email, subject, message }) {
 }
 
 export function remove(id) {
-  // delete one entry via id
+  // Delete one entry via id
   const db = connection();
   return db
     .prepare(
       `
       DELETE FROM messages WHERE id = ?
-    `
+    `,
     )
     .run(id);
 }
 
 export function markAsRead(id) {
-  // Marks one entry as read
+  // Mark one entry as read
   const db = connection();
   return db
     .prepare(
@@ -114,7 +114,7 @@ export function markAsRead(id) {
       UPDATE messages
       SET is_new = 0
       WHERE id = ?
-    `
+    `,
     )
     .run(id);
 }

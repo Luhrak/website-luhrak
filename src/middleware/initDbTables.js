@@ -5,8 +5,8 @@ import { create as createAccountsTable } from "../accounts/model.js";
 import { create as createLoggingTable } from "../middleware/logging.js";
 
 export function initDbTables() {
-  // creates the tables in data.db if they are not there to prevent errors
-  // Also allows having the databank in the gitignore with no issues
+  // Creates the necessary tables in data.db if they are not there to prevent errors
+  // Also allows having the databank be gitignored with no issues
   createGalleryTable();
   createPricesTable();
   createMessagesTable();

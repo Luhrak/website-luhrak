@@ -27,7 +27,7 @@ export function list() {
     SELECT id, previewfile, alt, title, price, additions, short_description, description
     FROM prices
     ORDER BY id DESC
-  `
+  `,
     )
     .all();
 }
@@ -41,7 +41,7 @@ export function listMinimal() {
     SELECT id, previewfile, alt, title, price, additions, short_description
     FROM prices
     ORDER BY id DESC
-    `
+    `,
     )
     .all();
 }
@@ -55,14 +55,14 @@ export function get(id) {
     SELECT id, previewfile, alt, title, price, additions, short_description, description
     FROM prices
     WHERE id = ?
-  `
+  `,
     )
     .get(id);
 }
 
 export function add({
   previewfile,
-  alt, 
+  alt,
   title,
   description,
   price,
@@ -76,28 +76,36 @@ export function add({
       `
     INSERT INTO prices (previewfile, alt, title, price, additions, short_description, description)
     VALUES (?, ?, ?, ?, ?, ?, ?)
-  `
+  `,
     )
-    .run(previewfile, alt, title, price, additions, short_description, description);
+    .run(
+      previewfile,
+      alt,
+      title,
+      price,
+      additions,
+      short_description,
+      description,
+    );
 
   return result.lastInsertRowid;
 }
 
 export function remove(id) {
-  // delets one entry via id
+  // Delets one entry via id
   const db = connection();
   return db
     .prepare(
       `
     DELETE FROM prices WHERE id = ?
-  `
+  `,
     )
     .run(id);
 }
 
 export function update(
   id,
-  { previewfile, alt, title, price, additions, short_description, description }
+  { previewfile, alt, title, price, additions, short_description, description },
 ) {
   // Updates an existing entry
   const db = connection();
@@ -106,17 +114,17 @@ export function update(
     UPDATE prices
     SET previewfile = ?, alt = ?, title = ?, price = ?, additions = ?, short_description = ?, description = ?
     WHERE id = ?
-  `
+  `,
   );
   stmt.run(
     previewfile,
-    alt, 
+    alt,
     title,
     price,
     additions,
     short_description,
     description,
-    id
+    id,
   );
 
   return id;

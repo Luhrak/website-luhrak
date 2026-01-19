@@ -1,7 +1,7 @@
 import { connection } from "../service/db.js";
 
 export function create() {
-  // Creats accounts table if not exist
+  // Creates accounts table if not exist
   const db = connection();
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "accounts" (

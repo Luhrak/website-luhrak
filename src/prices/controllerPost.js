@@ -5,6 +5,7 @@ import { render } from "../service/render.js";
 import { text } from "node:stream/consumers";
 
 export async function pricesSubmit(ctx) {
+  // Handling when submiting a new price listing
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -34,7 +35,7 @@ export async function pricesSubmit(ctx) {
     if ("previewfile" in formData) {
       const uploadResult = await image.uploadImage(
         formData.previewfile,
-        "prices"
+        "prices",
       );
 
       // Validate if Upload worked
@@ -59,6 +60,7 @@ export async function pricesSubmit(ctx) {
 }
 
 async function pricesAddWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the new price form page with the errors
   // no redirect or export cuz function calling this returns the context already
   ctx.body = await render("prices-add.html", ctx, {
     formData: formData,
@@ -69,6 +71,7 @@ async function pricesAddWithData(ctx, formData, errors) {
 }
 
 export async function pricesUpdate(ctx) {
+  // Handling when submiting the form to edit a price listing
   // Read form data
   const id = ctx.entryId;
   const existingPrice = model.get(id);
@@ -98,42 +101,33 @@ export async function pricesUpdate(ctx) {
     await pricesEditWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded
-  
-      // 🗑️ Image explizit löschen
-  if (deleteImage && existingPrice.previewfile) {
-    image.deleteImage(existingPrice.previewfile);
-    formData.previewfile = "";
-  }
 
-  // 🔁 Image ersetzen
-  else if (
-    formData.previewfile instanceof File &&
-    formData.previewfile.size > 0
-  ) {
-    const uploadResult = await image.uploadImage(
-      formData.previewfile,
-      "prices"
-    );
-
-    if (!uploadResult) {
-      errors.previewfile = "Upload failed";
-      await pricesEditWithData(ctx, formData, errors);
-      return ctx;
-    }
-
-    // altes Bild löschen
-    if (existingPrice.previewfile) {
+    // Delete or repalce image
+    if (deleteImage && existingPrice.previewfile) {
       image.deleteImage(existingPrice.previewfile);
+      formData.previewfile = "";
+    } else if (
+      formData.previewfile instanceof File &&
+      formData.previewfile.size > 0
+    ) {
+      const uploadResult = await image.uploadImage(
+        formData.previewfile,
+        "prices",
+      );
+
+      if (!uploadResult) {
+        errors.previewfile = "Upload failed";
+        await pricesEditWithData(ctx, formData, errors);
+        return ctx;
+      }
+      // Delete old one and use new one
+      if (existingPrice.previewfile)
+        image.deleteImage(existingPrice.previewfile);
+      formData.previewfile = uploadResult;
+    } else {
+      // or take the old one
+      formData.previewfile = existingPrice.previewfile;
     }
-
-    formData.previewfile = uploadResult;
-  }
-
-// ▶️ Image behalten
-else {
-  formData.previewfile = existingPrice.previewfile;
-}
-
 
     // Update in db
     const updatedEntry = model.update(id, formData);
@@ -147,6 +141,7 @@ else {
 }
 
 async function pricesEditWithData(ctx, formData, errors) {
+  // When there is an error, this sends back to the edit price form page with the errors
   // no redirect or export cuz function calling this returns the context already
 
   // Replace any missing data from previous state
@@ -170,6 +165,7 @@ async function pricesEditWithData(ctx, formData, errors) {
 }
 
 export async function pricesDelete(ctx) {
+  // Deleting a single price listing from db and the file
   const price = model.get(ctx.entryId);
   if (price.previewfile) {
     image.deleteImage(price.previewfile);
@@ -179,15 +175,5 @@ export async function pricesDelete(ctx) {
   ctx.session.flash = 'Price "' + price.title + '" has been deleted';
   ctx.status = 303;
   ctx.headers.set("Location", "/prices");
-  return ctx;
-}
-
-export async function pricesDetail(ctx) {
-  const id = ctx.entryId;
-  const price = model.get(id);
-  const relatedImages = gallery.listByPrice(price.id);
-  ctx.body = await render("prices-detail.html", ctx, { price, relatedImages });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
   return ctx;
 }

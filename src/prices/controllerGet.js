@@ -6,6 +6,7 @@ import { render } from "../service/render.js";
 import { text } from "node:stream/consumers";
 
 export async function prices(ctx) {
+  // Handling of page with the prices overview
   const prices = model.listMinimal();
   ctx.body = await render("prices.html", ctx, { prices });
   ctx.headers.set("content-type", "text/html");
@@ -14,6 +15,7 @@ export async function prices(ctx) {
 }
 
 export async function pricesDetail(ctx) {
+  // Handling of page of a single price listing
   const id = ctx.entryId;
   const price = model.get(id);
   const gallery = galleryModel.listByPrice(price.id);
@@ -24,6 +26,7 @@ export async function pricesDetail(ctx) {
 }
 
 export async function pricesAdd(ctx) {
+  // Handling of page with the formular to add a new price listing
   ctx.body = await render("prices-add.html", ctx);
   ctx.status = 200;
   ctx.headers.set("content-type", "text/html");
@@ -31,6 +34,7 @@ export async function pricesAdd(ctx) {
 }
 
 export async function pricesEdit(ctx) {
+  // Handling of page with the formular to edit an existing price listing
   const id = ctx.entryId;
   const price = model.get(id);
   ctx.body = await render("prices-add.html", ctx, {
