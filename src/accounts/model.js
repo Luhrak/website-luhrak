@@ -4,7 +4,7 @@ export async function create() {
   // Creates accounts table if not exist
   const db = connection();
   await db.queryArray`
-    CREATE TABLE IF NOT EXISTS "public.accounts" (
+    CREATE TABLE IF NOT EXISTS public."accounts" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "username"	TEXT NOT NULL,
       "password"	TEXT NOT NULL,
@@ -34,11 +34,13 @@ export async function getPermissionById(id) {
 export async function add({ username, password, salt, permission }) {
   // Adds a new entry
   const db = connection();
-  await db.queryObject`
+  return (
+    await db.queryObject`
     INSERT INTO public."accounts" ("username", "password", "salt", "permission")
     VALUES (${username}, ${password}, ${salt}, ${permission})
-  `;
-  return (await getByUsername(username)).id;
+    RETURNING "id"
+  `
+  ).rows[0].id;
 }
 
 export async function getByUsername(username) {
