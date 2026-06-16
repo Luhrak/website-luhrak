@@ -4,6 +4,7 @@ import { serveStatic } from "./middleware/serveStatic.js";
 import { error500 } from "./middleware/error500.js";
 import { logRequest } from "./middleware/logging.js";
 import { getSession, saveSession } from "./middleware/session.js";
+import { IsDeployed } from "./service/development.js";
 
 export async function handleRequest(request) {
   // Handles all requests the server gets using the renderer and middleware
