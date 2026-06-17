@@ -30,7 +30,7 @@ export function saveSession(ctx) {
     setCookie(ctx.headers, {
       name: "sessionId",
       value: ctx.sessionId,
-      maxAge: 86400, // 24 hours
+      maxAge: 86400000, // 24 hours
       path: "/",
       httpOnly: true,
       sameSite: "Strict",
