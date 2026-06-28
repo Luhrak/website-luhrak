@@ -8,17 +8,17 @@ import { IsDeployed } from "./service/development.js";
 
 export async function handleRequest(request) {
   // Handles all requests the server gets using the renderer and middleware
-  try {
-    let ctx = new Context(request);
-    ctx = getSession(ctx);
-    ctx = await router(ctx);
-    ctx = await serveStatic(ctx);
+  //try {
+  let ctx = new Context(request);
+  ctx = getSession(ctx);
+  ctx = await router(ctx);
+  ctx = await serveStatic(ctx);
 
-    saveSession(ctx);
-    await logRequest(ctx);
+  saveSession(ctx);
+  await logRequest(ctx);
 
-    return ctx.extractResponse();
-  } catch (error) {
+  return ctx.extractResponse();
+  /*} catch (error) {
     console.error(
       // https://docs.deno.com/api/deno/io/#Deno.inspect
       Deno.inspect(error, {
@@ -29,5 +29,5 @@ export async function handleRequest(request) {
       }),
     );
     return error500();
-  }
+  }*/
 }
