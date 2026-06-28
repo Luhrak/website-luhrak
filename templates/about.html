@@ -87,19 +87,31 @@
             <div>
               <div>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" required />
+                {% if formErrors.name %}
+                <p class="form-error">{{formErrors.name}}</p>
+                {% endif %}
+                <input type="text" id="name" name="name" value="{{ formData.name or '' }}"/>
               </div>
               <div>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required />
+                  {% if formErrors.email %}
+                  <p class="form-error">{{formErrors.email}}</p>
+                  {% endif %}
+                <input type="text" id="email" name="email" value="{{ formData.email or '' }}"/>
               </div>
             </div>
 
             <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" required/>
+            {% if formErrors.subject %}
+            <p class="form-error">{{formErrors.subject}}</p>
+            {% endif %}
+            <input type="text" id="subject" name="subject" value="{{ formData.subject or '' }}"/>
 
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
+            {% if formErrors.message %}
+            <p class="form-error">{{formErrors.message}}</p>
+            {% endif %}
+            <textarea id="message" name="message" rows="5" value="{{ formData.message or '' }}"></textarea>
 
             <div>
             <p class="disclaimer"> Disclaimer: This form is is simply for getting in contact with Luhrak and does not confirm or accept any purchase / commission nor does it bind to any contracts.</p>
