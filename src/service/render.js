@@ -18,22 +18,23 @@ export async function render(viewName, ctx, variables = {}) {
   // variables.permission = "true"; // DEBUG ONLY, REMOVE!
 
   // Then just nomal render via nunjucks
+  console.log(variables);
   return await nunjucks.render(viewName, variables);
 }
 
 function getFlash(ctx, variables) {
   // Puts the current flash message into the varibles for nunjucks if there are any
-  if (ctx.session.flash) {
-    variables.flash = ctx.session.flash;
-    ctx.session.flashUsed = true;
+  if (ctx.session.content.flash) {
+    variables.flash = ctx.session.content.flash;
+    ctx.session.content.flashUsed = true;
   }
   return variables;
 }
 
 async function getPermission(ctx, variables) {
   // Puts the users current permission into the varibles for nunjucks if there are any
-  if (ctx.session.account) {
-    const permission = await getPermissionById(ctx.session.account);
+  if (ctx.session.content.account) {
+    const permission = await getPermissionById(ctx.session.content.account);
     if (permission === "admin" || permission === "moderator") {
       variables.permission = "true";
       variables.loggedIn = "true";

@@ -104,7 +104,8 @@ export async function galleryUpdate(ctx) {
     const unpdatedEntry = await model.update(id, formData);
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
-    ctx.session.flash = 'Artpost "' + formData.title + '" has been updated';
+    ctx.session.content.flash =
+      'Artpost "' + formData.title + '" has been updated';
     ctx.status = 303;
     ctx.headers.set("Location", `/gallery/${unpdatedEntry}`);
   }
@@ -140,7 +141,7 @@ export async function galleryDelete(ctx) {
   await image.deleteImage(art.artfile);
   await model.remove(id);
 
-  ctx.session.flash = 'Artpost "' + art.title + '" has been deleted';
+  ctx.session.content.flash = 'Artpost "' + art.title + '" has been deleted';
   ctx.status = 303;
   ctx.headers.set("Location", `/gallery`);
   return ctx;

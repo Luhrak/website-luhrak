@@ -162,24 +162,24 @@ const routes = [
     requiredPermissions: ["none"],
     handler: accountGet.login,
   },
-  /*   {
-    path: "/signup",
-    method: "GET",
-    requiredPermissions: ["none"],
-    handler: accountGet.signup,
-  }, */
+  // {
+  //   path: "/signup",
+  //   method: "GET",
+  //   requiredPermissions: ["none"],
+  //   handler: accountGet.signup,
+  // },
   {
     path: "/login",
     method: "POST",
     requiredPermissions: ["none"],
     handler: accountPost.loginConfirm,
   },
-  /*   {
-    path: "/signup",
-    method: "POST",
-    requiredPermissions: ["none"],
-    handler: accountPost.signupConfirm,
-  }, */
+  // {
+  //   path: "/signup",
+  //   method: "POST",
+  //   requiredPermissions: ["none"],
+  //   handler: accountPost.signupConfirm,
+  // },
   {
     path: "/logout",
     method: "GET",
@@ -236,8 +236,8 @@ export async function router(ctx) {
 
 async function checkUserPermission(ctx, match, route) {
   // Checks rather the user has permission for this route
-  const userPermission = ctx.session.account
-    ? await getPermissionById(ctx.session.account)
+  const userPermission = ctx.session.content.account
+    ? await getPermissionById(ctx.session.content.account)
     : "none";
   if (
     userPermission &&

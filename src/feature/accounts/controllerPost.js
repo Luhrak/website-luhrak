@@ -33,8 +33,9 @@ export async function loginConfirm(ctx) {
       account.username !== "dummy" // ofc dont log in if no account was found
     ) {
       // Login
-      ctx.session.account = account.id;
-      ctx.session.flash = "You are now logged in as " + account.username;
+      ctx.session.content.account = account.id;
+      ctx.session.content.flash =
+        "You are now logged in as " + account.username;
 
       // Redirect
       ctx.status = 303;
@@ -92,8 +93,9 @@ export async function signupConfirm(ctx) {
     });
 
     // Login
-    ctx.session.account = newEntry;
-    ctx.session.flash = "Account created and logged in as " + formData.username;
+    ctx.session.content.account = newEntry;
+    ctx.session.content.flash =
+      "Account created and logged in as " + formData.username;
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.status = 303;

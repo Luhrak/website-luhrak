@@ -9,7 +9,6 @@ export default class Context {
     /* Fetchable */
     this.cookies = {};
     this.session = {};
-    this.sessionId = undefined;
     /* Response fields */
     this.body = undefined;
     this.headers = new Headers();

@@ -3,7 +3,6 @@
 // This script does exactly that
 
 function scrollToForm() {
-  console.log(hasErrors());
   if (hasErrors()) {
     const scrollTarget = document.querySelector("#contact-about");
     scrollTarget.scrollIntoView({ behavior: "instant", block: "start" });

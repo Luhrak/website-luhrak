@@ -25,7 +25,7 @@ export async function messagesMarkRead(ctx) {
   // Marks the message as read
   const id = ctx.entryId;
   await model.markAsRead(id);
-  ctx.session.flash = "Message marked as read";
+  ctx.session.content.flash = "Message marked as read";
   ctx.status = 303;
   ctx.headers.set("Location", "/messages");
   return ctx;
@@ -35,7 +35,7 @@ export async function messagesDelete(ctx) {
   // Delets the message and redirect to messages page
   const id = ctx.entryId;
   await model.remove(id);
-  ctx.session.flash = "Message deleted";
+  ctx.session.content.flash = "Message deleted";
   ctx.status = 303;
   ctx.headers.set("Location", "/messages");
   return ctx;
@@ -69,7 +69,8 @@ export async function messagesSubmit(ctx) {
     });
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
-    ctx.session.flash = 'Message "' + formData.subject + '" has been send';
+    ctx.session.content.flash =
+      'Message "' + formData.subject + '" has been send';
     ctx.status = 303;
     ctx.headers.set("Location", "/about#contact-about");
   }

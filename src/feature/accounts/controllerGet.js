@@ -19,8 +19,8 @@ export async function signup(ctx) {
 
 export function logout(ctx) {
   // Handling of logging out of current account
-  delete ctx.session.account;
-  ctx.session.flash = "You are now logged out";
+  delete ctx.session.content.account;
+  ctx.session.content.flash = "You are now logged out";
   ctx.status = 303;
   ctx.headers.set("Location", `/`);
   return ctx;

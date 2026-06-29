@@ -130,7 +130,8 @@ export async function pricesUpdate(ctx) {
     const updatedEntry = await model.update(id, formData);
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
-    ctx.session.flash = 'Price "' + formData.title + '" has been updated';
+    ctx.session.content.flash =
+      'Price "' + formData.title + '" has been updated';
     ctx.status = 303;
     ctx.headers.set("Location", `/prices/${updatedEntry}`);
   }
@@ -169,7 +170,7 @@ export async function pricesDelete(ctx) {
   }
   await model.remove(ctx.entryId);
 
-  ctx.session.flash = 'Price "' + price.title + '" has been deleted';
+  ctx.session.content.flash = 'Price "' + price.title + '" has been deleted';
   ctx.status = 303;
   ctx.headers.set("Location", "/prices");
   return ctx;
