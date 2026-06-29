@@ -190,7 +190,7 @@ button {
     width: fit-content;
 
     & p {
-        margin: 0
+        margin: 0;
     }
 }
 
@@ -264,9 +264,7 @@ input::file-selector-button {
     margin-top: 3em;
 
 
-    & p {
-        width: 60%;
-    }
+
 }
 
 .form-error {
