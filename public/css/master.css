@@ -186,7 +186,7 @@ button {
   top: 4rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1000;
+  z-index: 4;
 
     background-color: var(--color-bg-dark);
     border-radius: var(--border-radius);

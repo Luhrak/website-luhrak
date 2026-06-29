@@ -2,7 +2,7 @@
 // and also scroll to the id heading at the same time
 // This script does exactly that
 
-function scrollToForm() {
+function flashTimeout() {
   return;
   if (hasErrors()) {
     const scrollTarget = document.querySelector("#contact-about");
@@ -18,8 +18,8 @@ function hasErrors() {
 // JS availablity check
 if ("querySelector" in document && "addEventListener" in window) {
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", scrollToForm);
+    document.addEventListener("DOMContentLoaded", flashTimeout);
   } else {
-    scrollToForm();
+    flashTimeout();
   }
 }
