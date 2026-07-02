@@ -100,7 +100,7 @@ export async function add({
   return (
     await db.queryObject`
       INSERT INTO public."gallery" ("artfile", "title", "date", "alt", "description", "price_id")
-      VALUES (${artfile}, ${title}, ${date}, ${altValue}, ${description}, ${price_id})
+      VALUES (${artfile}, ${title}, ${date}, ${alt}, ${description}, ${price_id})
       RETURNING "id"
     `
   ).rows[0].id;

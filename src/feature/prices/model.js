@@ -7,7 +7,7 @@ export async function create() {
     CREATE TABLE IF NOT EXISTS public."prices" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "previewfile" TEXT,
-      "alt" TEXT, 
+      "alt" TEXT DEFAULT 'A price preview',
       "title" TEXT NOT NULL,
       "price" INTEGER NOT NULL,
       "additions" TEXT,
@@ -64,6 +64,18 @@ export async function add({
 }) {
   // Adds a new entry
   const db = connection();
+  const altValue = alt?.trim?.() || alt;
+
+  if (altValue === undefined || altValue === null || altValue === "") {
+    return (
+      await db.queryObject`
+      INSERT INTO public."prices" ("previewfile", "title", "description", "price", "additions", "short_description")
+      VALUES (${previewfile}, ${title}, ${description}, ${price}, ${additions}, ${short_description})
+      RETURNING "id"
+    `
+    ).rows[0].id;
+  }
+
   return (
     await db.queryObject`
     INSERT INTO public."prices" ("previewfile", "alt", "title", "description", "price", "additions", "short_description")
@@ -71,14 +83,6 @@ export async function add({
     RETURNING "id"
     `
   ).rows[0].id;
-}
-
-export async function remove(id) {
-  // Delets one entry via id
-  const db = connection();
-  await db.queryObject`
-    DELETE FROM public."prices" WHERE id = ${id}
-  `;
 }
 
 export async function update(
@@ -100,4 +104,12 @@ export async function update(
   `;
 
   return id;
+}
+
+export async function remove(id) {
+  // Delets one entry via id
+  const db = connection();
+  await db.queryObject`
+    DELETE FROM public."prices" WHERE id = ${id}
+  `;
 }

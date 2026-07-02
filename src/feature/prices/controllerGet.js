@@ -17,9 +17,14 @@ export async function prices(ctx) {
 export async function pricesDetail(ctx) {
   // Handling of page of a single price listing
   const id = ctx.entryId;
-  const price = await model.get(id);
-  const gallery = galleryModel.listByPrice(price.id);
-  ctx.body = await render("prices-detail.html", ctx, { price, gallery });
+  if (isNaN(id)) {
+    const price = await model.get(id);
+    const gallery = galleryModel.listByPrice(price.id);
+    ctx.body = await render("prices-detail.html", ctx, { price, gallery });
+  } else {
+    ctx.body = await render("prices-detail.html", ctx, {});
+  }
+
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

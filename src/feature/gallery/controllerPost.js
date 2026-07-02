@@ -17,7 +17,7 @@ export async function gallerySubmit(ctx) {
   const fileError = image.validateImage(formData.artfile);
   if (fileError) errors.artfile = fileError;
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await galleryAddWithData(ctx, formData, errors);
   } else {
     const uploadResult = await image.uploadImage(formData.artfile, "gallery");
@@ -79,7 +79,7 @@ export async function galleryUpdate(ctx) {
     if (fileError !== undefined) errors.artfile = fileError;
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await galleryEditWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded

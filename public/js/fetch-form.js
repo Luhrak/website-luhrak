@@ -63,7 +63,7 @@ function insertFormErrors(formBlockActive, formError) {
   const existingError = formBlockActive.querySelector(".form-error");
 
   if (existingError) {
-    existingError.replaceWith = formError;
+    existingError.replaceWith(formError);
   } else {
     formBlockActive.querySelector("label").after(formError);
   }

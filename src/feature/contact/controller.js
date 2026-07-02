@@ -56,7 +56,7 @@ export async function messagesSubmit(ctx) {
     errors.email = "Must be a valid email";
   if (!formData.message) errors.message = "Message is required";
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await messageAddWithData(ctx, formData, errors);
   } else {
     // Save to db

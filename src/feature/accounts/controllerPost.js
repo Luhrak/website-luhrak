@@ -13,7 +13,7 @@ export async function loginConfirm(ctx) {
   const errors = {};
   if (!formData.username) errors.username = "Username is required";
   if (!formData.password) errors.password = "Password is required";
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await loginWithData(ctx, formData, errors);
   } else {
     // First get accounts that matches the username to get the salt (without no password check)
@@ -77,7 +77,7 @@ export async function signupConfirm(ctx) {
   if (formData.password !== formData.passwordConfirm)
     errors.passwordConfirm = "Passwords dont match";
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await signupWithData(ctx, formData, errors);
   } else {
     // Password hashing

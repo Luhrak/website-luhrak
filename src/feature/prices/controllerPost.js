@@ -23,16 +23,17 @@ export async function pricesSubmit(ctx) {
   if (!formData.description) errors.description = "Description is required";
 
   // image is optional so only check if given
-  if (formData.previewfile) {
+  const hasFile = formData.previewfile && Number(formData.previewfile.size) > 0;
+  if (hasFile) {
     const fileError = image.validateImage(formData.previewfile);
     if (fileError !== undefined) errors.previewfile = fileError;
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await pricesAddWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded
-    if (formData.previewfile) {
+    if (hasFile) {
       const uploadResult = await image.uploadImage(
         formData.previewfile,
         "prices",
@@ -96,7 +97,7 @@ export async function pricesUpdate(ctx) {
     if (fileError !== undefined) errors.previewfile = fileError;
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0 || formData.partial) {
     await pricesEditWithData(ctx, formData, errors);
   } else {
     // Handling if a new file was uploaded

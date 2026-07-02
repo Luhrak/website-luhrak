@@ -17,10 +17,11 @@ function activeNav() {
 
 function removeFlash() {
   const flashbox = document.querySelector(".flashbox");
+  if (!flashbox) return;
   flashbox
     .animate(transformation, timing)
-    .finished.then(() => flashbox.remove());
-  //   flashbox.remove();
+    .finished.then(() => flashbox.remove())
+    .catch(() => flashbox.remove());
 }
 
 // JS availablity check
