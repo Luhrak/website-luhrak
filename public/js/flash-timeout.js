@@ -1,17 +1,16 @@
-const delayMs = 3000;
-
-const transformation = [
+const flashTransformation = [
   { transform: "translateX(-50%) translateY(0)" },
   { transform: "translateX(-50%) translateY(-3em)" },
 ];
 
-const timing = {
+const flashTiming = {
   duration: 300,
   easing: "ease-in",
   fill: "forwards",
 };
 
-function activeNav() {
+function flashTimeout() {
+  const delayMs = 3000;
   setTimeout(removeFlash, delayMs);
 }
 
@@ -19,7 +18,7 @@ function removeFlash() {
   const flashbox = document.querySelector(".flashbox");
   if (!flashbox) return;
   flashbox
-    .animate(transformation, timing)
+    .animate(flashTransformation, flashTiming)
     .finished.then(() => flashbox.remove())
     .catch(() => flashbox.remove());
 }
@@ -27,8 +26,8 @@ function removeFlash() {
 // JS availablity check
 if ("querySelector" in document && "addEventListener" in window) {
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", activeNav);
+    document.addEventListener("DOMContentLoaded", flashTimeout);
   } else {
-    activeNav();
+    flashTimeout();
   }
 }

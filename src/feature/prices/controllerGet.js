@@ -17,6 +17,7 @@ export async function prices(ctx) {
 export async function pricesDetail(ctx) {
   // Handling of page of a single price listing
   const id = ctx.entryId;
+  // when theres no img on a price it would be id = {}
   if (isNaN(id)) {
     const price = await model.get(id);
     const gallery = galleryModel.listByPrice(price.id);
