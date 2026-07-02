@@ -8,6 +8,7 @@
   <div class="widthConstraint">
     <h1>{{ editing or 'New Price' }}</h1>
 
+    <fetch-form>
     {% if editing %}
       <form method="POST" action="/prices-update/{{ formData.id }}" enctype="multipart/form-data">
     {% else %}
@@ -15,106 +16,116 @@
     {% endif %}
 
       <div class="form-two-columns">
+
         <!-- TITLE -->
-        <div>
-        <label for="title">Title</label>
-        {% if formErrors.title %}
-          <p class="form-error">{{ formErrors.title }}</p>
-        {% endif %}
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value="{{ formData.title or '' }}"
-        />
+        <div class="input-block" data-field="title">
+          <label for="title">Title</label>
+          {% if formErrors.title %}
+            <p class="form-error">{{ formErrors.title }}</p>
+          {% endif %}
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="{{ formData.title or '' }}"
+          />
         </div>
 
         <!-- Price -->
-        <div>
-        <label for="price">Price (EUR)</label>
-          {% if formErrors.price %}
-          <p class="form-error">{{ formErrors.price }}</p>
-          {% endif %}
-        <input
-          type="number"
-          id="price"
-          name="price"
-          min="0"
-          step="1"
-          value="{{ formData.price or '1' }}"
-        />
+        <div class="input-block" data-field="price">
+          <label for="price">Price (EUR)</label>
+            {% if formErrors.price %}
+            <p class="form-error">{{ formErrors.price }}</p>
+            {% endif %}
+          <input
+            type="number"
+            id="price"
+            name="price"
+            min="0"
+            step="1"
+            value="{{ formData.price or '1' }}"
+          />
         </div>
+
       </div> 
 
       <!-- Short description -->
-      <label for="short_description">Short description</label>
-        {% if formErrors.short_description %}
-        <p class="form-error">{{ formErrors.short_description }}</p>
-        {% endif %}
-      <input
-        type="text"
-        id="short_description"
-        name="short_description"
-        value="{{ formData.short_description or '' }}"
-      />
+      <div class="input-block" data-field="short_description">
+         <label for="short_description">Short description</label>
+         {% if formErrors.short_description %}
+         <p class="form-error">{{ formErrors.short_description }}</p>
+         {% endif %}
+         <input
+         type="text"
+         id="short_description"
+         name="short_description"
+         value="{{ formData.short_description or '' }}"
+         />
+      </div>
      
       <!-- Description -->
-      <label for="description">Description</label>
+      <div class="input-block" data-field="description">
+        <label for="description">Description</label>
         {% if formErrors.description %}
         <p class="form-error">{{ formErrors.description }}</p>
         {% endif %}
-      <textarea
+        <textarea
         id="description"
         name="description"
         rows="5"
-      >{{ formData.description or '' }}</textarea>
+        >{{ formData.description or '' }}</textarea>
+      </div>
 
-    
       <!-- Image -->
-      {% if editing and formData.previewfile %}
+      <div class="input-block" data-field="previewfile">
+        {% if editing and formData.previewfile %}
         <div class="image-edit-box">
           <img src="{{ formData.previewfile }}" alt="{{ formData.title }}">
-
+          
           <label class="delete-image-checkbox">
             <input type="checkbox" name="deleteImage" value="1">
             Delete current image
           </label>
         </div>
-      {% endif %}
-
-      {% if formData.previewfile %}
+        {% endif %}
+        
+        {% if formData.previewfile %}
         <label for="previewfile">Replace image (optional)</label>
-      {% else %}
+        {% else %}
         <label for="previewfile">Image (optional)</label>
-      {% endif %}
-
-      {% if formErrors.previewfile %}
+        {% endif %}
+        
+        {% if formErrors.previewfile %}
         <p class="form-error">{{ formErrors.previewfile }}</p>
-      {% endif %}
-      <input
+        {% endif %}
+        <input
         type="file"
         id="previewfile"
         name="previewfile"
         accept="image/png, image/jpeg"
-      />
+        />
+      </div>
 
       <!-- Alt text -->
-      <label for="alt">Alt text (optional)</label>
-      <input
+      <div class="input-block" data-field="alt">
+        <label for="alt">Alt text (optional)</label>
+        <input
         type="text"
         id="alt"
         name="alt"
         value="{{ formData.alt or '' }}"
-      />
+        />
+      </div>
 
       <!-- Additions -->
-      <label for="additions">Price additions (optional)</label>
-      <textarea
+      <div class="input-block" data-field="additions">  
+        <label for="additions">Price additions (optional)</label>
+        <textarea
         id="additions"
         name="additions"
         rows="5"
-      >{{ formData.additions or '' }}</textarea>
-
+        >{{ formData.additions or '' }}</textarea>
+      </div>
 
       {% if editing %}
         <button type="submit">Update</button>
@@ -123,6 +134,9 @@
       {% endif %}
 
     </form>
+    </fetch-form>
+    <script src="/js/fetch-form.js"></script>
+
   </div>
 </main>
 

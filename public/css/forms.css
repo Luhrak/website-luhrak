@@ -2,7 +2,6 @@ form {
     background-color: var(--color-bg-opague);
     backdrop-filter: blur(var(--blur-ammount));
     border-radius: var(--border-radius);
-    margin-top: 1em;
 
     display: flex;
     flex-direction: column;
@@ -82,7 +81,6 @@ input::file-selector-button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 1em;
 }
 
 .form-two-columns {

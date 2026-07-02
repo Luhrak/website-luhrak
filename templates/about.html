@@ -78,75 +78,75 @@
           <h2 id="contact-about">Contact Luhrak</h2>
 
           <fetch-form>
-            <form action="/contact/add" method="POST">
-              
-              <div class="form-two-columns">
-                <!-- Name -->
-                <div class="input-block" data-field="name">
-                  <label for="name">Name</label>
-                  {% if formErrors.name %}
-                  <p class="form-error">{{formErrors.name}}</p>
-                  {% endif %}
-                  <input 
-                  {% if formErrors.name %} autofocus {% endif %}
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  value="{{ formData.name or '' }}"
-                  />
-                </div>
-
-                <!-- Email -->
-                <div class="input-block" data-field="email">
-                  <label for="email">Email</label>
-                    {% if formErrors.email %}
-                    <p class="form-error">{{formErrors.email}}</p>
-                    {% endif %}
-                  <input 
-                  {% if formErrors.email %} autofocus {% endif %}
-                  type="text" 
-                  id="email" 
-                  name="email" 
-                  value="{{ formData.email or '' }}"
-                  />
-                </div>
+          <form action="/contact/add" method="POST">
+            
+            <div class="form-two-columns">
+              <!-- Name -->
+              <div class="input-block" data-field="name">
+                <label for="name">Name</label>
+                {% if formErrors.name %}
+                <p class="form-error">{{formErrors.name}}</p>
+                {% endif %}
+                <input 
+                {% if formErrors.name %} autofocus {% endif %}
+                type="text" 
+                id="name" 
+                name="name" 
+                value="{{ formData.name or '' }}"
+                />
               </div>
 
-                <!-- Subject -->
-                <div class="input-block" data-field="subject">
-                  <label for="subject">Subject</label>
-                  {% if formErrors.subject %}
-                  <p class="form-error">{{formErrors.subject}}</p>
+              <!-- Email -->
+              <div class="input-block" data-field="email">
+                <label for="email">Email</label>
+                  {% if formErrors.email %}
+                  <p class="form-error">{{formErrors.email}}</p>
                   {% endif %}
-                  <input 
-                  {% if formErrors.subject %} autofocus {% endif %}
-                  type="text" 
-                  id="subject" 
-                  name="subject" 
-                  value="{{ formData.subject or '' }}"
-                  />
-                </div>
+                <input 
+                {% if formErrors.email %} autofocus {% endif %}
+                type="text" 
+                id="email" 
+                name="email" 
+                value="{{ formData.email or '' }}"
+                />
+              </div>
+            </div>
 
-                <!-- Message -->
-                <div class="input-block" data-field="message">
-                  <label for="message">Message</label>
-                  {% if formErrors.message %}
-                  <p class="form-error">{{formErrors.message}}</p>
-                  {% endif %}
-                  <textarea 
-                  {% if formErrors.message %} autofocus {% endif %}
-                  id="message" 
-                  name="message" 
-                  rows="5"
-                  >{{ formData.message or '' }}</textarea>
-                </div>
+              <!-- Subject -->
+              <div class="input-block" data-field="subject">
+                <label for="subject">Subject</label>
+                {% if formErrors.subject %}
+                <p class="form-error">{{formErrors.subject}}</p>
+                {% endif %}
+                <input 
+                {% if formErrors.subject %} autofocus {% endif %}
+                type="text" 
+                id="subject" 
+                name="subject" 
+                value="{{ formData.subject or '' }}"
+                />
+              </div>
 
-                <div class="form-two-columns">
-                  <p class="disclaimer"> Disclaimer: This form is is simply for getting in contact with Luhrak and does not confirm or accept any purchase / commission nor does it bind to any contracts.</p>
-                  <button type="submit">Send Message</button>
-                </div>
+              <!-- Message -->
+              <div class="input-block" data-field="message">
+                <label for="message">Message</label>
+                {% if formErrors.message %}
+                <p class="form-error">{{formErrors.message}}</p>
+                {% endif %}
+                <textarea 
+                {% if formErrors.message %} autofocus {% endif %}
+                id="message" 
+                name="message" 
+                rows="5"
+                >{{ formData.message or '' }}</textarea>
+              </div>
 
-            </form>
+              <div class="form-two-columns">
+                <p class="disclaimer"> Disclaimer: This form is is simply for getting in contact with Luhrak and does not confirm or accept any purchase / commission nor does it bind to any contracts.</p>
+                <button type="submit">Send Message</button>
+              </div>
+
+          </form>
           </fetch-form>
           <script src="/js/fetch-form.js"></script>
         </section>
