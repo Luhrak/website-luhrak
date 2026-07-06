@@ -5,6 +5,7 @@ export async function error500() {
   // In case serveStatic still functions it also has its css, images and js
   const filepath = path.join(
     Deno.cwd(),
+    "src",
     "templates",
     "errorPages",
     "error500.html",

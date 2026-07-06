@@ -2,6 +2,7 @@ import { create as createGalleryTable } from "../feature/gallery/model.js";
 import { create as createPricesTable } from "../feature/prices/model.js";
 import { create as createMessagesTable } from "../feature/contact/model.js";
 import { create as createAccountsTable } from "../feature/accounts/model.js";
+import { createAdminUser } from "../feature/accounts/model.js";
 import { create as createLoggingTable } from "../middleware/logging.js";
 import { create as createSessionTable } from "../feature/session/model.js";
 
@@ -12,6 +13,7 @@ export async function initDbTables() {
   await createPricesTable();
   await createMessagesTable();
   await createAccountsTable();
+  await createAdminUser();
   await createSessionTable();
   // await createLoggingTable();
 }

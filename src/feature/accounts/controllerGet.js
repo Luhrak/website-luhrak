@@ -25,3 +25,10 @@ export function logout(ctx) {
   ctx.headers.set("Location", `/`);
   return ctx;
 }
+
+export async function changePassword(ctx) {
+  ctx.body = await render("change-password.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}

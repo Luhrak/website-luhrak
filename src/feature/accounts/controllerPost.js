@@ -2,6 +2,7 @@ import * as model from "./model.js";
 import { render } from "../../service/render.js";
 import { encodeBase64 } from "jsr:@std/encoding/base64";
 import { hash, verify } from "@stdext/crypto/hash";
+import { rerenderWithErrors } from "../../service/rerenderWithErrors.js";
 
 export async function loginConfirm(ctx) {
   // Handling when submiting the login formular
@@ -14,7 +15,7 @@ export async function loginConfirm(ctx) {
   if (!formData.username) errors.username = "Username is required";
   if (!formData.password) errors.password = "Password is required";
   if (Object.keys(errors).length > 0 || formData.partial) {
-    await loginWithData(ctx, formData, errors);
+    ctx = rerenderWithErrors(ctx, formData, errors, "login.html");
   } else {
     // First get accounts that matches the username to get the salt (without no password check)
     const account = (await model.getByUsername(formData.username)) ?? {
@@ -29,7 +30,7 @@ export async function loginConfirm(ctx) {
 
     // Now we can verify the password with the salt
     if (
-      verify("argon2", account.salt + formData.password, account.password) &&
+      verifyPassword(account.salt, formData.password, account.password) &&
       account.username !== "dummy" // ofc dont log in if no account was found
     ) {
       // Login
@@ -45,20 +46,9 @@ export async function loginConfirm(ctx) {
 
     errors.username =
       "No account with this username and password combination found";
-    await loginWithData(ctx, formData, errors);
+    ctx = rerenderWithErrors(ctx, formData, errors, "login.html");
   }
   return ctx;
-}
-
-async function loginWithData(ctx, formData, errors) {
-  // When there is an error, this sends back to the login page with the errors
-  // no redirect or export cuz only used in submit / update
-  ctx.body = await render("login.html", ctx, {
-    formData: formData,
-    formErrors: errors,
-  });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
 }
 
 export async function signupConfirm(ctx) {
@@ -70,8 +60,10 @@ export async function signupConfirm(ctx) {
   // Validation
   const errors = {};
   if (!formData.username) errors.username = "Username is required";
+  if (formData.username && isUsernameTaken(formData.username))
+    "Username already taken.";
   if (!formData.password) errors.password = "Password is required";
-  if (formData.password && !isValidatePassword(formData.password))
+  if (formData.password && !isValidPassword(formData.password))
     errors.password =
       "Invalid password (Must be at leat 8 characters with a lowercase, uppcase, number and special character)";
   if (formData.password !== formData.passwordConfirm)
@@ -82,7 +74,7 @@ export async function signupConfirm(ctx) {
   } else {
     // Password hashing
     const salt = createSalt();
-    const hashedPassword = hash("argon2", salt + formData.password);
+    const hashedPassword = hashPassword(salt, formData.password);
 
     // Save to db
     const newEntry = await model.add({
@@ -116,7 +108,53 @@ async function signupWithData(ctx, formData, errors) {
   ctx.status = 200;
 }
 
-function isValidatePassword(password) {
+export async function changePasswordConfirm(ctx) {
+  // Handling when changing password
+  // Read form data
+  const form = await ctx.request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  // Validation
+  const errors = {};
+  if (!formData.oldPassword) errors.oldPassword = "Old password is required";
+  if (!formData.newPassword) errors.newPassword = "New password is required";
+  if (!formData.passwordConfirm)
+    errors.passwordConfirm = "Repeat password is required";
+  if (formData.newPassword !== formData.passwordConfirm)
+    errors.passwordConfirm = "Passwords dont match";
+
+  if (Object.keys(errors).length > 0 || formData.partial) {
+    ctx = rerenderWithErrors(ctx, formData, errors, "change-password.html");
+  } else {
+    // First get accounts that matches the username to get the salt (without no password check)
+    const accountId = ctx.session.content.account;
+    const account = await model.get(accountId);
+
+    // Now we can verify the password with the salt
+    if (!verifyPassword(account.salt, formData.oldPassword, account.password)) {
+      errors.oldPassword = "Incorrect old password.";
+      ctx = rerenderWithErrors(ctx, formData, errors, "change-password.html");
+    }
+    const newSalt = createSalt();
+    const newPassword = hashPassword(newSalt, formData.newPassword);
+    model.updatePassword(account.id, { password: newPassword, salt: newSalt });
+
+    ctx.session.content.flash = "Password changed successfully";
+
+    // Redirect
+    ctx.status = 303;
+    ctx.headers.set("Location", `/`);
+    return ctx;
+  }
+  return ctx;
+}
+
+function isUsernameTaken(username) {
+  const result = model.getByUsername(username);
+  return result ? true : false;
+}
+
+function isValidPassword(password) {
   // https://www.geeksforgeeks.org/javascript/javascript-program-to-validate-password-using-regular-expressions/
   let regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@.#$!%*?&])[A-Za-z\d-_@.#$!%*?&]{8,25}$/;
@@ -129,3 +167,8 @@ export const createSalt = () => {
   crypto.getRandomValues(array);
   return encodeBase64(array);
 };
+
+export const hashPassword = (salt, password) => hash("argon2", salt + password);
+
+const verifyPassword = (salt, providedPassword, accountPassword) =>
+  verify("argon2", salt + providedPassword, accountPassword);

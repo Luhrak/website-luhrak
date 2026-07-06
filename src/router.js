@@ -174,6 +174,18 @@ const routes = [
     requiredPermissions: ["guest", "admin", "moderator"],
     handler: accountGet.logout,
   },
+  {
+    path: "/change-password",
+    method: "GET",
+    requiredPermissions: ["guest", "admin", "moderator"],
+    handler: accountGet.changePassword,
+  },
+  {
+    path: "/change-password",
+    method: "POST",
+    requiredPermissions: ["guest", "admin", "moderator"],
+    handler: accountPost.changePasswordConfirm,
+  },
   // {
   //   path: "/signup",
   //   method: "GET",

@@ -9,6 +9,12 @@ https://www.luhrak.com/
 - To setup the postgres docker ``docker compose up -d``
 - To run a local instance ``deno run --env-file -A server.js``
 
+### Inital user credentials 
+On account table creation a admin user with following credentials is being created: 
+> user: **Siteowner** 
+> password: **Hausarbeit-1** 
+Once logging in this can be changed under /change-password. 
+
 ### Local environment variables 
 ```sh
 PGHOST=localhost
