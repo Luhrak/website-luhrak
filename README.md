@@ -3,3 +3,16 @@ Fully self made website including front and backend with hand written context ob
 
 ## Website Link 
 https://www.luhrak.com/
+
+## Setup
+- I provided variables in the top level .env file 
+- To setup the postgres docker ``docker compose up -d``
+- To run a local instance ``deno run --env-file -A server.js``
+
+### Local environment variables 
+```sh
+PGHOST=localhost
+PGPORT=5432
+PGUSER=luh
+PGPASSWORD=sql
+```

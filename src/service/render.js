@@ -2,9 +2,7 @@ import * as path from "jsr:@std/path";
 import nunjucks from "npm:nunjucks@3.2.4";
 import { getPermissionById } from "../feature/accounts/model.js";
 
-const templPath = "./templates";
-
-nunjucks.configure(templPath, {
+nunjucks.configure("./src/templates", {
   autoescape: true, // on by standard
   noCache: true, // recompile everytime (dev mode)
   watch: false, // only for live update
