@@ -38,6 +38,7 @@ async function update(form, formBlockActive) {
   });
 
   if (error) {
+    console.error("safe fetch error:");
     console.error(error);
     return;
   }
