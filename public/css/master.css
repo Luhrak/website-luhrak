@@ -20,7 +20,6 @@
 
 
 
-/* ---------- General css ---------- */
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
@@ -179,6 +178,22 @@ button {
     &:focus {
         background-color: var(--color-primary-light);
         color: var(--color-bg-dark);
+        outline: none;
+    }
+}
+
+.button-unclickable {
+    background-color: var(--color-bg-light);
+    color: gray;
+
+    &:hover {
+        background-color: var(--color-bg-light);
+        color: gray;
+    }
+
+    &:focus {
+        background-color: var(--color-bg-light);
+        color: gray;
         outline: none;
     }
 }

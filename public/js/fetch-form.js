@@ -44,13 +44,13 @@ async function update(form, formBlockActive) {
   }
 
   if (data) {
-    const formError = getFormError(formBlockActive, data.data);
+    const formError = isSubmittable(formBlockActive, data.data);
     if (!formError) return;
     insertFormErrors(formBlockActive, formError);
   }
 }
 
-function getFormError(formBlockActive, data) {
+function isSubmittable(formBlockActive, data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
   const formBlocks = dataDoc.querySelectorAll(".input-block");
 
