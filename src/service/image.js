@@ -30,7 +30,7 @@ function isExtensionOk(filename) {
 
 export async function uploadImage(image, folderPath) {
   // Uploads the image into the public folder under the given folder path and returns the path of the fiel
-  const filename = generateFilename(image, folderPath);
+  const filename = generateFilenameOld(image, folderPath);
   const filePath = path.join(Deno.cwd(), "public", filename);
 
   try {
@@ -49,13 +49,18 @@ export async function uploadImage(image, folderPath) {
   }
 }
 
-function generateFilename(file, folderPath) {
+function generateFilenameOld(file, folderPath) {
   // Generates a random file name so no two image files share a name
   return path.join(
     "upload",
     folderPath,
     crypto.randomUUID() + "." + mediaTypes.extension(file.type),
   );
+}
+
+export function generateFilename(file) {
+  // Generates a random file name so no two image files share a name
+  return crypto.randomUUID() + "." + mediaTypes.extension(file.type);
 }
 
 export async function deleteImage(imageName) {

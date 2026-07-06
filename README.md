@@ -13,7 +13,7 @@ https://www.luhrak.com/
 On account table creation a admin user with following credentials is being created: 
 > user: **Siteowner** 
 > password: **Hausarbeit-1** 
-Once logging in this can be changed under /change-password. 
+Once logging in this can be changed under ``/change-password``. 
 
 ### Local environment variables 
 ```sh

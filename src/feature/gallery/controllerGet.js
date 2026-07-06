@@ -2,6 +2,7 @@ import * as model from "./model.js";
 import * as image from "../../service/image.js";
 import * as priceModel from "../prices/model.js";
 import { render } from "../../service/render.js";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
 
 export async function gallery(ctx) {
   // Handling of page with the gallery overview
@@ -13,7 +14,7 @@ export async function gallery(ctx) {
   const activePrice = priceId ? Number(priceId) : null;
 
   ctx.body = await render("gallery.html", ctx, {
-    gallery,
+    gallery: gallery.map(artfileAsBlob),
     prices,
     activePrice,
   });
@@ -26,7 +27,9 @@ export async function galleryDetail(ctx) {
   // Handling of page of a single art piece
   const id = ctx.entryId;
   const art = await model.get(id);
-  ctx.body = await render("gallery-detailpage.html", ctx, { art });
+  ctx.body = await render("gallery-detailpage.html", ctx, {
+    art: artfileAsBlob(art),
+  });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -61,3 +64,9 @@ export async function galleryEdit(ctx) {
   ctx.status = 200;
   return ctx;
 }
+
+const artfileAsBlob = (galleryItem) => {
+  const blob = encodeBase64(galleryItem.artfile);
+  galleryItem.artfile = `data:image/png;base64,${blob}`;
+  return galleryItem;
+};

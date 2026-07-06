@@ -20,18 +20,24 @@ export async function gallerySubmit(ctx) {
   if (Object.keys(errors).length > 0 || formData.partial) {
     await galleryAddWithData(ctx, formData, errors);
   } else {
-    const uploadResult = await image.uploadImage(formData.artfile, "gallery");
+    // console.log(formData.artfile);
+    // const uploadResult = await image.uploadImage(formData.artfile, "gallery");
 
-    // Validate if Upload worked
-    if (!uploadResult) {
-      errors.artfile = "Upload failed";
-      await galleryAddWithData(ctx, formData, errors);
-    }
+    // // Validate if Upload worked
+    // if (!uploadResult) {
+    //   errors.artfile = "Upload failed";
+    //   await galleryAddWithData(ctx, formData, errors);
+    // }
+
+    const blob = new Uint8Array(await formData.artfile.arrayBuffer());
+    const pathname = image.generateFilename(formData.artfile);
+    console.log(pathname);
 
     // Save to db
     const newEntry = await model.add({
       title: formData.title,
-      artfile: uploadResult, // Path as string
+      artfile: blob,
+      pathname: pathname,
       alt: formData.alt,
       date: formData.date,
       description: formData.description,
