@@ -57,7 +57,7 @@ export async function galleryEdit(ctx) {
     editing: "Edit Art",
     // We have formData.previewfile for input prefilling
     // however cant prefill files in html for security
-    formData: art,
+    formData: artfileAsBlob(art),
     prices,
   });
   ctx.headers.set("content-type", "text/html");

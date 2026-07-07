@@ -2,6 +2,7 @@ import * as model from "./model.js";
 import * as image from "../../service/image.js";
 import * as priceModel from "../prices/model.js";
 import { render } from "../../service/render.js";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
 
 export async function gallerySubmit(ctx) {
   // Handling when submiting a new art piece
@@ -20,18 +21,8 @@ export async function gallerySubmit(ctx) {
   if (Object.keys(errors).length > 0 || formData.partial) {
     await galleryAddWithData(ctx, formData, errors);
   } else {
-    // console.log(formData.artfile);
-    // const uploadResult = await image.uploadImage(formData.artfile, "gallery");
-
-    // // Validate if Upload worked
-    // if (!uploadResult) {
-    //   errors.artfile = "Upload failed";
-    //   await galleryAddWithData(ctx, formData, errors);
-    // }
-
     const blob = new Uint8Array(await formData.artfile.arrayBuffer());
     const pathname = image.generateFilename(formData.artfile);
-    console.log(pathname);
 
     // Save to db
     const newEntry = await model.add({
@@ -90,20 +81,13 @@ export async function galleryUpdate(ctx) {
   } else {
     // Handling if a new file was uploaded
     if (hasNewFile) {
-      const uploadResult = await image.uploadImage(formData.artfile, "gallery");
-
-      // Validate if Upload worked
-      if (!uploadResult) {
-        errors.artfile = "Upload failed";
-        await galleryEditWithData(ctx, formData, errors);
-      } else {
-        // Delete old one and use new one
-        if (existingArt.artfile) await image.deleteImage(existingArt.artfile);
-        formData.artfile = uploadResult;
-      }
+      const blob = new Uint8Array(await formData.artfile.arrayBuffer());
+      formData.artfile = blob;
+      formData.pathname = image.generateFilename(formData.artfile);
     } else {
       // or take the old one
       formData.artfile = existingArt.artfile;
+      formData.pathname = existingArt.pathname;
     }
 
     // Update in db

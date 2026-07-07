@@ -1,17 +1,27 @@
 import { listMinimal as listGallery } from "../feature/gallery/model.js";
 import { listMinimal as listPrices } from "../feature/prices/model.js";
 import { render } from "../service/render.js";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
 
 // Main Pages:
 export async function index(ctx) {
   // Handling of the homepage
   const gallery = await listGallery();
   const prices = await listPrices();
-  ctx.body = await render("index.html", ctx, { gallery, prices });
+  ctx.body = await render("index.html", ctx, {
+    gallery: gallery.map(artfileAsBlob),
+    prices,
+  });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
+
+const artfileAsBlob = (galleryItem) => {
+  const blob = encodeBase64(galleryItem.artfile);
+  galleryItem.artfile = `data:image/png;base64,${blob}`;
+  return galleryItem;
+};
 
 export async function projects(ctx) {
   // Handling of page with the project overview
@@ -45,32 +55,6 @@ export async function privacyPolicy(ctx) {
   ctx.status = 200;
   return ctx;
 }
-
-// Hausarbeit -------------
-export async function documentation(ctx) {
-  // Handling of the documentaion page
-  ctx.body = await render("hausarbeit/documentation.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
-export async function journal(ctx) {
-  // Handling of the journal page
-  ctx.body = await render("hausarbeit/journal.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
-export async function kolophon(ctx) {
-  // Handling of kolophon page
-  ctx.body = await render("hausarbeit/kolophon.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-// Hausarbeit end -------------
 
 export async function error404(ctx) {
   // Handling of 404 error page

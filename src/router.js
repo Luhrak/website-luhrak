@@ -41,24 +41,6 @@ const routes = [
     handler: pages.privacyPolicy,
   },
 
-  // Hausarbeit -------------
-  {
-    path: "/documentation",
-    method: "GET",
-    handler: pages.documentation,
-  },
-  {
-    path: "/journal",
-    method: "GET",
-    handler: pages.journal,
-  },
-  {
-    path: "/kolophon",
-    method: "GET",
-    handler: pages.kolophon,
-  },
-  // Hausarbeit end -------------
-
   // Project routes
   {
     path: "/projects-fursuit",
