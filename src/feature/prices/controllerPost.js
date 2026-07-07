@@ -47,7 +47,7 @@ export async function pricesSubmit(ctx) {
         formData.previewfile = uploadResult;
       }
     } else {
-      formData.previewfile = undefined;
+      formData.previewfile = null;
     }
 
     // Save to db
