@@ -185,6 +185,7 @@ button {
 .button-unclickable {
     background-color: var(--color-bg-light);
     color: gray;
+    cursor: default;
 
     &:hover {
         background-color: var(--color-bg-light);

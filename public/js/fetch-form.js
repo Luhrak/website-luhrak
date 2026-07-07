@@ -4,30 +4,34 @@ class FetchForm extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener("focusout", this.handler);
-    this.addEventListener("keydown", this.resetter);
+    updateButton(this);
+    this.addEventListener("focusout", this.focusoutHandler);
+    this.addEventListener("input", this.inputHandler);
   }
 
   disconnectedCallback() {
-    this.removeEventListener("focusout", this.handler);
-    this.removeEventListener("keydown", this.resetter);
+    this.removeEventListener("focusout", this.focusoutHandler);
+    this.removeEventListener("input", this.inputHandler);
   }
 
-  handler(e) {
+  focusoutHandler(e) {
     const form = e.target.closest("form") || this.querySelector("form");
     const formBlockActive = e.target.closest(".input-block");
     if (!form || !formBlockActive) return;
-    update(form, formBlockActive);
+    updateError(form, formBlockActive);
   }
 
-  resetter(e) {
+  inputHandler(e) {
     const formBlockActive = e.target.closest(".input-block");
     if (!formBlockActive) return;
-    reset(formBlockActive);
+    resetError(formBlockActive);
+    updateButton(this);
   }
 }
 
-async function update(form, formBlockActive) {
+async function updateButton(thisFetchForm) {
+  const form = thisFetchForm.querySelector("form");
+  const submitButtons = form.querySelectorAll("button");
   const formData = new FormData(form);
   formData.append("partial", true);
 
@@ -38,19 +42,49 @@ async function update(form, formBlockActive) {
   });
 
   if (error) {
-    console.error("safe fetch error:");
-    console.error(error);
+    console.error("safe fetch error:", error);
     return;
   }
 
   if (data) {
-    const formError = isSubmittable(formBlockActive, data.data);
+    const hasErrors = !isSubmittable(data.data);
+    if (hasErrors) {
+      for (var i = 0; i < submitButtons.length; i++) {
+        submitButtons.item(i).classList.add("button-unclickable");
+        submitButtons.item(i).disabled = true;
+      }
+    } else {
+      for (var i = 0; i < submitButtons.length; i++) {
+        submitButtons.item(i).classList.remove("button-unclickable");
+        submitButtons.item(i).disabled = false;
+      }
+    }
+  }
+}
+
+async function updateError(form, formBlockActive) {
+  const formData = new FormData(form);
+  formData.append("partial", true);
+
+  const { data, error } = await safeFetchText(form.action, {
+    method: "POST",
+    headers: {},
+    body: formData,
+  });
+
+  if (error) {
+    console.error("safe fetch error:", error);
+    return;
+  }
+
+  if (data) {
+    const formError = isFormBlockSubmittable(formBlockActive, data.data);
     if (!formError) return;
     insertFormErrors(formBlockActive, formError);
   }
 }
 
-function isSubmittable(formBlockActive, data) {
+function isFormBlockSubmittable(formBlockActive, data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
   const formBlocks = dataDoc.querySelectorAll(".input-block");
 
@@ -58,6 +92,12 @@ function isSubmittable(formBlockActive, data) {
     if (doFormBlocksMatch(formBlockActive, formBlocks.item(i)))
       return formBlocks.item(i).querySelector(".form-error");
   }
+}
+
+function isSubmittable(data) {
+  const dataDoc = new DOMParser().parseFromString(data, "text/html");
+  const errors = dataDoc.querySelectorAll(".form-error");
+  return errors.length > 0 ? false : true;
 }
 
 function insertFormErrors(formBlockActive, formError) {
@@ -70,7 +110,7 @@ function insertFormErrors(formBlockActive, formError) {
   }
 }
 
-function reset(formBlockActive) {
+function resetError(formBlockActive) {
   const inputError = formBlockActive.querySelector(".form-error");
   if (inputError) inputError.remove();
 }
