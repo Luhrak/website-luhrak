@@ -1,3 +1,5 @@
+import { safeFetchText } from "./helper/safeFetchText.js";
+
 class FetchForm extends HTMLElement {
   constructor() {
     super();
@@ -117,23 +119,6 @@ function resetError(formBlockActive) {
 
 const doFormBlocksMatch = (block1, block2) =>
   block1.dataset.field === block2.dataset.field;
-
-async function safeFetchText(url, options) {
-  let response;
-  try {
-    response = await fetch(url, options);
-    if (!response.ok) {
-      return { error: response.status, response };
-    }
-  } catch (error) {
-    return { error: { status: 559, message: error.message } };
-  }
-  try {
-    return { data: { data: await response.text(), response } };
-  } catch (error) {
-    return { error: { status: 599, message: error.message } };
-  }
-}
 
 // JS availablity check
 if ("querySelector" in document && "addEventListener" in window) {
