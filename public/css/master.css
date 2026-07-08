@@ -52,6 +52,12 @@ main {
   margin: auto;
 }
 
+article {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
 p {
   max-width: 30rem;
 }
@@ -115,7 +121,6 @@ a {
 }
 
 ul {
-  margin-top: 0;
   padding-left: 1em;
 }
 
@@ -240,5 +245,27 @@ span {
 
   @media (max-width: 40em) {
     display: inline-block;
+  }
+}
+
+.loader {
+  --color-1: #fff;
+  --size: 1.5px;
+  width: calc(48 * var(--size));
+  height: calc(48 * var(--size));
+  border: calc(5 * var(--size)) solid var(--color-1);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

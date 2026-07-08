@@ -1,121 +1,81 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhraks Gallery - {{ editing or 'New Art' }}{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhraks Gallery - {{ editing or 'New Art' }}
+{% endblock %}
 {% block content %}
-
-    <main>
-      <div class="widthConstraint">
+  <div class="widthConstraint">
+    <article>
+      <div class="headingWithButtons">
         <h1>{{ editing or 'New Art' }}</h1>
-
+      </div>
+      <section>
         <fetch-form>
-        {% if editing %}
-          <form method="POST" action="/gallery-update/{{formData.id}}" enctype="multipart/form-data">
-        {% else %}
-          <form method="POST" action="/gallery/add" enctype="multipart/form-data">
-        {% endif %}
-
-          <!-- Title -->
-          <div class="input-block" data-field="title">
-            <label for="title">Title</label>
-            {% if formErrors.title %}
-              <p class="form-error">{{formErrors.title}}</p>
-            {% endif %}
-            <input 
-            type="text" 
-            id="title" 
-            name="title" 
-            value="{{ formData.title or '' }}"
-            />
-          </div>
-          
-          <!-- Image -->
-          <div class="input-block" data-field="artfile">
-            {% if formData.artfile %}
-            <img
-              src="{{ formData.artfile }}"
-              alt="{{ formData.alt }}"
-            />
-            {% endif %}
-
-            {% if formData.artfile %}
-            <label for="artfile">Replace art file (optional)</label>
-            {% else %}
-            <label for="artfile">Art file</label>
-            {% endif %}
-
-            {% if formErrors.artfile %}
-              <p class="form-error">{{formErrors.artfile}}</p>
-            {% endif %}
-            <input 
-            type="file"
-            id="artfile" 
-            name="artfile" 
-            accept="image/png, image/jpeg"
-            />
-          </div>
-
-          <!-- Alt text -->
-          <div class="input-block" data-field="alt">
-            <label for="alt">Alt text (optional)</label>
-            <input 
-            type="text" 
-            id="alt" 
-            name="alt" 
-            value="{{ formData.alt or '' }}"
-            />
-          </div>
-
-          <div class="form-two-columns">
+          <form
+            method="POST" action="{% if editing %}/gallery-update/{{ formData.id }}{% else %}/gallery/add{% endif %}" enctype="multipart/form-data">
+            <!-- Title -->
+            <div class="input-block" data-field="title">
+              <label for="title">Title</label>
+              {% if formErrors.title %}
+                <p class="form-error">{{ formErrors.title }}</p>
+              {% endif %}
+              <input type="text" id="title" name="title" value="{{ formData.title or '' }}"/>
+            </div>
+            <!-- Image -->
+            <div class="input-block" data-field="artfile">
+              {% if formData.artfile %}
+                <img src="{{ formData.artfile }}" alt="{{ formData.alt }}"/>
+              {% endif %}
+              {% if formData.artfile %}
+                <label for="artfile">Replace art file (optional)</label>
+              {% else %}
+                <label for="artfile">Art file</label>
+              {% endif %}
+              {% if formErrors.artfile %}
+                <p class="form-error">{{ formErrors.artfile }}</p>
+              {% endif %}
+              <input type="file" id="artfile" name="artfile" accept="image/png, image/jpeg"/>
+            </div>
+            <!-- Alt text -->
+            <div class="input-block" data-field="alt">
+              <label for="alt">Alt text (optional)</label>
+              <input type="text" id="alt" name="alt" value="{{ formData.alt or '' }}"/>
+            </div>
+            <div
+              class="form-two-columns">
               <!-- Date -->
               <div class="input-block" data-field="date">
                 <label for="date">Date</label>
                 {% if formErrors.date %}
-                <p class="form-error">{{formErrors.date}}</p>
+                  <p class="form-error">{{ formErrors.date }}</p>
                 {% endif %}
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value="{{ formData.date or prefillDate }}"
-                />
+                <input type="date" id="date" name="date" value="{{ formData.date or prefillDate }}"/>
               </div>
-
               <!-- Price type -->
               <div class="input-block" data-field="price_id">
                 <label for="price_id">Assign to Price (optional)</label>
                 <select name="price_id" id="price_id">
                   <option value="">None</option>
                   {% for price in prices %}
-                    <option value="{{ price.id }}"
-                      {% if formData.price_id == price.id %} selected="selected" {% endif %}>
+                    <option value="{{ price.id }}" {% if formData.price_id == price.id %} selected="selected" {% endif %}>
                       {{ price.title }}
                     </option>
                   {% endfor %}
                 </select>
               </div>
-          </div>
-
-          <!-- Description -->
-          <div class="input-block" data-field="description">
-            <label for="description">About the art (optional)</label>
-            <textarea 
-            id="description" 
-            name="description" 
-            rows="5" 
-            >{{ formData.description or '' }}</textarea>
-          </div>
-
-          {% if editing %}
-            <button type="submit">Update</button>
-          {% else %}
-            <button type="submit">Submit</button>
-          {% endif %}
-        </form>
+            </div>
+            <!-- Description -->
+            <div class="input-block" data-field="description">
+              <label for="description">About the art (optional)</label>
+              <textarea id="description" name="description" rows="5">{{ formData.description or '' }}</textarea>
+            </div>
+            {% if editing %}
+              <button type="submit">Update</button>
+            {% else %}
+              <button type="submit">Submit</button>
+            {% endif %}
+          </form>
         </fetch-form>
         <script type="module" src="/js/fetch-form.js"></script>
-
-      </div>
-    </main>
-
+      </section>
+    </article>
+  </div>
 {% endblock %}

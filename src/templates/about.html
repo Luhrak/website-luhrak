@@ -1,156 +1,105 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}About Luhrak{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}About Luhrak{% endblock %}
 {% block content %}
-
-    <main>
-      <div class="widthConstraint">
-        <section class="imageLeft">
-          <h1>About</h1>
-          <img
-            src="/img/LuhFingerguns.png"
-            alt="Luhrak pointing with fingerungs and winking at the same time"
-          />
-          <div>
-            <p>
-              Since I childhood I have been interested in drawing. In 2017, I
-              started with digital art for the first time and began a Youtube
-              channel with the name Luhrak later that year. Over the time my
-              online persona developed, I practiced drawing digitally and
-              posting it online.
-            </p>
-            <p>
-              I have switched my focus from animation to streams to speedarts. A
-              lot of those projects have stopped but doing art and creative
-              projects will always be a thing for me. This site, my Telegram
-              channel and Discord server are the best ways to keep up with what
-              i do.
-            </p>
-          </div>
-        </section>
-
-        <section class="imageRight">
-          <h2>What do you use to draw?</h2>
-          <div>
-            <p>
-              While I do believe that art can be done well with pretty much any
-              medium and tools, this is still a common question.
-            </p>
-            <p>So this is what I normally use:</p>
-            <ul>
-              <li>Drawing tablet - Wacom Intuos Pro M</li>
-              <li>Art Software - Clip Studio Paint V2</li>
-              <li>Reference Viewer - PureRef</li>
-            </ul>
-          </div>
-          <img
-            src="/img/ClipStudioTap.png"
-            alt="Luhrak holding a tablet pen tapping on a logo of clip studio paint"
-          />
-        </section>
-
-        <section class="imageLeft">
-          <h2>Luhrak the character</h2>
-          <img
-            src="/img/Character Reference Sheet.png"
-            alt="Reference sheet of luhrak"
-          />
-          <div>
-            <p>
-              My fursona is a 5-foot orange furred finnish spitz. He got darker
-              orange markings on his ears between his eyes and his limbs as well
-              as a creme colored belly, tail underside and arm stripes. He is a
-              self insert meaning his personality is the same as my own.
-            </p>
-            <p>
-              Making fanart of him is definitely allowed and much appreciated.
-              Feel free to also send it to me or on me discord in the fanart
-              channel.
-            </p>
-            <a class="button" href="https://discord.gg/FkaJ2pC"
-              >Join Discord server 🡵</a
-            >
-          </div>
-        </section>
-
-        <section class="contact">
-          <h2 id="contact-about">Contact Luhrak</h2>
-
-          <fetch-form>
+  <div class="widthConstraint">
+    <article>
+      <section class="imageLeft">
+        <h1>About</h1>
+        <img src="/img/LuhFingerguns.png" alt="Luhrak pointing with fingerungs and winking at the same time"/>
+        <div>
+          <p>
+            Since I childhood I have been interested in drawing. In 2017, I started with digital art for the first time and began a
+            Youtube channel with the name Luhrak later that year. Over the time my online persona developed, I practiced drawing
+            digitally and posting it online.
+          </p>
+          <p>
+            I have switched my focus from animation to streams to speedarts. A lot of those projects have stopped but doing art and
+            creative projects will always be a thing for me. This site, my Telegram channel and Discord server are the best ways to
+            keep up with what i do.
+          </p>
+        </div>
+      </section>
+      <section class="imageRight">
+        <h2>What do you use to draw?</h2>
+        <div>
+          <p>
+            While I do believe that art can be done well with pretty much any medium and tools, this is still a common
+            question.
+          </p>
+          <p>So this is what I normally use:</p>
+          <ul>
+            <li>Drawing tablet - Wacom Intuos Pro M</li>
+            <li>Art Software - Clip Studio Paint V2</li>
+            <li>Reference Viewer - PureRef</li>
+          </ul>
+        </div>
+        <img src="/img/ClipStudioTap.png" alt="Luhrak holding a tablet pen tapping on a logo of clip studio paint"/>
+      </section>
+      <section class="imageLeft">
+        <h2>Luhrak the character</h2>
+        <img src="/img/Character Reference Sheet.png" alt="Reference sheet of luhrak"/>
+        <div>
+          <p>
+            My fursona is a 5-foot orange furred finnish spitz. He got darker orange markings on his ears between his eyes and his
+            limbs as well as a creme colored belly, tail underside and arm stripes. He is a self insert meaning his personality is
+            the same as my own.
+          </p>
+          <p>
+            Making fanart of him is definitely allowed and much appreciated. Feel free to also send it to me or on me discord in the
+            fanart channel.
+          </p>
+          <a class="button" href="https://discord.gg/FkaJ2pC">Join Discord server 🡵</a>
+        </div>
+      </section>
+      <section>
+        <h2 id="contact-about">Contact Luhrak</h2>
+        <fetch-form>
           <form action="/contact/add" method="POST">
-            
-            <div class="form-two-columns">
+            <div
+              class="form-two-columns">
               <!-- Name -->
               <div class="input-block" data-field="name">
                 <label for="name">Name</label>
                 {% if formErrors.name %}
-                <p class="form-error">{{formErrors.name}}</p>
+                  <p class="form-error">{{ formErrors.name }}</p>
                 {% endif %}
-                <input 
-                {% if formErrors.name %} autofocus {% endif %}
-                type="text" 
-                id="name" 
-                name="name" 
-                value="{{ formData.name or '' }}"
-                />
+                <input {% if formErrors.name %} autofocus {% endif %} type="text" id="name" name="name" value="{{ formData.name or '' }}"/>
               </div>
-
               <!-- Email -->
               <div class="input-block" data-field="email">
                 <label for="email">Email</label>
-                  {% if formErrors.email %}
-                  <p class="form-error">{{formErrors.email}}</p>
-                  {% endif %}
-                <input 
-                {% if formErrors.email %} autofocus {% endif %}
-                type="text" 
-                id="email" 
-                name="email" 
-                value="{{ formData.email or '' }}"
-                />
+                {% if formErrors.email %}
+                  <p class="form-error">{{ formErrors.email }}</p>
+                {% endif %}
+                <input {% if formErrors.email %} autofocus {% endif %} type="text" id="email" name="email" value="{{ formData.email or '' }}"/>
               </div>
             </div>
-
-              <!-- Subject -->
-              <div class="input-block" data-field="subject">
-                <label for="subject">Subject</label>
-                {% if formErrors.subject %}
-                <p class="form-error">{{formErrors.subject}}</p>
-                {% endif %}
-                <input 
-                {% if formErrors.subject %} autofocus {% endif %}
-                type="text" 
-                id="subject" 
-                name="subject" 
-                value="{{ formData.subject or '' }}"
-                />
-              </div>
-
-              <!-- Message -->
-              <div class="input-block" data-field="message">
-                <label for="message">Message</label>
-                {% if formErrors.message %}
-                <p class="form-error">{{formErrors.message}}</p>
-                {% endif %}
-                <textarea 
-                {% if formErrors.message %} autofocus {% endif %}
-                id="message" 
-                name="message" 
-                rows="5"
-                >{{ formData.message or '' }}</textarea>
-              </div>
-
-              <div class="form-two-columns">
-                <p class="disclaimer"> Disclaimer: This form is is simply for getting in contact with Luhrak and does not confirm or accept any purchase / commission nor does it bind to any contracts.</p>
-                <button type="submit">Send Message</button>
-              </div>
-
+            <!-- Subject -->
+            <div class="input-block" data-field="subject">
+              <label for="subject">Subject</label>
+              {% if formErrors.subject %}
+                <p class="form-error">{{ formErrors.subject }}</p>
+              {% endif %}
+              <input {% if formErrors.subject %} autofocus {% endif %} type="text" id="subject" name="subject" value="{{ formData.subject or '' }}"/>
+            </div>
+            <!-- Message -->
+            <div class="input-block" data-field="message">
+              <label for="message">Message</label>
+              {% if formErrors.message %}
+                <p class="form-error">{{ formErrors.message }}</p>
+              {% endif %}
+              <textarea {% if formErrors.message %} autofocus {% endif %} id="message" name="message" rows="5">{{ formData.message or '' }}</textarea>
+            </div>
+            <div class="form-two-columns">
+              <p class="disclaimer">
+                Disclaimer: This form is is simply for getting in contact with Luhrak and does not confirm or accept any purchase /
+                commission nor does it bind to any contracts.</p>
+              <button type="submit">Send Message</button>
+            </div>
           </form>
-          </fetch-form>
-          <script type="module" src="/js/fetch-form.js"></script>
-        </section>
-      </div>
-    </main>
-
+        </fetch-form>
+        <script type="module" src="/js/fetch-form.js"></script>
+      </section>
+    </article>
+  </div>
 {% endblock %}

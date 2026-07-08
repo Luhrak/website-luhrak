@@ -1,146 +1,142 @@
 form {
-    background-color: var(--color-bg-opague);
-    backdrop-filter: blur(var(--blur-ammount));
-    border-radius: var(--border-radius);
+  background-color: var(--color-bg-opague);
+  backdrop-filter: blur(var(--blur-ammount));
+  border-radius: var(--border-radius);
 
-    display: flex;
-    flex-direction: column;
-    padding: 1.2em;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2em;
 
-    & button {
-        margin: auto 0 auto auto;
-    }
+  & button {
+    margin: auto 0 auto auto;
+  }
 
-    & textarea {
-        font-size: 1em;
-        min-height: 10em;
-    }
+  & textarea {
+    font-size: 1em;
+    min-height: 10em;
+  }
 
-    & select {
-        margin-bottom: 1em;
-    }
+  & select {
+    margin-bottom: 1em;
+  }
 }
 
 label {
-    display: block;
-    margin-bottom: 0.5em;
-    font-weight: 600;
-    padding-left: 0.2em;
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  padding-left: 0.2em;
 }
 
 select {
-    font-family: "Winky Sans", sans-serif;
-    font-size: 1em;
-    font-weight: 400;
-    background-color: var(--color-bg-dark);
-    color: var(--color-light);
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.8em 1em;
-    width: 100%;
+  font-family: "Winky Sans", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  background-color: var(--color-bg-dark);
+  color: var(--color-light);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.8em 1em;
+  width: 100%;
 
-    &:focus {
-        background-color: var(--color-bg-light);
-        outline: none;
-    }
+  &:focus {
+    background-color: var(--color-bg-light);
+    outline: none;
+  }
 }
 
 & input,
 textarea {
-    font-family: "Winky Sans", sans-serif;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.75em;
-    margin-bottom: 1em;
-    color: var(--color-light);
-    background-color: var(--color-bg-dark);
-    border-radius: var(--border-radius);
-    border: none;
-    font-size: 1em;
-    resize: vertical;
+  font-family: "Winky Sans", sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75em;
+  margin-bottom: 1em;
+  color: var(--color-light);
+  background-color: var(--color-bg-dark);
+  border-radius: var(--border-radius);
+  border: none;
+  font-size: 1em;
+  resize: vertical;
 
-    &:focus {
-        background-color: var(--color-bg-light);
-        outline: none;
-    }
+  &:focus {
+    background-color: var(--color-bg-light);
+    outline: none;
+  }
 }
 
 input::file-selector-button {
-    font-family: "Winky Sans", sans-serif;
-    font-weight: 600;
-    background-color: var(--color-bg-light);
-    color: var(--color-primary);
-    padding: 0.5em 1em;
-    margin-right: 0.8em;
-    border-radius: var(--border-radius);
-    border: none;
+  font-family: "Winky Sans", sans-serif;
+  font-weight: 600;
+  background-color: var(--color-bg-light);
+  color: var(--color-primary);
+  padding: 0.5em 1em;
+  margin-right: 0.8em;
+  border-radius: var(--border-radius);
+  border: none;
 }
 
 .input-block {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .form-two-columns {
-    display: flex;
-    column-gap: 1.5em;
+  display: flex;
+  column-gap: 1.5em;
 
-    @media (max-width: 40em) {
-        flex-direction: column;
-    }
+  @media (max-width: 40em) {
+    flex-direction: column;
+  }
 }
 
 .form-error {
-    color: var(--color-primary);
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    width: auto;
-    padding-left: 0.2em;
+  color: var(--color-primary);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  width: auto;
+  padding-left: 0.2em;
 }
 
 .filterBox {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 2em;
-    gap: 1em;
-    padding: 0.4em 1em;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2em;
+  gap: 1em;
+  padding: 0.4em 1em;
 
-    & label {
-        width: fit-content;
-        margin: auto 0;
-    }
+  & label {
+    width: fit-content;
+    margin: auto 0;
+  }
 
-    & select {
-        width: fit-content;
-        padding: 0.25em 0.7em;
-        margin-bottom:0;
-    }
-}
-
-.contact {
-    margin-top: 3em;
+  & select {
+    width: fit-content;
+    padding: 0.25em 0.7em;
+    margin-bottom: 0;
+  }
 }
 
 .slimForm {
-    max-width: 25em;
-    margin: 0 auto;
+  max-width: 25em;
+  margin: 0 auto;
 }
 
 .hiddenForm {
-    background-color: unset;
-    backdrop-filter: unset;
-    border-radius: unset;
-    margin: 0;
-    padding: 0;
-    display: block;
+  background-color: unset;
+  backdrop-filter: unset;
+  border-radius: unset;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 .redBg {
-    background-color: var(--color-red);
+  background-color: var(--color-red);
 }
 
 .disclaimer {
-    font-size: 0.85em;
+  font-size: 0.85em;
 }

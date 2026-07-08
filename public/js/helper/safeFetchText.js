@@ -1,4 +1,5 @@
 export async function safeFetchText(url, options) {
+  console.log(options);
   let response;
   try {
     response = await fetch(url, options);

@@ -1,71 +1,47 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhrak - {{ signup or 'Login' }}{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhrak - {{ signup or 'Login' }}
+{% endblock %}
 {% block content %}
-
-    <main>
-      <div class="widthConstraint">
-        <section class="slimForm">
+  <div class="widthConstraint">
+    <article>
+      <section class="slimForm">
+        <div class="headingWithButtons">
           <h1>{{ signup or 'Login' }}</h1>
-
-          <fetch-form>
-          {% if signup %}
-          <form action="/signup" method="POST">
-          {% else %}
-          <form action="/login" method="POST">
-          {% endif %}
-
+        </div>
+        <fetch-form>
+          <form
+            action="{% if signup %}/signup{% else %}/login{% endif %}" method="POST">
             <!-- Username -->
             <div class="input-block" data-field="username">
               <label for="username">Username</label>
               {% if formErrors.username %}
-              <p class="form-error">{{formErrors.username}}</p>
+                <p class="form-error">{{ formErrors.username }}</p>
               {% endif %}
-              <input 
-              type="text" 
-              id="username" 
-              name="username" 
-              value="{{ formData.username or '' }}"
-              />
+              <input type="text" id="username" name="username" value="{{ formData.username or '' }}"/>
             </div>
-
             <!-- Password -->
-            <div class="input-block" data-field="password">  
+            <div class="input-block" data-field="password">
               <label for="password">Password</label>
               {% if formErrors.password %}
-              <p class="form-error">{{formErrors.password}}</p>
+                <p class="form-error">{{ formErrors.password }}</p>
               {% endif %}
-              <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              value="{{ formData.password or '' }}"
-              />
+              <input type="password" id="password" name="password" value="{{ formData.password or '' }}"/>
             </div>
-
-            {% if signup %} 
-            <!-- Repat password -->
-            <div class="input-block" data-field="passwordConfirm">
-              <label for="passwordConfirm">Repat password</label>
-              {% if formErrors.passwordConfirm %}
-              <p class="form-error">{{formErrors.passwordConfirm}}</p>
-              {% endif %}
-              <input 
-              type="password" 
-              id="passwordConfirm" 
-              name="passwordConfirm" 
-              value="{{ formData.passwordConfirm or '' }}"
-              />
-            </div>
+            {% if signup %}
+              <!-- Repat password -->
+              <div class="input-block" data-field="passwordConfirm">
+                <label for="passwordConfirm">Repat password</label>
+                {% if formErrors.passwordConfirm %}
+                  <p class="form-error">{{ formErrors.passwordConfirm }}</p>
+                {% endif %}
+                <input type="password" id="passwordConfirm" name="passwordConfirm" value="{{ formData.passwordConfirm or '' }}"/>
+              </div>
             {% endif %}
-
             <button type="submit">Confirm</button>
           </form>
-          </fetch-form>
-          <script type="module" src="/js/fetch-form.js"></script>
-        </section>
-      </div>
-    </main>
-
+        </fetch-form>
+        <script type="module" src="/js/fetch-form.js"></script>
+      </section>
+    </article>
+  </div>
 {% endblock %}

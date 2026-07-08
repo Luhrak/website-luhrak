@@ -1,143 +1,90 @@
 {% extends "./layoutBlocks/layout.html" %}
-
-{% block title %}Luhraks Prices - {{ editing or 'New Price' }}{% endblock %}
-
+{% block title %}Luhraks Prices - {{ editing or 'New Price' }}
+{% endblock %}
 {% block content %}
-
-<main>
   <div class="widthConstraint">
-    <h1>{{ editing or 'New Price' }}</h1>
-
-    <fetch-form>
-    {% if editing %}
-      <form method="POST" action="/prices-update/{{ formData.id }}" enctype="multipart/form-data">
-    {% else %}
-      <form method="POST" action="/prices/add" enctype="multipart/form-data">
-    {% endif %}
-
-      <div class="form-two-columns">
-
-        <!-- TITLE -->
-        <div class="input-block" data-field="title">
-          <label for="title">Title</label>
-          {% if formErrors.title %}
-            <p class="form-error">{{ formErrors.title }}</p>
-          {% endif %}
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value="{{ formData.title or '' }}"
-          />
+    <article>
+      <section>
+        <div class="headingWithButtons">
+          <h1>{{ editing or 'New Price' }}</h1>
         </div>
-
-        <!-- Price -->
-        <div class="input-block" data-field="price">
-          <label for="price">Price (EUR)</label>
-            {% if formErrors.price %}
-            <p class="form-error">{{ formErrors.price }}</p>
+        <fetch-form>
+          <form method="POST" action="{% if editing %}/prices-update/{{ formData.id }}{% else %}/prices/add{% endif %}" enctype="multipart/form-data">
+            <div
+              class="form-two-columns">
+              <!-- TITLE -->
+              <div class="input-block" data-field="title">
+                <label for="title">Title</label>
+                {% if formErrors.title %}
+                  <p class="form-error">{{ formErrors.title }}</p>
+                {% endif %}
+                <input type="text" id="title" name="title" value="{{ formData.title or '' }}"/>
+              </div>
+              <!-- Price -->
+              <div class="input-block" data-field="price">
+                <label for="price">Price (EUR)</label>
+                {% if formErrors.price %}
+                  <p class="form-error">{{ formErrors.price }}</p>
+                {% endif %}
+                <input type="number" id="price" name="price" min="0" step="1" value="{{ formData.price or '1' }}"/>
+              </div>
+            </div>
+            <!-- Short description -->
+            <div class="input-block" data-field="short_description">
+              <label for="short_description">Short description</label>
+              {% if formErrors.short_description %}
+                <p class="form-error">{{ formErrors.short_description }}</p>
+              {% endif %}
+              <input type="text" id="short_description" name="short_description" value="{{ formData.short_description or '' }}"/>
+            </div>
+            <!-- Description -->
+            <div class="input-block" data-field="description">
+              <label for="description">Description</label>
+              {% if formErrors.description %}
+                <p class="form-error">{{ formErrors.description }}</p>
+              {% endif %}
+              <textarea id="description" name="description" rows="5">{{ formData.description or '' }}</textarea>
+            </div>
+            <!-- Image -->
+            <div class="input-block" data-field="previewfile">
+              {% if editing and formData.previewfile %}
+                <div class="image-edit-box">
+                  <img src="{{ formData.previewfile }}" alt="{{ formData.title }}"/>
+                  <label for="previewfile" class="delete-image-checkbox">
+                    Delete current image
+                  </label>
+                  <input id="previewfile" type="checkbox" name="deleteImage" value="1"/>
+                </div>
+              {% endif %}
+              {% if formData.previewfile %}
+                <label for="previewfile">Replace image (optional)</label>
+              {% else %}
+                <label for="previewfile">Image (optional)</label>
+              {% endif %}
+              {% if formErrors.previewfile %}
+                <p class="form-error">{{ formErrors.previewfile }}</p>
+              {% endif %}
+              <input type="file" id="previewfile" name="previewfile" accept="image/png, image/jpeg"/>
+            </div>
+            <!-- Alt text -->
+            <div class="input-block" data-field="alt">
+              <label for="alt">Alt text (optional)</label>
+              <input type="text" id="alt" name="alt" value="{{ formData.alt or '' }}"/>
+            </div>
+            <!-- Additions -->
+            <div class="input-block" data-field="additions">
+              <label for="additions">Price additions (optional)</label>
+              <textarea id="additions" name="additions" rows="5">{{ formData.additions or '' }}</textarea>
+            </div>
+            {% if editing %}
+              <button type="submit">Update</button>
+            {% else %}
+              <button type="submit">Submit</button>
             {% endif %}
-          <input
-            type="number"
-            id="price"
-            name="price"
-            min="0"
-            step="1"
-            value="{{ formData.price or '1' }}"
-          />
-        </div>
-
-      </div> 
-
-      <!-- Short description -->
-      <div class="input-block" data-field="short_description">
-         <label for="short_description">Short description</label>
-         {% if formErrors.short_description %}
-         <p class="form-error">{{ formErrors.short_description }}</p>
-         {% endif %}
-         <input
-         type="text"
-         id="short_description"
-         name="short_description"
-         value="{{ formData.short_description or '' }}"
-         />
-      </div>
-     
-      <!-- Description -->
-      <div class="input-block" data-field="description">
-        <label for="description">Description</label>
-        {% if formErrors.description %}
-        <p class="form-error">{{ formErrors.description }}</p>
-        {% endif %}
-        <textarea
-        id="description"
-        name="description"
-        rows="5"
-        >{{ formData.description or '' }}</textarea>
-      </div>
-
-      <!-- Image -->
-      <div class="input-block" data-field="previewfile">
-        {% if editing and formData.previewfile %}
-        <div class="image-edit-box">
-          <img src="{{ formData.previewfile }}" alt="{{ formData.title }}">
-          
-          <label class="delete-image-checkbox">
-            <input type="checkbox" name="deleteImage" value="1">
-            Delete current image
-          </label>
-        </div>
-        {% endif %}
-        
-        {% if formData.previewfile %}
-        <label for="previewfile">Replace image (optional)</label>
-        {% else %}
-        <label for="previewfile">Image (optional)</label>
-        {% endif %}
-        
-        {% if formErrors.previewfile %}
-        <p class="form-error">{{ formErrors.previewfile }}</p>
-        {% endif %}
-        <input
-        type="file"
-        id="previewfile"
-        name="previewfile"
-        accept="image/png, image/jpeg"
-        />
-      </div>
-
-      <!-- Alt text -->
-      <div class="input-block" data-field="alt">
-        <label for="alt">Alt text (optional)</label>
-        <input
-        type="text"
-        id="alt"
-        name="alt"
-        value="{{ formData.alt or '' }}"
-        />
-      </div>
-
-      <!-- Additions -->
-      <div class="input-block" data-field="additions">  
-        <label for="additions">Price additions (optional)</label>
-        <textarea
-        id="additions"
-        name="additions"
-        rows="5"
-        >{{ formData.additions or '' }}</textarea>
-      </div>
-
-      {% if editing %}
-        <button type="submit">Update</button>
-      {% else %}
-        <button type="submit">Submit</button>
-      {% endif %}
-
-    </form>
-    </fetch-form>
-    <script type="module" src="/js/fetch-form.js"></script>
-
+          </form>
+        </fetch-form>
+        <script type="module" src="/js/fetch-form.js"></script>
+      </section>
+    </article>
   </div>
-</main>
-
 {% endblock %}

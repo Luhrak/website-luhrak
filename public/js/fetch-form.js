@@ -3,25 +3,50 @@ import { safeFetchText } from "./helper/safeFetchText.js";
 class FetchForm extends HTMLElement {
   constructor() {
     super();
+    this.form = this.querySelector("form");
     this.timer = null;
+    // https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal#examples
+    this.form.abortController = null;
+    this.isSubmitting = false;
+  }
+
+  async updateSubmitButton() {
+    const form = this.form;
+    this.updateFromForm((data) => {
+      const submitButtons = form.querySelectorAll("button");
+      const hasErrors = !isFormSubmittable(data.data);
+      if (hasErrors) {
+        for (const button of submitButtons) {
+          button.classList.add("button-unclickable");
+          button.disabled = true;
+        }
+      } else {
+        for (const button of submitButtons) {
+          button.classList.remove("button-unclickable");
+          button.disabled = false;
+        }
+      }
+    });
   }
 
   connectedCallback() {
-    updateSubmitButton(this);
+    this.updateSubmitButton();
+    this.form.addEventListener("submit", this.submitHandler);
     this.addEventListener("focusout", this.focusoutHandler);
     this.addEventListener("input", this.inputHandler);
   }
 
   disconnectedCallback() {
+    this.form.removeEventListener("submit", this.submitHandler);
     this.removeEventListener("focusout", this.focusoutHandler);
     this.removeEventListener("input", this.inputHandler);
   }
 
   focusoutHandler(e) {
-    const form = e.target.closest("form") || this.querySelector("form");
+    const form = this.form;
     const formBlockActive = e.target.closest(".input-block");
     if (!form || !formBlockActive) return;
-    updateError(form, formBlockActive);
+    this.updateError(formBlockActive);
   }
 
   inputHandler(e) {
@@ -32,56 +57,49 @@ class FetchForm extends HTMLElement {
       const formBlockActive = e.target.closest(".input-block");
       if (!formBlockActive) return;
       resetError(formBlockActive);
-      updateSubmitButton(this);
+      this.updateSubmitButton();
     }, 500);
   }
-}
 
-async function updateSubmitButton(thisFetchForm) {
-  const form = thisFetchForm.querySelector("form");
-
-  updateFromForm(form, (data) => {
-    const submitButtons = form.querySelectorAll("button");
-    const hasErrors = !isFormSubmittable(data.data);
-    if (hasErrors) {
-      for (const button of submitButtons) {
-        button.classList.add("button-unclickable");
-        button.disabled = true;
-      }
-    } else {
-      for (const button of submitButtons) {
-        button.classList.remove("button-unclickable");
-        button.disabled = false;
-      }
+  submitHandler(e) {
+    this.isSubmitting = true;
+    if (this.abortController) {
+      this.abortController.abort();
     }
-  });
-}
-
-async function updateError(form, formBlockActive) {
-  updateFromForm(form, (data) => {
-    const formError = getFormBlockError(formBlockActive, data.data);
-    if (!formError) return;
-    insertFormErrors(formBlockActive, formError);
-  });
-}
-
-async function updateFromForm(form, onData) {
-  const formData = new FormData(form);
-  formData.append("partial", true);
-
-  const { data, error } = await safeFetchText(form.action, {
-    method: "POST",
-    headers: {},
-    body: formData,
-  });
-
-  if (error) {
-    console.error("safe fetch error:", error);
-    return;
   }
 
-  if (data) {
-    onData(data);
+  async updateError(formBlockActive) {
+    this.updateFromForm((data) => {
+      const formError = getFormBlockError(formBlockActive, data.data);
+      if (!formError) return;
+      insertFormErrors(formBlockActive, formError);
+    });
+  }
+
+  async updateFromForm(onData) {
+    const form = this.form;
+    const formData = new FormData(form);
+    formData.append("partial", true);
+    this.form.abortController = new AbortController();
+    const signal = this.form.abortController.signal;
+
+    if (this.isSubmitting) return;
+
+    const { data, error } = await safeFetchText(form.action, {
+      method: "POST",
+      headers: {},
+      body: formData,
+      signal,
+    });
+
+    if (error) {
+      console.error("safe fetch error:", error);
+      return;
+    }
+
+    if (data) {
+      onData(data);
+    }
   }
 }
 

@@ -1,56 +1,44 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhraks Gallery{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhraks Gallery{% endblock %}
 {% block content %}
-
-    <main>
-      <div class="widthConstraint">
-        <section>
-          <h1>Gallery</h1>
-          <p>
-            Welcome to my art corner with my latest works. Each is made with
-            care and a sprinkle of magic. I hope something here makes your tail
-            wag.
-          </p>
-
-
-          <form class="filterBox" method="GET" action="/gallery" class="galleryFilter">
-            <label for="price">Type:</label>
-
-            <select
-              id="price"
-              name="price"
-              onchange="this.form.submit()"
-            >
-              <option value="">All</option>
-
-              {% for price in prices %}
-                <option value="{{ price.id }}"
-                  {% if activePrice == price.id %} selected="selected" {% endif %}>
-                  {{ price.title }}
-                </option>
-              {% endfor %}
-            </select>
-          </form>
-
-            <ul class="gallery">
-
+  <div class="widthConstraint">
+    <article>
+      <div class="headingWithButtons">
+        <h1>Gallery</h1>
+      </div>
+      <section>
+        <p>
+          Welcome to my art corner with my latest works. Each is made with care and a sprinkle of magic. I hope something here
+          makes your tail wag.
+        </p>
+      </section>
+      <section>
+        <form class="filterBox" method="GET" action="/gallery" class="galleryFilter">
+          <label for="price">Type:</label>
+          <select id="price" name="price" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for price in prices %}
+              <option value="{{ price.id }}" {% if activePrice == price.id %} selected="selected" {% endif %}>
+                {{ price.title }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+        <ul class="gallery">
           {% if permission %}
             <li>
               <a href="/gallery/add">
                 <div>
-                  <img src="/img/NewPost.png" alt="Add new" />
+                  <img src="/img/NewPost.png" alt="Add new"/>
                 </div>
               </a>
             </li>
           {% endif %}
-
           {% for art in gallery %}
             <li>
               <a href="/gallery/{{ art.id }}">
                 <div>
-                  <img src="{{ art.artfile }}" alt="{{ art.alt }}">
+                  <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
                 </div>
               </a>
             </li>
@@ -63,10 +51,8 @@
               </p>
             </li>
           {% endfor %}
-
         </ul>
-        </section>
-      </div>
-    </main>
-
+      </section>
+    </article>
+  </div>
 {% endblock %}

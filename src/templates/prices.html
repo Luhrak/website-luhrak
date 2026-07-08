@@ -1,84 +1,76 @@
 {% extends "./layoutBlocks/layout.html" %}
-
 {% block title %}Luhraks Prices{% endblock %}
-
 {% block content %}
-<main>
   <div class="widthConstraint">
-    <h1>Commission Pricing</h1>
-
-    <div class="twoColumns">
-      <div>
-        <p>
-          See common options listed below for an idea what costs what.
-          However we dont always have to stick to these options. If you
-          have a special idea in mind just throw me a message and we
-          figure something out together.
-        </p>
-        <p>
-          Together we can make all your ideas into awesome looking
-          reality!
-        </p>
+    <article>
+      <div class="headingWithButtons">
+        <h1>Commission Pricing</h1>
       </div>
-      <div class="priceArea">
-        <h3>Hints:</h3>
-        <p>Payment is done via PayPal invoice.</p>
-        <p>Give honest feedback so that you are truly happy.</p>
-        <p>Big changes after clean lineart may cost more.</p>
-        <p>Tell me if you dont it to be posted online.</p>
-      </div>
-    </div>
-
-    <ul class="wideGallery">
-      
-      {% if permission %}
-        <li>
-          <a href="/prices/add">
-            <div>
-              <img src="/img/NewPost.png" alt="Add new price">
-            </div>
-            <div>
-              <h3>New Price</h3>
-              <p>Add new entry</p>
-            </div>
-          </a>
-        </li>
-      {% endif %}
-
-      {% for price in prices %}
-        <li>
-          <a href="/prices/{{ price.id }}">
-            <div>
-              <img src="{{ price.previewfile }}" alt="{{ price.title }}">
-            </div>
-            <div>
-              <div class="price">
-                <h3>{{ price.title }}</h3>
-                <p>from {{ price.price }} €</p>
+      <section class="twoColumns">
+        <div>
+          <p>
+            See common options listed below for an idea what costs what. However we dont always have to stick to these options. If
+            you have a special idea in mind just throw me a message and we figure something out together.
+          </p>
+          <p>
+            Together we can make all your ideas into awesome looking reality!
+          </p>
+        </div>
+        <div class="priceArea">
+          <h3>Hints:</h3>
+          <p>Payment is done via PayPal invoice.</p>
+          <p>Give honest feedback so that you are truly happy.</p>
+          <p>Big changes after clean lineart may cost more.</p>
+          <p>Tell me if you dont it to be posted online.</p>
+        </div>
+      </section>
+      <section>
+        <ul class="wideGallery">
+          {% if permission %}
+            <li>
+              <a href="/prices/add">
+                <div>
+                  <img src="/img/NewPost.png" alt="Add new price"/>
+                </div>
+                <div>
+                  <h3>New Price</h3>
+                  <p>Add new entry</p>
+                </div>
+              </a>
+            </li>
+          {% endif %}
+          {% for price in prices %}
+            <li>
+              <a href="/prices/{{ price.id }}">
+                <div>
+                  <img src="{{ price.previewfile }}" alt="{{ price.title }}"/>
+                </div>
+                <div>
+                  <div class="price">
+                    <h3>{{ price.title }}</h3>
+                    <p>from {{ price.price }} €</p>
+                  </div>
+                  <p>
+                    {{ price.short_description or '—' }}
+                  </p>
+                </div>
+              </a>
+            </li>
+          {% else %}
+            <li>
+              <div>
+                <div></div>
+                <div>
+                  <div class="price">
+                    <h3 class="whiteFont">No prices found</h3>
+                  </div>
+                  <p></p>
+                </div>
               </div>
-              <p>
-                {{ price.short_description or '—' }}
-              </p>
-            </div>
-          </a>
-        </li>
-      {% else %}
-        <li>
-          <div>
-            <div>
-            </div>
-            <div>
-              <div class="price">
-                <h3 class="whiteFont">No prices found</h3>
-              </div>
-              <p>
-              </p>
-            </div>
-          </div>
-        </li>
-      {% endfor %}
-      
-    </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </article>
   </div>
-</main>
 {% endblock %}

@@ -1,54 +1,50 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhrak{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhrak{% endblock %}
 {% block content %}
-
-    <main>
-      <section class="featured">
-        <img
-          src="/img/LuhInvite.png"
-          alt="Luhrak the orange art dog with green eyes, black hoodie and red hankerchief is holding out a paw towards the viewer while also smiling at them. In his other paw he holds a pen and a playful line trails off it."
-        />
+  <article>
+    <section class="featured">
+      <img
+        src="/img/LuhInvite.png"
+        alt="Luhrak the orange art dog with green eyes, black hoodie and red hankerchief is holding out a paw towards the viewer
+          while also smiling at them. In his other paw he holds a pen and a playful line trails off it."/>
+      <div>
+        <h1>Hey, Im Luhrak</h1>
+        <p>
+          As a digital artist, I specialize in anthropomorphic, cute, and cartoony character designs. Of course I also branch out
+          and do all sorts of art and projects.
+        </p>
+        <p>
+          You are welcome to commission art from me - I am happy to bring your fantasies to colorful
+          reality!
+        </p>
         <div>
-          <h1>Hey, Im Luhrak</h1>
-          <p>
-            As a digital artist, I specialize in anthropomorphic, cute, and
-            cartoony character designs. Of course I also branch out and do all
-            sorts of art and projects.
-          </p>
-          <p>
-            You are welcome to commission art from me - I am happy to bring your
-            fantasies to colorful reality!
-          </p>
-          <div>
-            <a class="button" href="/prices"> Commission Art </a>
-          </div>
-        </div>
-      </section>
-
-      <div class="widthConstraint">
-        <section>
-          <a href="/gallery">
-            <h2>My recent art <span>➜</span></h2>
+          <a class="button" href="/prices">
+            Commission Art
           </a>
-          <ul class="gallery">
-            {% for art in gallery %}
-            {% if loop.index0 < 4 %}    
-            <glance-view>
-            <li>
-              <a href="/gallery/{{ art.id }}">
-                <div>
-                  <img
-                    src="{{ art.artfile }}"
-                    alt="{{ art.alt }}"
-                  />
-                </div>
-              </a>
-            </li>
-            </glance-view>
+        </div>
+      </div>
+    </section>
+    <div class="widthConstraint">
+      <section>
+        <a href="/gallery">
+          <h2>My recent art
+            <span>➜</span>
+          </h2>
+        </a>
+        <ul class="gallery">
+          {% for art in gallery %}
+            {% if loop.index0 < 4 %}
+              <glance-view>
+                <li>
+                  <a href="/gallery/{{ art.id }}">
+                    <div>
+                      <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
+                    </div>
+                  </a>
+                </li>
+              </glance-view>
             {% endif %}
-            {% else %}
+          {% else %}
             <li>
               <p>
                 <div>
@@ -56,167 +52,103 @@
                 </div>
               </p>
             </li>
-            {% endfor %}
-          </ul>
-        </section>
-
-        <section>
-          <a href="/prices">
-            <h2>My pricings <span>➜</span></h2>
-          </a>
-          <ul class="wideGallery">
-            {% for price in prices %}
-            {% if loop.index0 < 2 %}    
-            <li>
-              <a href="/prices/{{ price.id }}">
-                <div>
-                  <img src="{{ price.previewfile }}" alt="{{ price.title }}">
-                </div>
-                <div>
-                  <div class="price">
-                    <h3>{{ price.title }}</h3>
-                    <p>from {{ price.price }} €</p>
-                  </div>
-                  <p>
-                    {{ price.short_description or '—' }}
-                  </p>
-                </div>
-              </a>
-            </li>
+          {% endfor %}
+        </ul>
+      </section>
+      <section>
+        <a href="/prices">
+          <h2>My pricings
+            <span>➜</span>
+          </h2>
+        </a>
+        <ul class="wideGallery">
+          {% for price in prices %}
+            {% if loop.index0 < 2 %}
+              <glance-view select="#priceOverview">
+                <li>
+                  <a href="/prices/{{ price.id }}">
+                    <div>
+                      <img src="{{ price.previewfile }}" alt="{{ price.title }}"/>
+                    </div>
+                    <div>
+                      <div class="price">
+                        <h3>{{ price.title }}</h3>
+                        <p>from {{ price.price }} €</p>
+                      </div>
+                      <p>
+                        {{ price.short_description or '—' }}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              </glance-view>
             {% endif %}
-            {% else %}
+          {% else %}
             <li>
               <div>
-                <div>
-                </div>
+                <div></div>
                 <div>
                   <div class="price">
                     <h3 class="whiteFont">No prices found</h3>
                   </div>
-                  <p>
-                  </p>
+                  <p></p>
                 </div>
               </div>
             </li>
-            {% endfor %}
-          </ul>
-        </section>
-
-        <section>
-          <a href="/projects">
-            <h2>My projects <span>➜</span></h2>
-          </a>
-          <ul class="wideGallery">
-            <li>
-              <a href="/projects-fursuit">
-                <div>
-                  <img
-                    src="/img/Projects/Fursuit.png"
-                    alt="Picture of Luhrak standing outside with fursuit head on and hand on his hips. His eyes are glowing and the moon is centered between his ears."
-                  />
-                </div>
-                <div>
-                  <h3>Luhrak Fursuit</h3>
-                  <p>
-                    After my first cons I desired suit. Learn about how I made
-                    my own.
-                  </p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/projects-stickers">
-                <div>
-                  <img
-                    src="/img/Projects/LuhSticker.png"
-                    alt="Sticker of Luhrak peaking over an edge with big eyes."
-                  />
-                </div>
-                <div>
-                  <h3>Telegram Stickerpack</h3>
-                  <p>
-                    Learn about and use my very own stickerpack for telegram.
-                  </p>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </section>
-
-        <div class="glanceView invisible">
-        <section class="detailsPage">
-          <div class="headingWithButtons">
-            
-            <h1>Test title</h1>
-            
-            <div class="row">
-            {% if permission %}
-              <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
-
-              <div class="deleteBox">
-            
-                <button
-                  class="redBg"
-                  type="button"
-                  onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
-                >
-                  Delete
-                </button>
-
-                <div id="confirmDeleteGallery" style="display: none;">
-                  <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
-                    <button class="redBg" type="submit">Confirm Delete</button>
-                  </form>
-
-                  <button
-                    type="button"
-                    class="button"
-                    onclick="
-                      document.getElementById('confirmDeleteGallery').style.display='none';
-                      this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
-                  >
-                    Cancel
-                  </button>
-                </div>
+          {% endfor %}
+        </ul>
+      </section>
+      <section>
+        <a href="/projects">
+          <h2>My projects
+            <span>➜</span>
+          </h2>
+        </a>
+        <ul class="wideGallery">
+          <li>
+            <a href="/projects-fursuit">
+              <div>
+                <img
+                  src="/img/Projects/Fursuit.png"
+                  alt="Picture of Luhrak standing outside with fursuit head on and hand on his hips. His eyes are glowing and the moon is
+                    centered between his ears."/>
               </div>
-              {% endif %}
-            <button>X</button>
-            </div>
-            
-          </div>
-          <img
-            src="/img/Projects/FursuitFull.png"
-            alt="{{ art.alt or 'An artpiece'}}"
-          />
+              <div>
+                <h3>Luhrak Fursuit</h3>
+                <p>
+                  After my first cons I desired suit. Learn about how I made my
+                                                      own.
+                </p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="/projects-stickers">
+              <div>
+                <img src="/img/Projects/LuhSticker.png" alt="Sticker of Luhrak peaking over an edge with big eyes."/>
+              </div>
+              <div>
+                <h3>Telegram Stickerpack</h3>
+                <p>
+                  Learn about and use my very own stickerpack for telegram.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="imageRight">
+        <h2>Want to get in touch?</h2>
+        <div>
           <p>
-            My boy wants to stream some more and have a png guy. Was still having fun doing lineless style from the previous drawing I did. I think he turned out so nice. If you wanna see it in action his channel is this: 
+            Be it for a commission or some other matter. The quickest way to reach me is on Telegram or Discord by writing me a
+            direct message.
           </p>
-          <p>Want an art piece similar to this too?</p>
-          {% if art.price_id %}
-          <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>
-          {% else %}
-          <a class="button" href="/prices">Commission Art</a>
-          {% endif %}
-        </section>
-      </div>
-        <script type="module" src="/js/glance-view.js"></script>
-
-        <section class="imageRight">
-          <h2>Want to get in touch?</h2>
-          <div>
-            <p>
-              Be it for a commission or some other matter. The quickest way to
-              reach me is on Telegram or Discord by writing me a direct message.
-            </p>
-            <p>However you can also contact me here:</p>
-            <a class="button" href="/about#contact-about">Contact</a>
-          </div>
-          <img
-            src="/img/Boop.png"
-            alt="Side view of Luhrak booping a contempt looking wolf on the nose."
-          />
-        </section>
-      </div>
-    </main>
-
+          <p>However you can also contact me here:</p>
+          <a class="button" href="/about#contact-about">Contact</a>
+        </div>
+        <img src="/img/Boop.png" alt="Side view of Luhrak booping a contempt looking wolf on the nose."/>
+      </section>
+    </div>
+  </article>
 {% endblock %}

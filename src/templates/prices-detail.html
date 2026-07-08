@@ -1,116 +1,85 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhraks Prices - {{ price.title }}{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhraks Prices - {{ price.title }}
+{% endblock %}
 {% block content %}
-
-<main>
   <div class="widthConstraint">
-
-      <div class="headingWithButtons">
-
-        <h1>{{ price.title }} Commission</h1>
-              
-        {% if permission %}
-          
-        <div class="row">
-          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a> 
-
-          <div class="deleteBox">
-            
-            <button
-              class="redBg"
-              type="button"
-              onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';"
-            >
-              Delete
-            </button>
-
-         
-            <div id="confirmDelete" style="display: none;">
-              <form class="hiddenForm" method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
-                <button class="redBg" type="submit">Confirm Delete</button>
-              </form>
-
-              <button
-                type="button"
-                class="button"
-                onclick="
-                  document.getElementById('confirmDelete').style.display='none';
-                  this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
-                "
-              >
-                Cancel
-              </button>
+    <article>
+      <section id="priceOverview">
+        <div class="headingWithButtons">
+          <h1>{{ price.title }} Commission</h1>
+          {% if permission %}
+            <div class="row">
+              <a class="button" href="/prices-edit/{{ price.id }}">
+                Edit
+              </a>
+              <div class="deleteBox">
+                <button
+                  class="redBg"
+                  type="button"
+                  onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';">
+                  Delete
+                </button>
+                <div id="confirmDelete" style="display: none;">
+                  <form class="hiddenForm" method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
+                    <button class="redBg" type="submit">Confirm Delete</button>
+                  </form>
+                  <button
+                    type="button"
+                    class="button"
+                    onclick=" document.getElementById('confirmDelete').style.display='none';
+                      this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block'; ">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        <div class="imageLeft">
+          <img src="{{ price.previewfile }}" alt="{{ price.alt or 'Preview of a price listing' }}"/>
+          <div>
+            {% if price.description %}
+              <p>
+                {{ price.description }}
+              </p>
+            {% endif %}
+            <div class="priceArea">
+              <p>{{ price.price }}€ per {{ price.title }}</p>
+              {% if price.additions %}
+                <p>{{ price.additions }}</p>
+              {% endif %}
             </div>
           </div>
         </div>
-        
-        {% endif %}
-      </div>
-
-    <section class="imageLeft">
-    
-
-
-        <img
-          src="{{ price.previewfile }}"
-          alt="{{ price.alt or 'Preview of a price listing'}}"
-        />
-
-
-      <div>
-        {% if price.description %}
-        <p>
-          {{ price.description }}
-        </p>
-        {% endif %}
-        <div class="priceArea">
-          <p>{{ price.price }}€ per {{ price.title }}</p>
-          {% if price.additions %}
-            <p>{{ price.additions }}</p>
-          {% endif %}
+      </section>
+      <section class="imageRight">
+        <h2>Want a {{ price.title }} commission?</h2>
+        <div>
+          <p>
+            Just have your references and ideas for me ready and get in touch with me. The quickest way to reach me is on Telegram
+            or Discord by writing me a direct message.
+          </p>
+          <p>However you can also contact me here:</p>
+          <a class="button" href="/about#contact-about">Contact</a>
         </div>
-      </div>
-
-    </section>
-
-    <section class="imageRight">
-      <h2>Want a {{ price.title }} commission?</h2>
-      <div>
-        <p>
-          Just have your references and ideas for me ready and get in touch
-          with me. The quickest way to reach me is on Telegram or Discord by
-          writing me a direct message.
-        </p>
-        <p>However you can also contact me here:</p>
-        <a class="button" href="/about#contact-about">Contact</a>
-      </div>
-      <img
-        src="/img/Boop.png"
-        alt="Side view of Luhrak booping a contempt looking wolf on the nose."
-      />
-    </section>
-
+        <img src="/img/Boop.png" alt="Side view of Luhrak booping a contempt looking wolf on the nose."/>
+      </section>
       {% if gallery and gallery | length > 0 %}
-        <h2>Examples of {{ price.title }}</h2>
-        <ul class="gallery">
-          {% for art in gallery %}
+        <section>
+          <h2>Examples of {{ price.title }}</h2>
+          <ul class="gallery">
+            {% for art in gallery %}
               <li>
                 <a href="/gallery/{{ art.id }}">
                   <div>
-                    <img
-                      src="{{ art.artfile }}"
-                      alt="{{ art.alt }}"
-                    />
+                    <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
                   </div>
                 </a>
               </li>
-          {% endfor %}
-        </ul>
+            {% endfor %}
+          </ul>
+        </section>
       {% endif %}
-
+    </article>
   </div>
-</main>
-
 {% endblock %}

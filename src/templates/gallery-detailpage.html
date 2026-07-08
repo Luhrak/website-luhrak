@@ -1,67 +1,57 @@
-{% extends "./layoutBlocks/layout.html" %} 
-
-{% block title %}Luhraks Gallery - {{ art.title }}{% endblock %} 
-
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhraks Gallery - {{ art.title }}
+{% endblock %}
 {% block content %}
-
-    <main>
-      <div class="widthConstraint">
-        <section class="detailsPage">
-          <div class="headingWithButtons">
-            
-            <h1>{{ art.title }}</h1>
-            
-            {% if permission %}
-            <div class="row">
-              <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
-
-              <div class="deleteBox">
-            
+  <div class="widthConstraint">
+    <article>
+      <div class="headingWithButtons">
+        <h1>{{ art.title }}</h1>
+        {% if permission %}
+          <div class="row">
+            <a class="button" href="/gallery-edit/{{ art.id }}">
+              Edit
+            </a>
+            <div class="deleteBox">
+              <button
+                class="redBg"
+                type="button"
+                onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';">
+                Delete
+              </button>
+              <div id="confirmDeleteGallery" style="display: none;">
+                <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
+                  <button class="redBg" type="submit">Confirm Delete</button>
+                </form>
                 <button
-                  class="redBg"
                   type="button"
-                  onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
-                >
-                  Delete
+                  class="button"
+                  onclick=" document.getElementById('confirmDeleteGallery').style.display='none';
+                    this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';">
+                  Cancel
                 </button>
-
-                <div id="confirmDeleteGallery" style="display: none;">
-                  <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
-                    <button class="redBg" type="submit">Confirm Delete</button>
-                  </form>
-
-                  <button
-                    type="button"
-                    class="button"
-                    onclick="
-                      document.getElementById('confirmDeleteGallery').style.display='none';
-                      this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </div>
             </div>
-            {% endif %}
-            
           </div>
-          <img
-            src="{{ art.artfile }}"
-            alt="{{ art.alt or 'An artpiece'}}"
-          />
+        {% endif %}
+      </div>
+      <div class="modal-card">
+        <section class="detailsPage">
+          <img src="{{ art.artfile }}" alt="{{ art.alt or 'An artpiece' }}"/>
           {% if art.description %}
-          <p>
-            {{ art.description }}
-          </p>
+            <p>
+              {{ art.description }}
+            </p>
           {% endif %}
+        </section>
+        <section>
           <p>Want an art piece similar to this too?</p>
           {% if art.price_id %}
-          <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>
+            <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>
           {% else %}
-          <a class="button" href="/prices">Commission Art</a>
+            <a class="button" href="/prices">Commission Art</a>
           {% endif %}
         </section>
       </div>
-    </main>
-
+    </article>
+  </div>
 {% endblock %}

@@ -27,10 +27,6 @@
     padding: 0.2em;
   }
 
-  &:not(:has(h1)) {
-    margin-top: 3.5rem;
-  }
-
   @media screen and (min-width: 36em) {
     grid-template-columns: 1fr 1fr;
     column-gap: 3em;
@@ -66,10 +62,6 @@
     padding: 0.2em;
   }
 
-  &:not(:has(h1)) {
-    margin-top: 3.5rem;
-  }
-
   @media screen and (min-width: 36em) {
     grid-template-columns: 1fr 2fr;
     column-gap: 3em;
@@ -94,10 +86,6 @@
 
   & h1 {
     margin-top: 0;
-  }
-
-  &:not(:has(h1)) {
-    margin-top: 3.5rem;
   }
 
   @media screen and (min-width: 36em) {
@@ -226,8 +214,8 @@
   list-style: none;
   padding-left: 0;
 
-  & > li > div,
-  & > li > a {
+  & li > div,
+  & li > a {
     display: grid;
     grid-template-columns: 1fr 2fr;
     height: 100%;
@@ -453,6 +441,10 @@
   gap: 1em;
   justify-content: space-between;
 
+  & > :first-child {
+    margin-right: auto;
+  }
+
   & h1,
   h2,
   h3,
@@ -490,10 +482,6 @@
     margin: 0;
   }
 
-  button {
-    margin-right: auto;
-  }
-
   & > p:last-of-type {
     margin-bottom: 0em;
   }
@@ -518,16 +506,21 @@
     max-width: 80dvw;
   }
 
-  & section {
-    margin-top: 7.5em;
+  & > article,
+  & > section {
+    margin-top: 3em;
     display: flex;
     flex-direction: column;
     gap: 1em;
   }
 
-  & .card {
+  & .modal-card {
     background-color: var(--color-bg-light);
     border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
   }
 
   & form {

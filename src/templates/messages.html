@@ -1,111 +1,106 @@
 {% extends "./layoutBlocks/layout.html" %}
-
 {% block title %}Messages{% endblock %}
-
 {% block content %}
-<main>
   <div class="widthConstraint">
-    <h1>Messages</h1>
-
-    {% if messages.new.length > 0 %}
-      <ul class="messagList">
-        {% for msg in messages.new %}
-          <li>
-            <div>
-              <ul>
-                <li>
-                  <p>From:</p>
-                  <p>{{ msg.name }}</p>
-                </li>
-                <li>
-                  <p>Email:</p>
-                  <p>{{ msg.email }}</p>
-                </li>
-                <li>
-                  <p>Date:</p>
-                  <p>{{ msg.created_at }}</p>
-                </li>
-              </ul>
-
-              <div>
-                <h3>{{ msg.subject }}</h3>
-                <p>{{ msg.message }}</p>
-              </div>
-            </div>
-
-            <div>
-              <form class="hiddenForm" action="/messages-read/{{ msg.id }}" method="POST">
-                <button type="submit">Mark read</button>
-              </form>
-
-              <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
-                <button class="redBg" type="submit">Delete</button>
-              </form>
-            </div>
-
-          </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
-    {% if messages.read.length > 0 %}
-      <p>
-      <h2>Read Messages</h2>
-      <ul class="messagList">
-        {% for msg in messages.read %}
-          <li>
-            <div>
-              <ul>
-                <li>
-                  <p>From:</p>
-                  <p>{{ msg.name }}</p>
-                </li>
-                <li>
-                  <p>Email:</p>
-                  <p>{{ msg.email }}</p>
-                </li>
-                <li>
-                  <p>Date:</p>
-                  <p>{{ msg.created_at }}</p>
-                </li>
-              </ul>
-
-              <div>
-                <h3>{{ msg.subject }}</h3>
-                <p>{{ msg.message }}</p>
-              </div>
-            </div>
-
-            <div>
-              <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
-                <button class="redBg" type="submit">Delete</button>
-              </form>
-            </div>
-
-          </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
-    {% if messages.new.length == 0 and messages.read.length == 0 %}
-    <ul class="messagList">
-          <li>
-            <div>
-              <ul>
-                
-              </ul>
-
-              <div>
-                <h3>No messages yet</h3>
-                <p></p>
-              </div>
-            </div>
-
-            <div>
-            </div>
-          </li>
+    <article>
+      <div class="headingWithButtons">
+        <h1>Messages</h1>
+      </div>
+      {% if messages.new.length > 0 %}
+        <section>
+          <div class="headingWithButtons">
+            <h2>New Messages</h2>
+          </div>
+          <ul class="messagList">
+            {% for msg in messages.new %}
+              <li>
+                <div>
+                  <ul>
+                    <li>
+                      <p>From:</p>
+                      <p>{{ msg.name }}</p>
+                    </li>
+                    <li>
+                      <p>Email:</p>
+                      <p>{{ msg.email }}</p>
+                    </li>
+                    <li>
+                      <p>Date:</p>
+                      <p>{{ msg.created_at }}</p>
+                    </li>
+                  </ul>
+                  <div>
+                    <h3>{{ msg.subject }}</h3>
+                    <p>{{ msg.message }}</p>
+                  </div>
+                </div>
+                <div>
+                  <form class="hiddenForm" action="/messages-read/{{ msg.id }}" method="POST">
+                    <button type="submit">Mark read</button>
+                  </form>
+                  <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
+                    <button class="redBg" type="submit">Delete</button>
+                  </form>
+                </div>
+              </li>
+            {% endfor %}
           </ul>
-    {% endif %}
+        </section>
+      {% endif %}
+      {% if messages.read.length > 0 %}
+        <section>
+          <div class="headingWithButtons">
+            <h2>Read Messages</h2>
+          </div>
+          <ul class="messagList">
+            {% for msg in messages.read %}
+              <li>
+                <div>
+                  <ul>
+                    <li>
+                      <p>From:</p>
+                      <p>{{ msg.name }}</p>
+                    </li>
+                    <li>
+                      <p>Email:</p>
+                      <p>{{ msg.email }}</p>
+                    </li>
+                    <li>
+                      <p>Date:</p>
+                      <p>{{ msg.created_at }}</p>
+                    </li>
+                  </ul>
+                  <div>
+                    <h3>{{ msg.subject }}</h3>
+                    <p>{{ msg.message }}</p>
+                  </div>
+                </div>
+                <div>
+                  <form class="hiddenForm" action="/messages-delete/{{ msg.id }}" method="POST">
+                    <button class="redBg" type="submit">Delete</button>
+                  </form>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+      {% if messages.new.length == 0 and messages.read.length == 0 %}
+        <section>
+          <ul class="messagList">
+            <li>
+              <div>
+                <ul></ul>
+                <div>
+                  <h3>No messages yet</h3>
+                  <p></p>
+                </div>
+              </div>
+              <div></div>
+            </li>
+          </ul>
+        </section>
+      {% endif %}
+    </article>
   </div>
-</main>
 {% endblock %}
