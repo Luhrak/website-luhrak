@@ -55,7 +55,13 @@ main {
 article {
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 2.2em;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 p {
@@ -73,8 +79,7 @@ h2 {
   padding: 0.2em 0.6em;
   border-radius: var(--border-radius);
   background-color: var(--color-bg-dark);
-  margin-top: 1.2em;
-  margin-bottom: 0.6em;
+  margin: 0;
 }
 
 h1 {
@@ -128,10 +133,6 @@ img {
   border-radius: var(--border-radius);
   width: 100%;
   height: auto;
-}
-
-section > p:last-of-type {
-  margin-bottom: 2em;
 }
 
 button {
@@ -202,6 +203,10 @@ button {
     color: gray;
     outline: none;
   }
+}
+
+.removeMargin {
+  margin: 0;
 }
 
 .row {

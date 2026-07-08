@@ -103,9 +103,9 @@ input::file-selector-button {
 .filterBox {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2em;
   gap: 1em;
   padding: 0.4em 1em;
+  margin-bottom: -1em;
 
   & label {
     width: fit-content;
