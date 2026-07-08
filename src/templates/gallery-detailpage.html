@@ -12,32 +12,34 @@
             <h1>{{ art.title }}</h1>
             
             {% if permission %}
-            <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
+            <div class="row">
+              <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
 
-            <div class="deleteBox">
-           
-              <button
-                class="redBg"
-                type="button"
-                onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
-              >
-                Delete
-              </button>
-
-              <div id="confirmDeleteGallery" style="display: none;">
-                <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
-                  <button class="redBg" type="submit">Confirm Delete</button>
-                </form>
-
+              <div class="deleteBox">
+            
                 <button
+                  class="redBg"
                   type="button"
-                  class="button"
-                  onclick="
-                    document.getElementById('confirmDeleteGallery').style.display='none';
-                    this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
+                  onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
                 >
-                  Cancel
+                  Delete
                 </button>
+
+                <div id="confirmDeleteGallery" style="display: none;">
+                  <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
+                    <button class="redBg" type="submit">Confirm Delete</button>
+                  </form>
+
+                  <button
+                    type="button"
+                    class="button"
+                    onclick="
+                      document.getElementById('confirmDeleteGallery').style.display='none';
+                      this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
             {% endif %}
@@ -47,11 +49,11 @@
             src="{{ art.artfile }}"
             alt="{{ art.alt or 'An artpiece'}}"
           />
-        {% if art.description %}
+          {% if art.description %}
           <p>
             {{ art.description }}
           </p>
-        {% endif %}
+          {% endif %}
           <p>Want an art piece similar to this too?</p>
           {% if art.price_id %}
           <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>

@@ -35,6 +35,7 @@
           <ul class="gallery">
             {% for art in gallery %}
             {% if loop.index0 < 4 %}    
+            <glance-view>
             <li>
               <a href="/gallery/{{ art.id }}">
                 <div>
@@ -45,6 +46,7 @@
                 </div>
               </a>
             </li>
+            </glance-view>
             {% endif %}
             {% else %}
             <li>
@@ -140,6 +142,64 @@
             </li>
           </ul>
         </section>
+
+        <div class="glanceView invisible">
+        <section class="detailsPage">
+          <div class="headingWithButtons">
+            
+            <h1>Test title</h1>
+            
+            <div class="row">
+            {% if permission %}
+              <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
+
+              <div class="deleteBox">
+            
+                <button
+                  class="redBg"
+                  type="button"
+                  onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
+                >
+                  Delete
+                </button>
+
+                <div id="confirmDeleteGallery" style="display: none;">
+                  <form class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
+                    <button class="redBg" type="submit">Confirm Delete</button>
+                  </form>
+
+                  <button
+                    type="button"
+                    class="button"
+                    onclick="
+                      document.getElementById('confirmDeleteGallery').style.display='none';
+                      this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              {% endif %}
+            <button>X</button>
+            </div>
+            
+          </div>
+          <img
+            src="/img/Projects/FursuitFull.png"
+            alt="{{ art.alt or 'An artpiece'}}"
+          />
+          <p>
+            My boy wants to stream some more and have a png guy. Was still having fun doing lineless style from the previous drawing I did. I think he turned out so nice. If you wanna see it in action his channel is this: 
+          </p>
+          <p>Want an art piece similar to this too?</p>
+          {% if art.price_id %}
+          <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>
+          {% else %}
+          <a class="button" href="/prices">Commission Art</a>
+          {% endif %}
+        </section>
+      </div>
+        <script type="module" src="/js/glance-view.js"></script>
 
         <section class="imageRight">
           <h2>Want to get in touch?</h2>

@@ -3,10 +3,11 @@ import { safeFetchText } from "./helper/safeFetchText.js";
 class FetchForm extends HTMLElement {
   constructor() {
     super();
+    this.timer = null;
   }
 
   connectedCallback() {
-    updateButton(this);
+    updateSubmitButton(this);
     this.addEventListener("focusout", this.focusoutHandler);
     this.addEventListener("input", this.inputHandler);
   }
@@ -24,47 +25,47 @@ class FetchForm extends HTMLElement {
   }
 
   inputHandler(e) {
-    const formBlockActive = e.target.closest(".input-block");
-    if (!formBlockActive) return;
-    resetError(formBlockActive);
-    updateButton(this);
+    // Timer for preventing too many rapid api calls while typing
+    clearTimeout(this.timer);
+
+    this.timer = setTimeout(() => {
+      const formBlockActive = e.target.closest(".input-block");
+      if (!formBlockActive) return;
+      resetError(formBlockActive);
+      updateSubmitButton(this);
+    }, 500);
   }
 }
 
-async function updateButton(thisFetchForm) {
+async function updateSubmitButton(thisFetchForm) {
   const form = thisFetchForm.querySelector("form");
-  const submitButtons = form.querySelectorAll("button");
-  const formData = new FormData(form);
-  formData.append("partial", true);
 
-  const { data, error } = await safeFetchText(form.action, {
-    method: "POST",
-    headers: {},
-    body: formData,
-  });
-
-  if (error) {
-    console.error("safe fetch error:", error);
-    return;
-  }
-
-  if (data) {
-    const hasErrors = !isSubmittable(data.data);
+  updateFromForm(form, (data) => {
+    const submitButtons = form.querySelectorAll("button");
+    const hasErrors = !isFormSubmittable(data.data);
     if (hasErrors) {
-      for (var i = 0; i < submitButtons.length; i++) {
-        submitButtons.item(i).classList.add("button-unclickable");
-        submitButtons.item(i).disabled = true;
+      for (const button of submitButtons) {
+        button.classList.add("button-unclickable");
+        button.disabled = true;
       }
     } else {
-      for (var i = 0; i < submitButtons.length; i++) {
-        submitButtons.item(i).classList.remove("button-unclickable");
-        submitButtons.item(i).disabled = false;
+      for (const button of submitButtons) {
+        button.classList.remove("button-unclickable");
+        button.disabled = false;
       }
     }
-  }
+  });
 }
 
 async function updateError(form, formBlockActive) {
+  updateFromForm(form, (data) => {
+    const formError = getFormBlockError(formBlockActive, data.data);
+    if (!formError) return;
+    insertFormErrors(formBlockActive, formError);
+  });
+}
+
+async function updateFromForm(form, onData) {
   const formData = new FormData(form);
   formData.append("partial", true);
 
@@ -80,23 +81,21 @@ async function updateError(form, formBlockActive) {
   }
 
   if (data) {
-    const formError = isFormBlockSubmittable(formBlockActive, data.data);
-    if (!formError) return;
-    insertFormErrors(formBlockActive, formError);
+    onData(data);
   }
 }
 
-function isFormBlockSubmittable(formBlockActive, data) {
+function getFormBlockError(formBlockActive, data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
   const formBlocks = dataDoc.querySelectorAll(".input-block");
 
-  for (var i = 0; i < formBlocks.length; i++) {
-    if (doFormBlocksMatch(formBlockActive, formBlocks.item(i)))
-      return formBlocks.item(i).querySelector(".form-error");
+  for (const block of formBlocks) {
+    if (doFormBlocksMatch(formBlockActive, block))
+      return block.querySelector(".form-error");
   }
 }
 
-function isSubmittable(data) {
+function isFormSubmittable(data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
   const errors = dataDoc.querySelectorAll(".form-error");
   return errors.length > 0 ? false : true;

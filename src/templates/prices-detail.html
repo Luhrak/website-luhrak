@@ -12,7 +12,9 @@
         <h1>{{ price.title }} Commission</h1>
               
         {% if permission %}
-          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a>
+          
+        <div class="row">
+          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a> 
 
           <div class="deleteBox">
             
@@ -42,7 +44,8 @@
               </button>
             </div>
           </div>
-
+        </div>
+        
         {% endif %}
       </div>
 

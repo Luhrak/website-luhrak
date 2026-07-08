@@ -1,4 +1,4 @@
-class activeNav extends HTMLElement {
+class ActiveNav extends HTMLElement {
   constructor() {
     super();
   }
@@ -30,9 +30,9 @@ if (
 ) {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () =>
-      customElements.define("active-nav", activeNav),
+      customElements.define("active-nav", ActiveNav),
     );
   } else {
-    customElements.define("active-nav", activeNav);
+    customElements.define("active-nav", ActiveNav);
   }
 }
