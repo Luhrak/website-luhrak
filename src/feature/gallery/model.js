@@ -49,20 +49,8 @@ export async function listMinimal() {
   const db = connection();
   return (
     await db.queryObject`
-    SELECT "id", "artfile", "alt"  
+    SELECT "id", "artfile", "alt", "title"
     FROM public."gallery"
-    ORDER BY id DESC
-  `
-  ).rows;
-}
-
-export async function listByPrice(priceId) {
-  const db = connection();
-  return (
-    await db.queryObject`
-    SELECT "id", "artfile", "alt"
-    FROM public."gallery"
-    WHERE price_id = ${priceId}
     ORDER BY id DESC
   `
   ).rows;
@@ -72,7 +60,7 @@ export async function listByPriceId(priceId) {
   const db = connection();
   return (
     await db.queryObject`
-    SELECT "id", "artfile", "alt"
+    SELECT "id", "artfile", "alt", "title"
     FROM public."gallery"
     WHERE price_id = ${priceId}
     ORDER BY id DESC

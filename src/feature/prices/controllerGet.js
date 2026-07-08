@@ -19,7 +19,7 @@ export async function pricesDetail(ctx) {
   // Handling of page of a single price listing
   const id = ctx.entryId;
   const price = await model.get(id);
-  const gallery = await galleryModel.listByPrice(price.id);
+  const gallery = await galleryModel.listByPriceId(price.id);
   ctx.body = await render("prices-detail.html", ctx, {
     price,
     gallery: gallery.map(artfileAsBlob),

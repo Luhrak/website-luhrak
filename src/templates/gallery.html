@@ -13,17 +13,27 @@
         </p>
       </section>
       <section>
-        <form class="filterBox" method="GET" action="/gallery" class="galleryFilter">
-          <label for="price">Type:</label>
-          <select id="price" name="price" onchange="this.form.submit()">
-            <option value="">All</option>
-            {% for price in prices %}
-              <option value="{{ price.id }}" {% if activePrice == price.id %} selected="selected" {% endif %}>
-                {{ price.title }}
-              </option>
-            {% endfor %}
-          </select>
-        </form>
+        <live-search target="#gallery">
+          <form class="filterBox" method="GET" action="/gallery" class="galleryFilter">
+            <label for="price">Type:</label>
+            <select id="price" name="price">
+              <option value="">All</option>
+              {% for price in prices %}
+                <option value="{{ price.id }}" {% if activePrice == price.id %} selected="selected" {% endif %}>
+                  {{ price.title }}
+                </option>
+              {% endfor %}
+            </select>
+            <label for="search">Search:</label>
+            <input id="search" name="search" type="text" value="{{ search }}"/>
+            <button role="submit">
+              Submit
+            </button>
+          </form>
+        </live-search>
+        <script type="module" src="/js/live-search.js"></script>
+      </section>
+      <section id="gallery">
         <ul class="gallery">
           {% if permission %}
             <li>
@@ -35,13 +45,15 @@
             </li>
           {% endif %}
           {% for art in gallery %}
-            <li>
-              <a href="/gallery/{{ art.id }}">
-                <div>
-                  <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
-                </div>
-              </a>
-            </li>
+            <glance-view>
+              <li>
+                <a href="/gallery/{{ art.id }}">
+                  <div>
+                    <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
+                  </div>
+                </a>
+              </li>
+            </glance-view>
           {% else %}
             <li>
               <p>

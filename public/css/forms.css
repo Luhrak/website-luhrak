@@ -112,6 +112,10 @@ input::file-selector-button {
     margin: auto 0;
   }
 
+  & input {
+    margin: 0;
+  }
+
   & select {
     width: fit-content;
     padding: 0.25em 0.7em;

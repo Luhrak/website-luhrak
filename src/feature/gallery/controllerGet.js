@@ -7,15 +7,20 @@ import { encodeBase64 } from "jsr:@std/encoding/base64";
 export async function gallery(ctx) {
   // Handling of page with the gallery overview
   const priceId = ctx.url.searchParams.get("price");
+  const search = ctx.url.searchParams.get("search")?.trim().toLowerCase() ?? "";
   const gallery = priceId
     ? await model.listByPriceId(Number(priceId))
-    : await model.listMinimal();
+    : await model.list();
+  const galleryFiltered = gallery.filter(({ title }) =>
+    title.toLowerCase().includes(search),
+  );
   const prices = await priceModel.listMinimal();
   const activePrice = priceId ? Number(priceId) : null;
 
   ctx.body = await render("gallery.html", ctx, {
-    gallery: gallery.map(artfileAsBlob),
+    gallery: galleryFiltered.map(artfileAsBlob),
     prices,
+    search,
     activePrice,
   });
   ctx.headers.set("content-type", "text/html");
