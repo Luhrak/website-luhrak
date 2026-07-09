@@ -456,7 +456,6 @@
 
   & button {
     margin: 0;
-    padding: 0.65em 1em;
   }
 
   .button {
@@ -472,6 +471,7 @@
   img {
     overflow: hidden;
     display: block;
+    align-self: center;
   }
 
   h1,
@@ -491,7 +491,7 @@
 
 .glanceView {
   position: fixed;
-  top: 0;
+  top: 64px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -501,7 +501,14 @@
   align-items: center;
   background: var(--color-bg-opague);
   backdrop-filter: blur(var(--blur-ammount));
-  overflow: scroll;
+  overflow: hidden;
+
+  & > div {
+    max-height: max(80dvh, 60rem);
+    max-width: max(80dvw, 60rem);
+    margin: 1em;
+    overflow: auto;
+  }
 
   & img {
     max-height: 60dvh;
@@ -519,9 +526,9 @@
   & .modal-card {
     background-color: var(--color-bg-light);
     border-radius: var(--border-radius);
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+  }
+
+  & .modal-padding {
     padding: 1em;
   }
 

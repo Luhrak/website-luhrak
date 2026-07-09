@@ -1,3 +1,4 @@
+import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
 import { safeFetchText } from "./helper/safeFetchText.js";
 
 class LiveSearch extends HTMLElement {
@@ -33,6 +34,7 @@ class LiveSearch extends HTMLElement {
     // Timer for preventing too many rapid api calls while typing
     clearTimeout(this.timer);
 
+    this.setUpdateStauts(true);
     this.timer = setTimeout(() => {
       if (!this.targetElement) return;
       this.updateResults(this.targetElement);
@@ -44,7 +46,6 @@ class LiveSearch extends HTMLElement {
     const formData = new FormData(form);
     const params = this.formDataToQueryString(formData);
     const url = form.action + "?" + params;
-    this.setUpdateStauts(true);
     this.getFromUrl(url, (data) => {
       const dataDoc = new DOMParser().parseFromString(data.data, "text/html");
       this.targetElement.innerHTML = dataDoc.querySelector(
@@ -85,13 +86,7 @@ class LiveSearch extends HTMLElement {
   }
 }
 
-// JS availablity check
-if ("querySelector" in document && "addEventListener" in window) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () =>
-      customElements.define("live-search", LiveSearch),
-    );
-  } else {
-    customElements.define("live-search", LiveSearch);
-  }
-}
+ifJsAvailableAndLoaded(
+  () => customElements.define("live-search", LiveSearch),
+  ["querySelector", "addEventListener", "customElements"],
+);

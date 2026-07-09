@@ -7,7 +7,7 @@
         <h1>Gallery</h1>
       </div>
       <section>
-        <p class="removeMargin">
+        <p>
           Welcome to my art corner with my latest works. Each is made with care and a sprinkle of magic. I hope something here
           makes your tail wag.
         </p>
@@ -24,10 +24,9 @@
                 </option>
               {% endfor %}
             </select>
-            <label for="search">Search:</label>
-            <input id="search" name="search" type="text" value="{{ search }}"/>
+            <input id="search" name="search" type="text" value="{{ search }}" placeholder="Search for art"/>
             <button role="submit">
-              Submit
+              Search
             </button>
           </form>
         </live-search>

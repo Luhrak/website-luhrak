@@ -14,7 +14,7 @@
       </p>
       <p>
         You are welcome to commission art from me - I am happy to bring your fantasies to colorful
-                            reality!
+        reality!
       </p>
       <div>
         <a class="button" href="/prices">
@@ -26,11 +26,13 @@
   <div class="widthConstraint">
     <article>
       <section>
-        <a href="/gallery">
-          <h2>My recent art
-            <span>➜</span>
-          </h2>
-        </a>
+        <div class="headingWithButtons">
+          <a href="/gallery">
+            <h2>My recent art
+              <span>➜</span>
+            </h2>
+          </a>
+        </div>
         <ul class="gallery">
           {% for art in gallery %}
             {% if loop.index0 < 4 %}
@@ -56,11 +58,13 @@
         </ul>
       </section>
       <section>
-        <a href="/prices">
-          <h2>My pricings
-            <span>➜</span>
-          </h2>
-        </a>
+        <div class="headingWithButtons">
+          <a href="/prices">
+            <h2>My pricings
+              <span>➜</span>
+            </h2>
+          </a>
+        </div>
         <ul class="wideGallery">
           {% for price in prices %}
             {% if loop.index0 < 2 %}
@@ -99,11 +103,13 @@
         </ul>
       </section>
       <section>
-        <a href="/projects">
-          <h2>My projects
-            <span>➜</span>
-          </h2>
-        </a>
+        <div class="headingWithButtons">
+          <a href="/projects">
+            <h2>My projects
+              <span>➜</span>
+            </h2>
+          </a>
+        </div>
         <ul class="wideGallery">
           <li>
             <a href="/projects-fursuit">
@@ -117,7 +123,7 @@
                 <h3>Luhrak Fursuit</h3>
                 <p>
                   After my first cons I desired suit. Learn about how I made my
-                                    own.
+                                                      own.
                 </p>
               </div>
             </a>
@@ -137,17 +143,21 @@
           </li>
         </ul>
       </section>
-      <section class="imageRight">
-        <h2>Want to get in touch?</h2>
-        <div>
-          <p>
-            Be it for a commission or some other matter. The quickest way to reach me is on Telegram or Discord by writing me a
-            direct message.
-          </p>
-          <p>However you can also contact me here:</p>
-          <a class="button" href="/about#contact-about">Contact</a>
+      <section>
+        <div class="headingWithButtons">
+          <h2>Want to get in touch?</h2>
         </div>
-        <img src="/img/Boop.png" alt="Side view of Luhrak booping a contempt looking wolf on the nose."/>
+        <div class="imageRight">
+          <div>
+            <p>
+              Be it for a commission or some other matter. The quickest way to reach me is on Telegram or Discord by writing me a
+              direct message.
+            </p>
+            <p>However you can also contact me here:</p>
+            <a class="button" href="/about#contact-about">Contact</a>
+          </div>
+          <img src="/img/Boop.png" alt="Side view of Luhrak booping a contempt looking wolf on the nose."/>
+        </div>
       </section>
     </div>
   </article>

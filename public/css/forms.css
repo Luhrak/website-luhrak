@@ -105,7 +105,7 @@ input::file-selector-button {
   flex-direction: row;
   gap: 1em;
   padding: 0.4em 1em;
-  margin-bottom: -1em;
+  margin-bottom: -1.5em;
 
   & label {
     width: fit-content;

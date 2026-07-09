@@ -1,3 +1,5 @@
+import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
+
 class ActiveNav extends HTMLElement {
   constructor() {
     super();
@@ -7,6 +9,11 @@ class ActiveNav extends HTMLElement {
     setActiveItem(this);
   }
 }
+
+ifJsAvailableAndLoaded(
+  () => customElements.define("active-nav", ActiveNav),
+  ["querySelector", "addEventListener", "customElements"],
+);
 
 function setActiveItem(nav) {
   const navItems = nav.querySelectorAll("a");
@@ -19,20 +26,5 @@ function setActiveItem(nav) {
       navItems.item(i).classList.add("nav-active");
       navItems.item(i).ariaCurrent = "selection";
     }
-  }
-}
-
-// JS availablity check
-if (
-  "customElements" in window &&
-  "querySelector" in document &&
-  "addEventListener" in window
-) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () =>
-      customElements.define("active-nav", ActiveNav),
-    );
-  } else {
-    customElements.define("active-nav", ActiveNav);
   }
 }

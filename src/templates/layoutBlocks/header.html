@@ -1,41 +1,48 @@
-    <header>
-      <div>
-        <a class="branding" href="/" aria-current="page">
-          <img
-            class="logo"
-            src="/img/LuhrakLogo.png"
-            alt="Luhraks Logo consisting of a hexagon with ears resembling Luhraks face shape"
-          />
-          <img
-            class="logoHover"
-            src="/img/LuhrakLogoHover.png"
-            alt="Luhraks Logo consisting of a hexagon with ears resembling Luhraks face shape"
-          />
-          <p>Luhrak</p>
-        </a>
-        <hamburger-menu>
-          <active-nav>
-          <nav aria-label="main navigation">
-            <ul>
-              <li><a href="/gallery">Gallery</a></li>
-              <li><a href="/prices">Prices</a></li>
-              <li><a href="/projects">Projects</a></li>
-              <li><a href="/about">About</a></li>
-              {% if permission %}
-              <li><a href="/messages">Messages</a></li>
-              {% endif %}
-            </ul>
-          </nav>
-          </active-nav>
-        </hamburger-menu>
-      </div>
-    </header>
-    <script src="/js/hamburger-menu.js"></script>
-    <script src="/js/active-nav.js"></script>
-
-    {% if flash %}
-    <div class="flashbox" > 
-      <p>{{flash}}</p>
-    </div>
-    <script src="/js/flash-timeout.js"></script>
-    {% endif %}
+<header>
+  <div>
+    <a class="branding" href="/" aria-current="page">
+      <img
+        class="logo"
+        src="/img/LuhrakLogo.png"
+        alt="Luhraks Logo consisting of a hexagon with ears resembling Luhraks face shape"/>
+      <img
+        class="logoHover"
+        src="/img/LuhrakLogoHover.png"
+        alt="Luhraks Logo consisting of a hexagon with ears resembling Luhraks face shape"/>
+      <p>Luhrak</p>
+    </a>
+    <hamburger-menu>
+      <active-nav>
+        <nav aria-label="main navigation">
+          <ul>
+            <li>
+              <a href="/gallery">Gallery</a>
+            </li>
+            <li>
+              <a href="/prices">Prices</a>
+            </li>
+            <li>
+              <a href="/projects">Projects</a>
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+            {% if permission %}
+              <li>
+                <a href="/messages">Messages</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </active-nav>
+    </hamburger-menu>
+  </div>
+</header>
+<script type="module" src="/js/hamburger-menu.js"></script>
+<script type="module" src="/js/active-nav.js"></script>
+{% if flash %}
+  <div class="flashbox">
+    <p>{{ flash }}</p>
+  </div>
+  <script type="module" src="/js/flash-timeout.js"></script>
+{% endif %}

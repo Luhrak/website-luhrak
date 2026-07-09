@@ -35,9 +35,9 @@
             </div>
           {% endif %}
         </div>
-        <div class="imageLeft">
+        <div class="imageLeft modal-card">
           <img src="{{ price.previewfile }}" alt="{{ price.alt or 'Preview of a price listing' }}"/>
-          <div>
+          <div class="modal-padding">
             {% if price.description %}
               <p>
                 {{ price.description }}

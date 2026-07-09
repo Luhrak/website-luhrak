@@ -1,3 +1,5 @@
+import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
+
 class HamburgerMenu extends HTMLElement {
   constructor() {
     super();
@@ -45,7 +47,7 @@ class HamburgerMenu extends HTMLElement {
   }
 }
 
-// JS availablity check
-if ("customElements" in window && "addEventListener" in window) {
-  customElements.define("hamburger-menu", HamburgerMenu);
-}
+ifJsAvailableAndLoaded(
+  () => customElements.define("hamburger-menu", HamburgerMenu),
+  ["querySelector", "addEventListener", "customElements"],
+);

@@ -1,3 +1,4 @@
+import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
 import { safeFetchText } from "./helper/safeFetchText.js";
 
 class FetchForm extends HTMLElement {
@@ -103,6 +104,11 @@ class FetchForm extends HTMLElement {
   }
 }
 
+ifJsAvailableAndLoaded(
+  () => customElements.define("fetch-form", FetchForm),
+  ["querySelector", "addEventListener", "customElements"],
+);
+
 function getFormBlockError(formBlockActive, data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
   const formBlocks = dataDoc.querySelectorAll(".input-block");
@@ -136,14 +142,3 @@ function resetError(formBlockActive) {
 
 const doFormBlocksMatch = (block1, block2) =>
   block1.dataset.field === block2.dataset.field;
-
-// JS availablity check
-if ("querySelector" in document && "addEventListener" in window) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () =>
-      customElements.define("fetch-form", FetchForm),
-    );
-  } else {
-    customElements.define("fetch-form", FetchForm);
-  }
-}

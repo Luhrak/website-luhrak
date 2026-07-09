@@ -1,11 +1,29 @@
+import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
+
+ifJsAvailableAndLoaded(flashTimeout, ["querySelector", "addEventListener"]);
+
 const flashTransformation = [
-  { transform: "translateX(-50%) translateY(0)" },
-  { transform: "translateX(-50%) translateY(-3em)" },
+  // Start
+  { transform: "translateX(-50%) translateY(0) scale(1,1)" },
+
+  // Grow slightly for a bounce
+  {
+    transform: "translateX(-50%) translateY(0.3em) scale(1.06,1.06)",
+    // go down instead of up for a moment
+  },
+
+  // Squish horizontally and move up
+  {
+    transform: "translateX(-50%) translateY(0) scale(0.92,1)",
+  },
+  {
+    transform: "translateX(-50%) translateY(-3.2em) scale(0.60,0.80)",
+  },
 ];
 
 const flashTiming = {
   duration: 300,
-  easing: "ease-in",
+  // easing: "ease-in-out",
   fill: "forwards",
 };
 
@@ -21,13 +39,4 @@ function removeFlash() {
     .animate(flashTransformation, flashTiming)
     .finished.then(() => flashbox.remove())
     .catch(() => flashbox.remove());
-}
-
-// JS availablity check
-if ("querySelector" in document && "addEventListener" in window) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", flashTimeout);
-  } else {
-    flashTimeout();
-  }
 }
