@@ -115,7 +115,7 @@
   align-items: center;
   gap: 2em;
   justify-items: center;
-  margin-bottom: 1.5em;
+  margin-bottom: 2.5em;
 
   h1 {
     margin-bottom: 0;
@@ -134,6 +134,7 @@
 
   @media screen and (min-width: 44em) {
     grid-template-columns: 1fr 1.1fr;
+    margin-bottom: 1.5em;
 
     img {
       max-width: 25em;

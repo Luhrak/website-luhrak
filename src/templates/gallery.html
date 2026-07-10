@@ -43,25 +43,14 @@
               </a>
             </li>
           {% endif %}
+          {% set hasShown = false %}
           {% for art in gallery %}
-            <modal-view>
-              <li>
-                <a href="/gallery/{{ art.id }}">
-                  <div>
-                    <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
-                  </div>
-                </a>
-              </li>
-            </modal-view>
-          {% else %}
-            <li>
-              <p>
-                <div>
-                  <p>No art found</p>
-                </div>
-              </p>
-            </li>
+            {% set hasShown = true %}
+            {% include "layoutBlocks/gallery-item.html" %}
           {% endfor %}
+          {% if not hasShown %}
+            {% include "layoutBlocks/gallery-item-empty.html" %}
+          {% endif %}
         </ul>
       </section>
     </article>

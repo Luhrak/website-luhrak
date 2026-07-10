@@ -269,6 +269,7 @@ span {
 }
 
 .loader {
+  /* https://cssloaders.github.io/ */
   --color-1: #fff;
   --size: 1.5px;
   width: calc(45 * var(--size));

@@ -14,7 +14,7 @@
       </p>
       <p>
         You are welcome to commission art from me - I am happy to bring your fantasies to colorful
-        reality!
+                        reality!
       </p>
       <div>
         <a class="button" href="/prices">
@@ -34,27 +34,16 @@
           </a>
         </div>
         <ul class="gallery">
+          {% set hasShown = false %}
           {% for art in gallery %}
             {% if loop.index0 < 4 %}
-              <modal-view>
-                <li>
-                  <a href="/gallery/{{ art.id }}">
-                    <div>
-                      <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
-                    </div>
-                  </a>
-                </li>
-              </modal-view>
+              {% set hasShown = true %}
+              {% include "layoutBlocks/gallery-item.html" %}
             {% endif %}
-          {% else %}
-            <li>
-              <p>
-                <div>
-                  <p>No art found</p>
-                </div>
-              </p>
-            </li>
           {% endfor %}
+          {% if not hasShown %}
+            {% include "layoutBlocks/gallery-item-empty.html" %}
+          {% endif %}
         </ul>
       </section>
       <section>
@@ -66,40 +55,16 @@
           </a>
         </div>
         <ul class="wideGallery">
+          {% set hasShown = false %}
           {% for price in prices %}
             {% if loop.index0 < 2 %}
-              <modal-view select="#priceOverview" morebutton="true">
-                <li>
-                  <a href="/prices/{{ price.id }}">
-                    <div>
-                      <img src="{{ price.previewfile }}" alt="{{ price.title }}"/>
-                    </div>
-                    <div>
-                      <div class="price">
-                        <h3>{{ price.title }}</h3>
-                        <p>from {{ price.price }} €</p>
-                      </div>
-                      <p>
-                        {{ price.short_description or '—' }}
-                      </p>
-                    </div>
-                  </a>
-                </li>
-              </modal-view>
+              {% set hasShown = true %}
+              {% include "layoutBlocks/price-item.html" %}
             {% endif %}
-          {% else %}
-            <li>
-              <div>
-                <div></div>
-                <div>
-                  <div class="price">
-                    <h3 class="whiteFont">No prices found</h3>
-                  </div>
-                  <p></p>
-                </div>
-              </div>
-            </li>
           {% endfor %}
+          {% if not hasShown %}
+            {% include "layoutBlocks/price-item-empty.html" %}
+          {% endif %}
         </ul>
       </section>
       <section>
@@ -123,7 +88,7 @@
                 <h3>Luhrak Fursuit</h3>
                 <p>
                   After my first cons I desired suit. Learn about how I made my
-                                                      own.
+                                    own.
                 </p>
               </div>
             </a>

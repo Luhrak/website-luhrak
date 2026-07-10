@@ -39,38 +39,16 @@
               </a>
             </li>
           {% endif %}
+          {% set hasShown = false %}
           {% for price in prices %}
-            <modal-view select="#priceOverview" morebutton="true">
-              <li>
-                <a href="/prices/{{ price.id }}">
-                  <div>
-                    <img src="{{ price.previewfile }}" alt="{{ price.title }}"/>
-                  </div>
-                  <div>
-                    <div class="price">
-                      <h3>{{ price.title }}</h3>
-                      <p>from {{ price.price }} €</p>
-                    </div>
-                    <p>
-                      {{ price.short_description or '—' }}
-                    </p>
-                  </div>
-                </a>
-              </li>
-            </modal-view>
-          {% else %}
-            <li>
-              <div>
-                <div></div>
-                <div>
-                  <div class="price">
-                    <h3 class="whiteFont">No prices found</h3>
-                  </div>
-                  <p></p>
-                </div>
-              </div>
-            </li>
+            {% if loop.index0 < 2 %}
+              {% set hasShown = true %}
+              {% include "layoutBlocks/price-item.html" %}
+            {% endif %}
           {% endfor %}
+          {% if not hasShown %}
+            {% include "layoutBlocks/price-item-empty.html" %}
+          {% endif %}
         </ul>
       </section>
     </article>
