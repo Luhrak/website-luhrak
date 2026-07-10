@@ -5,10 +5,11 @@ import { safeFetchText } from "./helper/safeFetchText.js";
 class ModalView extends HTMLElement {
   constructor() {
     super();
+    this.hasMoreButton = null;
   }
 
   static get observedAttributes() {
-    return ["select"];
+    return ["select", "morebutton"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -16,6 +17,9 @@ class ModalView extends HTMLElement {
       // console.log(
       //   `The attribute 'select' changed from "${oldValue}" to "${newValue}"`,
       // );
+    }
+    if (name === "morebutton") {
+      this.hasMoreButton = newValue === "true";
     }
   }
 
@@ -38,7 +42,7 @@ class ModalView extends HTMLElement {
     modal.innerHTML =
       '<div class="loader-wrapper"><span class="loader"></span></div>';
 
-    showModalView(url, modal, selector);
+    showModalView(url, modal, selector, this.hasMoreButton);
   }
 }
 
@@ -47,28 +51,54 @@ ifJsAvailableAndLoaded(
   ["querySelector", "addEventListener", "customElements"],
 );
 
-async function showModalView(url, modal, selector = "article") {
+async function showModalView(
+  url,
+  modal,
+  selector = "article",
+  hasMoreButton = false,
+) {
   getFromUrl(url, (data) => {
     const dataDoc = new DOMParser().parseFromString(data.data, "text/html");
     const content = dataDoc.querySelector(selector);
-    modal.innerHTML = "";
+    const headingDiv = content.querySelector(".headingWithButtons");
+    const insertLocation = headingDiv.querySelector(".row") ?? headingDiv;
+
+    modal.innerHTML = ""; // else its cloning content and the const is not live
     modal.appendChild(content);
-    insertCloseButton(content);
+
+    if (hasMoreButton) insertMoreButton(insertLocation, url);
+    insertCloseButton(insertLocation);
+    letBackgroundCloseModal(modal);
   });
 }
 
-async function insertCloseButton(content) {
-  const headingDiv = content.querySelector(".headingWithButtons");
+async function insertMoreButton(insertLocation, url) {
+  const moreButton = document.createElement("button");
+  moreButton.textContent = "More";
+  moreButton.addEventListener("click", () => {
+    window.location.replace(url);
+  });
+  insertLocation.appendChild(moreButton);
+}
+
+async function insertCloseButton(insertLocation) {
   const closeButton = document.createElement("button");
   closeButton.textContent = "X";
   closeButton.addEventListener("click", closeModalView);
-  headingDiv.appendChild(closeButton);
+  insertLocation.appendChild(closeButton);
 }
 
 function closeModalView() {
   const modal = document.querySelector(".modal");
   modal.classList.add("invisible");
   toggleScrollLock(false);
+}
+
+function letBackgroundCloseModal(modal) {
+  modal.addEventListener("click", (e) => {
+    if (e.target !== modal) return;
+    closeModalView();
+  });
 }
 
 function toggleScrollLock(bool) {

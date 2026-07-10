@@ -60,22 +60,28 @@
             or Discord by writing me a direct message.
           </p>
           <p>However you can also contact me here:</p>
-          <a class="button" href="/about#contact-about">Contact</a>
+          <modal-view select="#contact-about">
+            <a class="button" href="/about#contact-about">Contact</a>
+          </modal-view>
         </div>
         <img src="/img/Boop.png" alt="Side view of Luhrak booping a contempt looking wolf on the nose."/>
       </section>
       {% if gallery and gallery | length > 0 %}
         <section>
-          <h2>Examples of {{ price.title }}</h2>
+          <div headingWithButtons>
+            <h2>Examples of {{ price.title }}</h2>
+          </div>
           <ul class="gallery">
             {% for art in gallery %}
-              <li>
-                <a href="/gallery/{{ art.id }}">
-                  <div>
-                    <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
-                  </div>
-                </a>
-              </li>
+              <modal-view>
+                <li>
+                  <a href="/gallery/{{ art.id }}">
+                    <div>
+                      <img src="{{ art.artfile }}" alt="{{ art.alt }}"/>
+                    </div>
+                  </a>
+                </li>
+              </modal-view>
             {% endfor %}
           </ul>
         </section>

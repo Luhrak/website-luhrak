@@ -115,10 +115,16 @@
         </li>
       </ul>
     </section>
-    <modal-view class="toBottom">
-      <a href="{% if loggedIn %}/logout{% else %}/login{% endif %}">
+    {% if loggedIn %}
+      <a href="/logout">
         <img src="/img/LuhWave.png" alt="Luhrak waving very happily"/>
       </a>
-    </modal-view>
+    {% else %}
+      <modal-view class="toBottom">
+        <a href="/login">
+          <img src="/img/LuhWave.png" alt="Luhrak waving very happily"/>
+        </a>
+      </modal-view>
+    {% endif %}
   </div>
 </footer>

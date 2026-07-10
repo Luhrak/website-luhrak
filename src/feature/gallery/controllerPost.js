@@ -128,7 +128,7 @@ export async function galleryDelete(ctx) {
   // Deleting a single artpiece from db and the file
   const id = ctx.entryId;
   const art = await model.get(id);
-  await image.deleteImage(art.artfile);
+  // await image.deleteImage(art.artfile);
   await model.remove(id);
 
   ctx.session.content.flash = 'Artpost "' + art.title + '" has been deleted';

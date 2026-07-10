@@ -49,10 +49,8 @@
               {{ art.description }}
             </p>
           {% endif %}
-          <div class="row">
-            <p>Want an art piece similar to this too?</p>
-            <a class="button" href="/prices{% if art.price_id %}/{{ art.price_id }}{% endif %}">Commission Art</a>
-          </div>
+          <p>Want art similar to this too?</p>
+          <a class="button" href="/prices{% if art.price_id %}/{{ art.price_id }}{% endif %}">See Price</a>
         </section>
       </div>
     </article>
