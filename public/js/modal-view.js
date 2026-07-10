@@ -34,7 +34,8 @@ class ModalView extends HTMLElement {
     const modal = document.querySelector(".modal");
     const selector = this.getAttribute("select") ?? undefined;
     modal.classList.remove("invisible");
-    modal.firstElementChild.innerHTML = '<span class="loader"></span>';
+    modal.innerHTML =
+      '<div class="loader-wrapper"><span class="loader"></span></div>';
 
     showModalView(url, modal, selector);
   }
@@ -49,8 +50,8 @@ async function showModalView(url, modal, selector = "article") {
   getFromUrl(url, (data) => {
     const dataDoc = new DOMParser().parseFromString(data.data, "text/html");
     const content = dataDoc.querySelector(selector);
-    modal.firstElementChild.innerHTML = "";
-    modal.firstElementChild.appendChild(content);
+    modal.innerHTML = "";
+    modal.appendChild(content);
     insertCloseButton(content);
   });
 }

@@ -39,6 +39,11 @@
           <img src="{{ art.artfile }}" alt="{{ art.alt or 'An artpiece' }}"/>
         </section>
         <section class="modal-padding">
+          {% if art.date %}
+            <p class="date">
+              Posted on {{ art.date }}
+            </p>
+          {% endif %}
           {% if art.description %}
             <p>
               {{ art.description }}
@@ -46,7 +51,7 @@
           {% endif %}
           <div class="row">
             <p>Want an art piece similar to this too?</p>
-            <a class="button" href="/prices{% if art.price_id %}{{ art.price_id }}{% endif %}">Commission Art</a>
+            <a class="button" href="/prices{% if art.price_id %}/{{ art.price_id }}{% endif %}">Commission Art</a>
           </div>
         </section>
       </div>

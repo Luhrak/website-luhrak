@@ -36,7 +36,7 @@ select {
   color: var(--color-light);
   border: none;
   border-radius: var(--border-radius);
-  padding: 0.8em 1em;
+  padding: 0.7em 1em;
   width: 100%;
 
   &:focus {
@@ -104,8 +104,9 @@ input::file-selector-button {
   display: flex;
   flex-direction: row;
   gap: 1em;
-  padding: 0.4em 1em;
+  padding: 0.5em;
   margin-bottom: -1.5em;
+  flex-wrap: nowrap;
 
   & label {
     width: fit-content;
@@ -118,8 +119,40 @@ input::file-selector-button {
 
   & select {
     width: fit-content;
-    padding: 0.25em 0.7em;
     margin-bottom: 0;
+  }
+}
+
+@media (max-width: 40em) {
+  .filterBox {
+    flex-wrap: wrap;
+    gap: 0.75em;
+
+    & label,
+    & select,
+    & input,
+    & button {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    & input#search {
+      flex: 1 1 100%;
+      min-width: 10ch;
+    }
+
+    & select {
+      flex: 1 1 10rem;
+      width: 100%;
+    }
+
+    & label {
+      flex: 0 0 auto;
+    }
+
+    & button {
+      flex: 1 1 100%;
+    }
   }
 }
 

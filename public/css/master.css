@@ -6,6 +6,7 @@
 /* Color variables to easily change values globally */
 :root {
   --color-light: #edebdc;
+  --color-light-grey: #bdbbb0;
   --color-primary: #e99c65;
   --color-primary-light: #f8d6bd;
   --color-primary-dark: #c5653c;
@@ -15,6 +16,7 @@
   --color-red: #d16464;
   --border-radius: 1rem;
   --blur-ammount: 10px;
+  --page-width-constraint: 60rem;
 }
 
 html {
@@ -48,7 +50,7 @@ main {
 }
 
 .widthConstraint {
-  max-width: 60rem;
+  max-width: var(--page-width-constraint);
   margin: auto;
 }
 
@@ -138,8 +140,10 @@ ul {
 
 img {
   border-radius: var(--border-radius);
-  width: 100%;
+  width: auto;
   height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 button {
@@ -222,6 +226,11 @@ button {
 
 .invisible {
   display: none;
+}
+
+.date {
+  font-size: 0.75em;
+  color: var(--color-light-grey);
 }
 
 .flashbox {
