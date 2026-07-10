@@ -34,6 +34,7 @@ class ModalView extends HTMLElement {
     const modal = document.querySelector(".modal");
     const selector = this.getAttribute("select") ?? undefined;
     modal.classList.remove("invisible");
+    toggleScrollLock(true);
     modal.innerHTML =
       '<div class="loader-wrapper"><span class="loader"></span></div>';
 
@@ -67,6 +68,12 @@ async function insertCloseButton(content) {
 function closeModalView() {
   const modal = document.querySelector(".modal");
   modal.classList.add("invisible");
+  toggleScrollLock(false);
+}
+
+function toggleScrollLock(bool) {
+  const body = document.body;
+  bool ? (body.style.overflow = "hidden") : (body.style.overflow = "unset");
 }
 
 async function getFromUrl(url, onData) {
