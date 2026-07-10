@@ -233,8 +233,8 @@
   padding-left: 0;
   margin: 0;
 
-  & li > div,
-  & li > a {
+  li > div,
+  li > a {
     display: grid;
     grid-template-columns: 1fr 2fr;
     height: 100%;
@@ -270,7 +270,6 @@
 
       & h3 {
         margin: 0;
-
         color: var(--color-primary);
       }
 
@@ -305,7 +304,7 @@
     }
   }
 
-  & > li > a {
+  li > a {
     &:hover {
       background-color: #f8d6bd16;
 
