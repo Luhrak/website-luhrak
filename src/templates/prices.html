@@ -40,7 +40,7 @@
             </li>
           {% endif %}
           {% for price in prices %}
-            <glance-view select="#priceOverview">
+            <modal-view select="#priceOverview">
               <li>
                 <a href="/prices/{{ price.id }}">
                   <div>
@@ -57,7 +57,7 @@
                   </div>
                 </a>
               </li>
-            </glance-view>
+            </modal-view>
           {% else %}
             <li>
               <div>

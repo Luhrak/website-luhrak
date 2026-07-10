@@ -11,8 +11,8 @@ class ActiveNav extends HTMLElement {
 }
 
 ifJsAvailableAndLoaded(
-  () => customElements.define("active-nav", ActiveNav),
   ["querySelector", "addEventListener", "customElements"],
+  () => customElements.define("active-nav", ActiveNav),
 );
 
 function setActiveItem(nav) {

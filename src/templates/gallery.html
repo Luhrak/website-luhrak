@@ -44,7 +44,7 @@
             </li>
           {% endif %}
           {% for art in gallery %}
-            <glance-view>
+            <modal-view>
               <li>
                 <a href="/gallery/{{ art.id }}">
                   <div>
@@ -52,7 +52,7 @@
                   </div>
                 </a>
               </li>
-            </glance-view>
+            </modal-view>
           {% else %}
             <li>
               <p>

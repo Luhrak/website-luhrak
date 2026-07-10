@@ -2,7 +2,7 @@
 import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
 import { safeFetchText } from "./helper/safeFetchText.js";
 
-class GlanceView extends HTMLElement {
+class ModalView extends HTMLElement {
   constructor() {
     super();
   }
@@ -31,26 +31,26 @@ class GlanceView extends HTMLElement {
     e.preventDefault();
 
     const url = this.querySelector("a").href;
-    const glance = document.querySelector(".glanceView");
+    const modal = document.querySelector(".modal");
     const selector = this.getAttribute("select") ?? undefined;
-    glance.classList.remove("invisible");
-    glance.firstElementChild.innerHTML = '<span class="loader"></span>';
+    modal.classList.remove("invisible");
+    modal.firstElementChild.innerHTML = '<span class="loader"></span>';
 
-    showGlanceView(url, glance, selector);
+    showModalView(url, modal, selector);
   }
 }
 
 ifJsAvailableAndLoaded(
-  () => customElements.define("glance-view", GlanceView),
+  () => customElements.define("modal-view", ModalView),
   ["querySelector", "addEventListener", "customElements"],
 );
 
-async function showGlanceView(url, glance, selector = "article") {
+async function showModalView(url, modal, selector = "article") {
   getFromUrl(url, (data) => {
     const dataDoc = new DOMParser().parseFromString(data.data, "text/html");
     const content = dataDoc.querySelector(selector);
-    glance.firstElementChild.innerHTML = "";
-    glance.firstElementChild.appendChild(content);
+    modal.firstElementChild.innerHTML = "";
+    modal.firstElementChild.appendChild(content);
     insertCloseButton(content);
   });
 }
@@ -59,13 +59,13 @@ async function insertCloseButton(content) {
   const headingDiv = content.querySelector(".headingWithButtons");
   const closeButton = document.createElement("button");
   closeButton.textContent = "X";
-  closeButton.addEventListener("click", closeGlanceView);
+  closeButton.addEventListener("click", closeModalView);
   headingDiv.appendChild(closeButton);
 }
 
-function closeGlanceView() {
-  const glance = document.querySelector(".glanceView");
-  glance.classList.add("invisible");
+function closeModalView() {
+  const modal = document.querySelector(".modal");
+  modal.classList.add("invisible");
 }
 
 async function getFromUrl(url, onData) {

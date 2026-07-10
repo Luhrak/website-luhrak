@@ -14,7 +14,7 @@
       </p>
       <p>
         You are welcome to commission art from me - I am happy to bring your fantasies to colorful
-        reality!
+                        reality!
       </p>
       <div>
         <a class="button" href="/prices">
@@ -36,7 +36,7 @@
         <ul class="gallery">
           {% for art in gallery %}
             {% if loop.index0 < 4 %}
-              <glance-view>
+              <modal-view>
                 <li>
                   <a href="/gallery/{{ art.id }}">
                     <div>
@@ -44,7 +44,7 @@
                     </div>
                   </a>
                 </li>
-              </glance-view>
+              </modal-view>
             {% endif %}
           {% else %}
             <li>
@@ -68,7 +68,7 @@
         <ul class="wideGallery">
           {% for price in prices %}
             {% if loop.index0 < 2 %}
-              <glance-view select="#priceOverview">
+              <modal-view select="#priceOverview">
                 <li>
                   <a href="/prices/{{ price.id }}">
                     <div>
@@ -85,7 +85,7 @@
                     </div>
                   </a>
                 </li>
-              </glance-view>
+              </modal-view>
             {% endif %}
           {% else %}
             <li>
@@ -123,7 +123,7 @@
                 <h3>Luhrak Fursuit</h3>
                 <p>
                   After my first cons I desired suit. Learn about how I made my
-                                                      own.
+                                    own.
                 </p>
               </div>
             </a>
