@@ -310,14 +310,14 @@ span {
 
 .fadeInContent {
   transform: scale(1);
-  transform-origin: top;
-  transition: all 300ms ease-in-out;
+  transform-origin: center;
+  transition: all 600ms ease-in-out;
 }
 
 .fadeOutContent {
-  transform: scale(0.7);
-  transform-origin: top;
-  transition: all 500ms ease-in-out;
+  transform: scale(0.9);
+  transform-origin: center;
+  transition: all 600ms ease-in-out;
 }
 
 @keyframes faderGrow {

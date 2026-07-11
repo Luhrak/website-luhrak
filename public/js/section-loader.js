@@ -16,7 +16,19 @@ class SectionLoader extends HTMLElement {
       },
       { threshold: 0.2 },
     );
-    this.sections = this.querySelectorAll("section");
+    this.targetList = this.querySelectorAll("section");
+  }
+
+  static get observedAttributes() {
+    return ["target"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "target") {
+      console.log(newValue);
+      this.targetList = this.querySelectorAll(newValue);
+      console.log(this.targetList);
+    }
   }
 
   connectedCallback() {
@@ -24,7 +36,7 @@ class SectionLoader extends HTMLElement {
   }
 
   setupSections() {
-    this.sections.forEach((section) => this.observer.observe(section));
+    this.targetList.forEach((section) => this.observer.observe(section));
   }
 }
 

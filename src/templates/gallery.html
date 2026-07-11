@@ -33,25 +33,27 @@
         <script type="module" src="/js/live-search.js"></script>
       </section>
       <section id="gallery">
-        <ul class="gallery">
-          {% if permission %}
-            <li>
-              <a href="/gallery/add">
-                <div>
-                  <img src="/img/NewPost.png" alt="Add new"/>
-                </div>
-              </a>
-            </li>
-          {% endif %}
-          {% set hasShown = false %}
-          {% for art in gallery %}
-            {% set hasShown = true %}
-            {% include "layoutBlocks/gallery-item.html" %}
-          {% endfor %}
-          {% if not hasShown %}
-            {% include "layoutBlocks/gallery-item-empty.html" %}
-          {% endif %}
-        </ul>
+        <section-loader target="li">
+          <ul class="gallery">
+            {% if permission %}
+              <li>
+                <a href="/gallery/add">
+                  <div>
+                    <img src="/img/NewPost.png" alt="Add new"/>
+                  </div>
+                </a>
+              </li>
+            {% endif %}
+            {% set hasShown = false %}
+            {% for art in gallery %}
+              {% set hasShown = true %}
+              {% include "layoutBlocks/gallery-item.html" %}
+            {% endfor %}
+            {% if not hasShown %}
+              {% include "layoutBlocks/gallery-item-empty.html" %}
+            {% endif %}
+          </ul>
+        </section-loader>
       </section>
     </article>
   </div>
