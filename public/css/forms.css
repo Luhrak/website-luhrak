@@ -127,32 +127,36 @@ input::file-selector-button {
   .filterBox {
     flex-wrap: wrap;
     gap: 0.75em;
+  }
 
-    & label,
-    & select,
-    & input,
-    & button {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
+  .filterBox select,
+  .filterBox input,
+  .filterBox button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-    & input#search {
-      flex: 1 1 100%;
-      min-width: 10ch;
-    }
+  /* keep the text search on its own line */
+  .filterBox input#search {
+    flex: 1 1 100%;
+    min-width: 10ch;
+  }
 
-    & select {
-      flex: 1 1 10rem;
-      width: 100%;
-    }
+  /* label + select + button stay on the same line */
+  .filterBox label {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
 
-    & label {
-      flex: 0 0 auto;
-    }
+  .filterBox select {
+    flex: 1 1 10rem;
+    width: auto; /* <-- important: remove width: 100% */
+    min-width: 8rem;
+  }
 
-    & button {
-      flex: 1 1 100%;
-    }
+  .filterBox button {
+    flex: 0 0 auto;
+    min-width: 6.5rem;
   }
 }
 

@@ -18,9 +18,12 @@
   <body>
     {% include "./header.html" %}
     <main>
-      {% block content %}{% endblock %}
-      {% include "layoutBlocks/modal-view.html" %}
+      <section-loader>
+        {% block content %}{% endblock %}
+        {% include "layoutBlocks/modal-view.html" %}
+      </section-loader>
+      <script type="module" src="/js/section-loader.js"></script>
     </main>
-    {% include "./footer.html" %}
+    {% include "./footer.html" %} interaction-observer.js
   </body>
 </html>

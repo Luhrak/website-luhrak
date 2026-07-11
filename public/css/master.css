@@ -24,23 +24,35 @@ html {
   scroll-padding-top: 5rem;
   color: var(--color-light);
   font-optical-sizing: auto;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
-  background: var(--color-bg-dark);
+  /* background: var(--color-bg-dark);
   background-attachment: fixed;
   background-image: url(/img/Background.png);
   background-position: center center;
-  background-size: cover;
+  background-size: cover; */
+  position: relative; /* make stacking predictable */
+  z-index: 0; /* content sits above bg */
 
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
 
   font-family: "Winky Sans", sans-serif;
   font-optical-sizing: auto;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-dark) url(/img/Background.png) center center /
+    cover no-repeat;
+  z-index: -1;
+  pointer-events: none;
 }
 
 main {
@@ -293,5 +305,26 @@ span {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.fadeInContent {
+  transform: scale(1);
+  transform-origin: top;
+  transition: all 300ms ease-in-out;
+}
+
+.fadeOutContent {
+  transform: scale(0.6);
+  transform-origin: top;
+  transition: all 500ms ease-in-out;
+}
+
+@keyframes faderGrow {
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
   }
 }
