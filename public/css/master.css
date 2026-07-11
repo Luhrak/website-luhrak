@@ -240,7 +240,7 @@ button {
   display: none;
 }
 
-.date {
+.hint {
   font-size: 0.75em;
   color: var(--color-light-grey);
 }

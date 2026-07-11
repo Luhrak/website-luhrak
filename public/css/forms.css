@@ -85,6 +85,7 @@ input::file-selector-button {
 
 .form-two-columns {
   display: flex;
+  gap: 1em;
   column-gap: 1.5em;
 
   @media (max-width: 40em) {
