@@ -315,14 +315,14 @@ span {
 }
 
 .fadeOutContent {
-  transform: scale(0.6);
+  transform: scale(0.7);
   transform-origin: top;
   transition: all 500ms ease-in-out;
 }
 
 @keyframes faderGrow {
   from {
-    transform: scale(0.7);
+    transform: scale(0.75);
   }
   to {
     transform: scale(1);
