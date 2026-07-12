@@ -25,31 +25,33 @@
         </div>
       </section>
       <section>
-        <ul class="wideGallery">
-          {% if permission %}
-            <li>
-              <a href="/prices/add">
-                <div>
-                  <img src="/img/NewPost.png" alt="Add new price"/>
-                </div>
-                <div>
-                  <h3>New Price</h3>
-                  <p>Add new entry</p>
-                </div>
-              </a>
-            </li>
-          {% endif %}
-          {% set hasShown = false %}
-          {% for price in prices %}
-            {% if loop.index0 < 2 %}
-              {% set hasShown = true %}
-              {% include "layoutBlocks/price-item.html" %}
+        <section-loader target="li">
+          <ul class="wideGallery">
+            {% if permission %}
+              <li>
+                <a href="/prices/add">
+                  <div>
+                    <img src="/img/NewPost.png" alt="Add new price"/>
+                  </div>
+                  <div>
+                    <h3>New Price</h3>
+                    <p>Add new entry</p>
+                  </div>
+                </a>
+              </li>
             {% endif %}
-          {% endfor %}
-          {% if not hasShown %}
-            {% include "layoutBlocks/price-item-empty.html" %}
-          {% endif %}
-        </ul>
+            {% set hasShown = false %}
+            {% for price in prices %}
+              {% if loop.index0 < 2 %}
+                {% set hasShown = true %}
+                {% include "layoutBlocks/price-item.html" %}
+              {% endif %}
+            {% endfor %}
+            {% if not hasShown %}
+              {% include "layoutBlocks/price-item-empty.html" %}
+            {% endif %}
+          </ul>
+        </section-loader>
       </section>
     </article>
   </div>

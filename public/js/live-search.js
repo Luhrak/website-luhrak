@@ -60,29 +60,29 @@ class LiveSearch extends HTMLElement {
       ? '<span class="loader small"></span>'
       : "Submit";
   }
+}
 
-  formDataToQueryString(formData) {
-    return formData
-      .entries()
-      .map(([k, v]) => `${k}=${v}`)
-      .toArray()
-      .join("&");
+function formDataToQueryString(formData) {
+  return formData
+    .entries()
+    .map(([k, v]) => `${k}=${v}`)
+    .toArray()
+    .join("&");
+}
+
+async function etFromUrl(url, onData) {
+  const { data, error } = await safeFetchText(url, {
+    method: "GET",
+    headers: {},
+  });
+
+  if (error) {
+    console.error("safe fetch error:", error);
+    return;
   }
 
-  async getFromUrl(url, onData) {
-    const { data, error } = await safeFetchText(url, {
-      method: "GET",
-      headers: {},
-    });
-
-    if (error) {
-      console.error("safe fetch error:", error);
-      return;
-    }
-
-    if (data) {
-      await onData(data);
-    }
+  if (data) {
+    await onData(data);
   }
 }
 

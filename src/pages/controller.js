@@ -40,6 +40,14 @@ export async function about(ctx) {
 }
 
 // Misc pages
+export async function offline(ctx) {
+  // Handling of 404 error page
+  ctx.body = await render("offline-list.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}
+
 export async function impressum(ctx) {
   // Handling of the impressum page
   ctx.body = await render("legalPages/impressum.html", ctx);

@@ -25,5 +25,18 @@
       <script type="module" src="/js/section-loader.js"></script>
     </main>
     {% include "./footer.html" %}
+    <script>
+      if (navigator.serviceWorker) {
+        navigator
+          .serviceWorker
+          .register("/offline-worker.js")
+          .then((reg) => {
+            console.log("Success!", reg.scope);
+          })
+          .catch((err) => {
+            console.error("Failure!", err);
+          });
+      }
+    </script>
   </body>
 </html>

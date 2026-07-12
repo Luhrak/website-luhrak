@@ -14,9 +14,6 @@ class ModalView extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "select") {
-      // console.log(
-      //   `The attribute 'select' changed from "${oldValue}" to "${newValue}"`,
-      // );
     }
     if (name === "morebutton") {
       this.hasMoreButton = newValue === "true";

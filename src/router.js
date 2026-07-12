@@ -31,6 +31,11 @@ const routes = [
 
   // Misc routes
   {
+    path: "/offline",
+    method: "GET",
+    handler: pages.offline,
+  },
+  {
     path: "/impressum",
     method: "GET",
     handler: pages.impressum,

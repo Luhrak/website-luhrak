@@ -1,5 +1,6 @@
 import { ifJsAvailableAndLoaded } from "./helper/ifJsAvailableAndLoaded.js";
 
+// https://www.youtube.com/watch?v=Jo8ABAJtMM0&t=355s
 class SectionLoader extends HTMLElement {
   constructor() {
     super();
@@ -14,7 +15,7 @@ class SectionLoader extends HTMLElement {
           }
         });
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     this.targetList = this.querySelectorAll("section");
   }
@@ -25,9 +26,7 @@ class SectionLoader extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "target") {
-      console.log(newValue);
       this.targetList = this.querySelectorAll(newValue);
-      console.log(this.targetList);
     }
   }
 

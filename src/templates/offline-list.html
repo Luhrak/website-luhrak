@@ -1,0 +1,24 @@
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}Luhrak - Offline List{% endblock %}
+{% block content %}
+  <div class="widthConstraint">
+    <article>
+      <div class="headingWithButtons">
+        <h1>Available pages</h1>
+      </div>
+      <section class="imageRight">
+        <div>
+          <p>It seems you have lost connection and cant load new pages. However here are the pages you were on already and still
+            work:</p>
+          <ul id="offline-links">
+            <p>Oh... sadly none.</p>
+          </ul>
+        </div>
+        <img
+          src="/img/LuhNervous.png"
+          alt="Luhrak shrugging his shoulders with his paws showing and looking nervously to the side"/>
+      </section>
+    </article>
+  </div>
+  <script type="module" src="/js/offline-list.js"></script>
+{% endblock %}
