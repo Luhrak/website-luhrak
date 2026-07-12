@@ -42,10 +42,8 @@
             {% endif %}
             {% set hasShown = false %}
             {% for price in prices %}
-              {% if loop.index0 < 2 %}
-                {% set hasShown = true %}
-                {% include "layoutBlocks/price-item.html" %}
-              {% endif %}
+              {% set hasShown = true %}
+              {% include "layoutBlocks/price-item.html" %}
             {% endfor %}
             {% if not hasShown %}
               {% include "layoutBlocks/price-item-empty.html" %}

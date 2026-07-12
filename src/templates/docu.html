@@ -1,0 +1,287 @@
+{% extends "./layoutBlocks/layout.html" %}
+{% block title %}About Luhrak{% endblock %}
+{% block content %}
+    <div class="widthConstraint">
+        <article>
+            <section>
+                <div class="headingWithbuttons">
+                    <h1>Dokumentation</h1>
+                </div>
+                <div class="priceArea subheading">
+                    <p>Hausarbeit Robuste Webapps mit Progressive Enhancement</p>
+                    <p>Lukas Brüchmann – lubr1661 – 750456</p>
+                </section>
+                <section>
+                    <h2>Einleitung</h2>
+                    <p>Als Grundlage dieser Hausarbeit wurde die „Luhrak“ Webseite genommen, welche zuvor im Rahmen der Hausarbeiten in
+                        Frontend-Design und WWW-Programmierung erstanden ist. Die Seite läuft Serverseitig auf der Deno Laufzeitumgebung und hat
+                        selbst geschriebenes Management für Routing und Middleware. Dabei wird die Templating-Engine Nunjucks genutzt, um Daten
+                        dynamisch in HTML einzubetten. Seit der letzten Hausarbeit wurde die Datenbank von SQLite auf PostgreSQL umgestellt und
+                        die Seite mithilfe von Deno Deploy unter
+                        <a href="https://luhrak.com">https://luhrak.com</a>
+                        ( mit Umleitung auf
+                        <a href="https://luhsite.luhrak.deno.net/">https://luhsite.luhrak.deno.net/</a>
+                        ) bereitgestellt.
+                    </p>
+                    <p>
+                        Der Funktionsumfang der Seite beinhaltet eine Galerie mit Kunsteinträgen und eine Preisliste, jeweils mit einer
+                        Datenbank Tabelle. Diese können angelegt und manipuliert werden. Dazu gibt es die Möglichkeit sich zu registrieren und
+                        einloggen. Benutzer mit den nötigen rechten können Inhalte auf der Seite verwalten. Außerdem gibt es ein Kontakt
+                        Formular, welches Nachrichten ebenfalls in eine Datenbank Tabelle speichert und Benutzer mit Rechten diese dann einsehen
+                        und verwalten können.
+                    </p>
+                </section>
+                <section>
+                    <h2>Ziele dieser Hausarbeit</h2>
+                    <p>
+                        Die Seite soll weiterhin ohne JavaScript im Browser funktionieren. Sollten die nötigen Features im Browser vorhanden
+                        sein, so sollen allerdings Features der Seite verbessert werden. Es gibt viele Elemente, in denen JavaScript die
+                        Benutzererfahrung deutlich verbessern kann. Codeteile wie Validierung soll dabei zentralisiert bleiben und nicht ein
+                        zweites Mal für das Frontend definiert werden.
+                    </p>
+                    <p>
+                        Das Potenzial an Verbesserungen startet bereits in kleinen Elementen, wie dass Flash Nachrichten nach kurzer Zeit
+                        verschwinden können, kann aber auch bis zu größeren Verbesserungen wie das dynamische Anzeigen von Fehlern in Formularen
+                        oder das Anzeigen von Unterseiten in einem Pop-up. Dies ist eine vollständige Liste an Verbesserungen, die als Ziel
+                        gesetzt worden:
+                    </p>
+                </section>
+                <section>
+                    <ul>
+                        <li>
+                            <p>Flash Nachrichten – Verschwinden nach einem Timer mit einer Animation</p>
+                        </li>
+                        <li>
+                            <p>Tab Hervorheben – Aktueller Tab visuell deutlich machen inklusive dessen Unterseiten</p>
+                        </li>
+                        <li>
+                            <p>Dynamisches Formular – Fehler live angezeigen, Senden mit Fehlern nicht möglich</p>
+                        </li>
+                        <li>
+                            <p>Dynamische Suche – Filtern und Suchen in der Galerie ohne Seite neu zu laden</p>
+                        </li>
+                        <li>
+                            <p>Lightbox Ansicht – Galerieeinträge können in einem Overlay näher betrachtetwerden</p>
+                        </li>
+                        <li>
+                            <p>Service Worker Caching – Besuchte Seiten werden gespeichert, offline wieder aufrufbar</p>
+                        </li>
+                        <li>
+                            <p>Intersection Observer – Beim scrollen werden Elemente dynamisch animiert</p>
+                        </li>
+                        <li>
+                            <p>Drag and Drop – Preislisteneinträge können mit und drop sortiert werden</p>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Umsetzung</h2>
+                    <h3>Vorbereitung</h3>
+                    <p>
+                        Einige der vorgenommenen Ziele brauchten zunächst das Erstellen der Features ohne JavaScript neuen Features. Eine Suche
+                        für die Galerie gab es vorher zum Beispiel nicht. Zudem war ein Umbau der HTML und CSS Struktur allgemein angebracht,
+                        durch das Gewinnen an Erfahrung mit dem Thema. Gleichzeitig profitiert die Lightbox Ansicht auch sehr an dieser
+                        Umstrukturierung.
+                    </p>
+                    <p>
+                        Zudem herrscht durch das Deno Deployment eine Zwischenlösung. Einerseits wird SQLite nicht unterstützt und ich musste
+                        auf PostgreSQL umsteigen. Anderseits hat die Runtime dort einen Lifetimescycle welcher die Applikation herunterfährt
+                        ohne Aktivität. Der Timer dafür ist etwa 5 Sekunden bis 10 Minuten (
+                        <a href="https://docs.deno.com/deploy/reference/runtime/#shutdown">mehr dazu</a>
+                        ). Dies löscht dann sämtlichen lokalen Speicher wie Sessions oder auch Bilder im Dateisystem. Deshalb mussten alle
+                        relevanten Daten persistiert werden, wie zum Beispiel Bilder als BLOB (BYTEA in Postgres).
+                    </p>
+                </section>
+                <section>
+                    <h3>Flash Nachrichten ( flash-timejout.js )
+                    </h3>
+                    <p>Bisher wurde es durch Sessions möglich, Flash Nachrichten anzuzeigen, jedoch wurden diese nur statisch oben in der
+                        Seite platziert und sind dann für immer Teil der Seite bis sie neu geladen wird. Zunächst habe ich das CSS angepasst
+                        damit es auch oben bleibt wenn man die Seite scrollt. Dann mit JavaScript wurde zunächst eine einfache Animation mit
+                        einem einfachen verschieben und später nachdem es funktioniert hat mehrere Keyframes definiert und diese dann nach der
+                        Verzögerung auf das Element angewandt. Nun verschwindet es nach einigen Augenblicken mit einer schönen Animation.
+                    </p>
+                </section>
+                <section>
+                    <h3>Tab Hervorheben ( active-nav.js )
+                    </h3>
+                    <p>Vorher gab es keinerlei Indikator, auf welcher Seite man sich befindet. Damit Benutzer sich besser orientieren
+                        können, macht dieses Skript es visuell deutlich durch eine Klasse sowie durch ariaCurrent = "selection" für
+                        Screenreader. Wenn man sich also auf /projects befindet, bleibt dieser Tab auch hervorgehoben. Dies funktioniert, auch
+                        wenn man auf eine Unterseite wie /projects-stickers kommt.</p>
+                </section>
+                <section>
+                    <h3>Dynamisches Formular ( fetch-form.js )</h3>
+                    <p>Formularfehler an den Benutzer zu kommunizieren ist wichtig für die Nutzbarkeit einer Seite. Das Skript ist als
+                        Custom-Element aufgebaut und kann dadurch als Komponente in jedes Formular der Seite einfach eingebaut werden. Mit
+                        diesem Skript wird dem Benutzer sobald das focusout Event auslöst überprüft, ob das verlassene Feld eine fehlerhafte
+                        Eingabe hat. Dies passiert nicht sofort bei input weil sonst beispielsweise bei der E-Mail schon nach dem ersten
+                        Buchstaben ein Fehler auftauchen würde, dass es eine valide E-Mail sein muss. Somit hat man erstmal Zeit zu tippen und
+                        es reduziert die Menge an unnötigen Anfragen an den Server .
+                    </p>
+                    <p>Das input Event wird hingegen genutzt, um Fehler wieder auszublenden, sobald man in dem Feld wieder etwas schreibt.
+                        Ebenso wird es für den Button, der das Formular abschickt, genutzt. Sobald alles richtig eingetragen ist und auch erst
+                        dann kann man ihn klicken. Dies ist eine intentionale Beschränkung welche Benutzer vor Fehlern bewahrt.
+                    </p>
+                    <p>Damit nicht bei jedem einzelnen Tastaturdruck der Server angefragt wird, ist eine kleine Verzögerung eingebaut.
+                        Dieser funktioniert über die setTimeout() und clearTimeout() Funktionen vom Browser. Erst, wenn dieser abläuft, wird
+                        nach dem neusten Status angefragt.
+                    </p>
+                    <p>Ich habe einige Zeit investiert einen bestimmten Fehler zu vermeiden. Wenn man ein Formular mit diesem Skript
+                        absendet, dann hat Deno diesen Fehler: BadResource: Cannot read body as underlying resource unavailable. Dieser entsteht
+                        durch die gleichzeitigen focusout und submit Events. Es wird ein fetch für mögliche Formularfehler versucht, welcher
+                        dann scheitert, da das Formular schon nicht mehr existiert und abgeschickt wurde. Ich habe versucht mit einem
+                        AbortController den fetch aufzugeben, allerdings scheint dies keinen Einfluss auf den Fehler. Da das Skript ansonsten
+                        funktioniert und ich nicht weiter wusste, habe ich es so gelassen.
+                    </p>
+                </section>
+                <section>
+                    <h3>Dynamische Suche ( live-search.js )
+                    </h3>
+                    <p>Die Galerie hat die Option Kunsteinträge nach Art zu Filtern sowie eine Suche, welche es noch nach Namen filtern
+                        kann. Ohne JavaScript wird die Seite immer dabei immer völlig neu geladen.
+                    </p>
+                    <p>Mit der Verbesserung kann die Galerie per ID durch target="#gallery" ausgewählt werden. Dies beschreibt, was dann bei
+                        Änderung ausgetauscht wird. Somit könnte dann bei bestimmten Events die Resultate ohne einen Redirect angezeigt werden.
+                        Die Resultate werden aus den Formulareingaben bestimmt und die URL-Paramentes entsprechend für den fetch Aufruf
+                        konstruiert, zum Beispiel /gallery?price=3&search=sa.
+                    </p>
+                    <p>Dies alles macht diese Komponente also sehr flexibel und man könnte es wieder benutzen, wenn man an anderer Stelle
+                        auch eine Suche möchte. Ähnlich wie beim fetch-form ist hier eine kleine Verzögerung eingebaut, um den Server zu
+                        entlasten. Der Benutzer bekommt allerdings, sobald er eine Änderung macht Feedback, indem ein kleiner Loader im Button
+                        zum Absenden eingesetzt wird damit man auch weiß, dass etwas passiert.
+                    </p>
+                </section>
+                <section>
+                    <h3>JavaScript Verfügbarkeit ( helper / ifJsAvailableAndLoaded.js )</h3>
+                    <p>In allen JavaScript Dateien für das Frontend habe ich darauf geachtet, dass sie nur ausführen, wenn die nötige
+                        Funktionalität gegeben ist. Nachdem ich nun mehrere Male diesen Check eingesetzt habe, entwarf ich dafür eine
+                        Helfer-Funktion dafür. Diese nimmt beliebig viele nötige Funktionalitäten, um diese zu überprüfen, sowie eine Funktion,
+                        die sie dann ausführt. Genauso wird darin auch geschaut, ob der DOM vollständig geladen wurde mit document.readyState
+                        === "loading" und nur dann das Skript ausgeführt. Wenn JavaScript Features fehlen, funktioniert die Seite weiterhin, nur
+                        auf die progressive Enhancements wird dann verzichtet.
+                    </p>
+                </section>
+                <section>
+                    <h3>Lightbox Ansicht ( modal-view.js )
+                    </h3>
+                    <p>Zunächst wollte ich lediglich für Galerie Kunsteinträge ein Overlay einstellen, welches das Bild auf das man klickt,
+                        in voller Größe anzeigt. Allerdings würde man dann nicht mehr auf die Detailseite kommen können, da es keine anderen
+                        klickbaren Bereiche für diese Einträge gibt. Also wollte ich gern alle Details von dieser Unterseite auch in der
+                        Lightbox hinzufügen.
+                    </p>
+                    <p>Durch diese Entscheidung wurde diese Komponente sehr viel allgemeiner und nach etwas Umstrukturieren wurde aus der
+                        Lightbox ein Modal. Dieses Pop-up kann andere Teile der Seite anzeigen. Dies kann eine ganze Seite bzw. alles vom
+                        &lt;article&gt; Tag der Seite, sein oder wenn man einen bestimmten Teil möchte, kann dem Attribut select=““ im HTML die
+                        ID des gewünschten Ausschnitts spezifizieren. Um die URL der Request zu bestimmen wird der href des nächstgelegenen
+                        Links in den Kinder-Elementen genommen.
+                    </p>
+                    <p>Als die Grundfunktionalität fertig war, habe ich mich an weitere Detailverbesserungen gemacht. Ich habe über ein
+                        weiteres Attribut morebutton=“true“ welches im HTML gesetzt wird in die Buttonleiste oben rechts noch ein weiterer
+                        Button hinzugefügt. Sollte man also nur einen Teil, der einer Seite anzeigen, so kann man hiermit auf die gesamte Seite
+                        kommen. Ebenso ist es ein sehr häufiges verhalten, dass das Klicken außerhalb eines solchen Pop-Ups dieses wieder
+                        schließt. Da es wie eine gute Verbesserung hielt, habe ich es ebenfalls eingebaut.</p>
+                </section>
+                <section>
+                    <h3>Intersection Observer ( section-loader.js )</h3>
+                    Damit die Seite noch etwas lebendiger wirkt, war noch das Ziel ein Interaction Observer einzubauen. Zunächst war das
+                    Skript in der layout.html eingebaut und den Observer an jeden &lt;section&gt; Tag angehängt. Mit dem Threshhold und den
+                    CSS-Klassen wurde das Ganze verfeinert, sodass reinkommende Elemente eine Wachstum-Animation haben. Später habe ich auch
+                    hier ein Attribut hinzugefügt. Das alte Verhalten wurde der Standard-Wert und andernfalls können Teile der Seite wie
+                    &lt;li&gt; ausgewählt werden. Auf diesem Weg können einzelne Einträge in der Galerie oder auch bei den Preisen und
+                    Projekten einen nach dem anderen diese Animation bekommen. Ich habe die Animation relativ subtil gehalten, da es sonst
+                    auch hinderlich sein kann beim Navigeren der Seite wenn zu viel visuell passiert.
+                </section>
+                <section>
+                    <h3>Service Worker Caching ( offline-worker.js, offline-list.js )</h3>
+                    <p>Sicherlich hat jeder schon mal erlebt Webseiten mit schlechtem oder abbrechenden Internet zu besuchen. Um dieses
+                        Erlebnis zu verbessern, wollte ich es anbieten, ohne Internet eine Liste von bereits besuchten Seiten nutzen zu können.
+                        Besuchte Seiten werden dafür mithilfe eines Service Workers gespeichert im Cache des Browsers. Der Service Worker hängt
+                        sich dafür an den Navigator mit navigator.serviceWorker.register.
+                    </p>
+                    <p>Es hat eine Weile gebraucht, um herauszufinden, wie der Service Worker funktioniert hat. Lange Zeit habe ich trotz
+                        der Tipps von
+                        <a href="https://dredyson.com/how-i-resolved-service-worker-console-log-debugging-in-enterprise-firefox-deployments-a-complete-step-by-step-integration-guide-for-it-architects-managing-api-pipelines-sso-authentication">
+                            dieser Seite</a>
+                        Probleme die Logs von offline-worker.js zu sehen. Also habe ich nach einiger Zeit doch auf einen Chromium Browser
+                        gewechselt für eine robustere Entwicklungsumgebung für dieses Feature. Sobald ich die Logs für die verschiedenen Events
+                        hatte und lernte wie man mit den Events richtig umgeht ( event.respondWith(…).then(...).catch(...) ) ging es wieder
+                        schneller voran.
+                    </p>
+                    <p>Mit dem fetch Event wird nach jeder GET-Anfrage mit Status ok die Response gespeichert. Sollte eine Ressource nicht
+                        aus dem Netzwerk abrufbar sein, wird geschaut ob die Seite im Cache existiert und dann diese als Fallback genutzt.
+                        Zuletzt wenn auch dort die Ressource nicht vorhanden ist, so wird die /offline Seite aufgerufen. Hier werden mithilfe
+                        der offline-list.js alle verfügbaren Links mit der Ausnahme von Bildern und Code-Dateien, welche vorher rausgefiltert
+                        werden, aufgelistet.
+                    </p>
+                    <p>Bei dem activate Event werden alle alten Cache Dateien entfernt. Dies ist wichtig da sich bei Versionsänderungen
+                        sonst alte Dateien ansammeln würden und unnötig Speicher verbrauchen könnten.
+                    </p>
+                </section>
+                <section>
+                    <h3>Für die Umsetzung genutze Mittel
+                    </h3>
+                    <p>Alle progressive Enhancements wurden ohne zusätzliche Bibliotheken umgesetzt.
+                    </p>
+                    <p>Code Segmente, welche zu großen Teilen von Tutorials oder Seiten übernomen wurden, sind mit Quellen in Kommentaren
+                        versehen. Diese wurden trotzdem weiter angepasst und entwickelt.
+                    </p>
+                    <p>Zum Debuggen wurden in manchen Fällen KI genutzt.
+                    </p>
+                </section>
+                <section>
+                    <h2>Gewonnene Erkenntnisse
+                    </h2>
+                    <p>Anfangs habe ich Custom-Element Klassen nur als Ort für die Eventdefinitionen gesehen. Nach einiger Entwicklung habe
+                        ich mehr und mehr das Potenzial herausgefunden und Attribute gesetzt und mehr Memberfunktionen definiert. Besonders
+                        fetch-form.js könnte man nochmal ein Refaktor geben, während live-search.js sehr gut abgrenzt was in die Klasse gehört
+                        und was nicht.
+                    </p>
+                    <p>Ebenso habe ich den Unterschied zwischen normalen Funktionen und Arrow-Funktionen in JavaScript, sowie die
+                        Möglichkeit Funktionen als Parameter zu geben, tiefer verstanden. Somit konnte ich zum Beispiel ein die Funktion in
+                        ifJsAvailableAndLoaded.js so aufbauen können und eine Funktion zum Ausführen als Parameter durchreichen.
+                    </p>
+                    <p>Die Suche in der Galerie momentan filtert erst nach der Datenbankanfrage. Die Datenbank ist also hier belastet und
+                        dann wird nochmals außerhalb gefiltert. Es wäre sicherlich effizienter dies gleich die Datenbank machen zu lassen. Um
+                        dies besser umzusetzen würde ich lieber ein mit einem ORM Technik arbeiten. Wenn dies implementiert ist, wäre es viel
+                        leichter komplexere Datenbanken anfragen zu unternehmen ohne für alles händisch eine Funktion schreiben zu müssen. Aus
+                        diesem Grund habe ich noch keine weiteren Sortier- und Filteroptionen eingebaut. Die progressive Enhancements sollten
+                        hier aber genauso funktionieren und somit sind die zwei bisherigen Eingabemöglichkeiten gut repräsentativ und
+                        erweiterbar.
+                    </p>
+                </section>
+                <section>
+                    <h2>Weiteres Verbesserungspotential
+                    </h2>
+                    <h3>Drag and Drop
+                    </h3>
+                    <p>Eines der Ziele war es noch Drag und Drop umzusetzen. Dies sollte die Preisliste für den Admin verbessern und
+                        ermöglichen die Preise zu sortieren. Da hierfür viel extra Arbeit mit weiteren Buttons, Layoutanpassung, Erstellen von
+                        weiteren Routen und Controllern sowie eine Abänderung der Datenbank und des Models nötig wären, damit es auch ohne
+                        JavaScript funktioniert, habe ich es ausgelassen. Hier gibt es also noch Potenzial mehr zu verbessern. Dies kann dann
+                        auch allgemein genug gebaut werden, sodass es für die Projektliste funktioniert.
+                    </p>
+                    <p>Genauso könnte man Drag und Drop nutzen um beim Upload bei der Galerie und Preisen den Vorgang zu vereinfachen. Wenn
+                        man also ein Bild in den Browser zieht, könnte der das Feld für die Datei regieren zu einer Drop-Fläche werden.</p>
+                </section>
+                <section>
+                    <h3>Kombination von modal-view und fetch-form
+                    </h3>
+                    <p>Der Login ist ein gutes Beispiel dafür, dass man die beiden Enhancements verbessern könnte. Leider funktioniert
+                        momentan das Anzeigen von Fehlern nicht innerhalb der Modal-Ansicht und wenn man es mit einem Fehler absendet, landet
+                        man auf der eigenständigen Seite statt in der gleichen Ansicht zu bleiben. Dieses Verhalten könnte man noch anpassen.
+                    </p>
+                </section>
+                <section>
+                    <h2>Fazit</h2>
+                    <p>Insgesamt wurde die Webseite an vielen Stellen stark verbessert. Der Benutzer kann dynamisch mehr Feedback auf seine
+                        Eingaben und Navigation bekommen, Seiten müssen nicht stetig neu geladen werden und Bilder können, ohne die Seite zu
+                        verlassen näher betrachtet werden. Auch als Admin bringt zum Beispiel das Formular mit live Fehlerbereich eine bessere
+                        Usability. Die Verbesserungen wurden möglichst allgemein gehalten, so konnten alle Formulare oder auch Galerie und
+                        Preise gleichzeitig mit der Modal-Ansicht verbessert werden. Keine der Änderungen kommen auf Kosten der Benutzer ohne
+                        JavaScript, denn jede Funktion ist auch ohne weiterhin möglich.
+                    </p>
+                </section>
+            </article>
+        </div>
+    {% endblock %}

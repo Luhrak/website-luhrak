@@ -44,9 +44,9 @@ class LiveSearch extends HTMLElement {
   async updateResults(targetElement) {
     const form = this.form;
     const formData = new FormData(form);
-    const params = this.formDataToQueryString(formData);
+    const params = formDataToQueryString(formData);
     const url = form.action + "?" + params;
-    this.getFromUrl(url, (data) => {
+    getFromUrl(url, (data) => {
       const dataDoc = new DOMParser().parseFromString(data.data, "text/html");
       this.targetElement.innerHTML = dataDoc.querySelector(
         this.getAttribute("target"),
@@ -58,7 +58,7 @@ class LiveSearch extends HTMLElement {
   setUpdateStauts(isUpdating) {
     this.submitButton.innerHTML = isUpdating
       ? '<span class="loader small"></span>'
-      : "Submit";
+      : "Go";
   }
 }
 
@@ -70,7 +70,7 @@ function formDataToQueryString(formData) {
     .join("&");
 }
 
-async function etFromUrl(url, onData) {
+async function getFromUrl(url, onData) {
   const { data, error } = await safeFetchText(url, {
     method: "GET",
     headers: {},

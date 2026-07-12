@@ -45,6 +45,12 @@ const routes = [
     method: "GET",
     handler: pages.privacyPolicy,
   },
+  // Misc routes
+  {
+    path: "/docu",
+    method: "GET",
+    handler: pages.docu,
+  },
 
   // Project routes
   {

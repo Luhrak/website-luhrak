@@ -64,6 +64,14 @@ export async function privacyPolicy(ctx) {
   return ctx;
 }
 
+export async function docu(ctx) {
+  // Opens the documentation
+  ctx.body = await render("docu.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}
+
 export async function error404(ctx) {
   // Handling of 404 error page
   ctx.body = await render("errorPages/error404.html", ctx);
